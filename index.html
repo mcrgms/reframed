@@ -306,7 +306,13 @@
     color: var(--green);
     position: relative;
   }
-  .hero-title .highlight-amber { color: var(--amber-dark); }
+  .highlight-amber {
+    color: var(--amber-dark);
+    text-decoration: none !important;
+    border: none;
+    outline: none;
+    font-style: normal;
+  }
   .hero-sub {
     font-family: var(--font-body);
     font-size: clamp(16px, 2.2vw, 20px);
@@ -720,19 +726,33 @@
 
   /* MOBILE */
   @media (max-width: 640px) {
-    header { padding: 14px 20px; top: 44px; }
-    .announcement-bar { padding: 8px 16px; gap: 8px; flex-wrap: wrap; }
-    .hero { padding: 40px 20px 28px; }
-    .input-section { padding: 0 20px; }
-    .input-card { padding: 20px 16px 16px; }
-    .input-row { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
-    .reframe-btn { grid-column: 1 / -1; }
-    .result-area { padding: 0 20px; }
-    .browse-section { padding: 40px 20px; }
-    footer { padding: 28px 20px; }
+    header { padding: 12px 16px; top: 40px; }
+    .header-tag { display: none; }
+    .announcement-bar { padding: 7px 14px; gap: 6px; flex-wrap: wrap; justify-content: center; }
+    .announcement-bar p { font-size: 9px; letter-spacing: 0.06em; }
+    .announcement-bar a { font-size: 9px; }
+    .hero { padding: 20px 16px 12px; }
+    .hero-eyebrow { font-size: 10px; margin-bottom: 14px; padding: 4px 12px; }
+    .hero-title { font-size: clamp(42px, 13vw, 64px); line-height: 0.88; margin-bottom: 10px; }
+    .hero-sub { font-size: 15px; margin-bottom: 10px; }
+    .hero-proof { font-size: 10px; margin-bottom: 0; }
+    .input-section { padding: 0 12px; }
+    .input-card { padding: 14px 12px 12px; margin-bottom: 8px; }
+    .input-row {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 8px;
+    }
+    .input-group:first-child { grid-column: 1 / -1; }
+    .reframe-btn { grid-column: 1 / -1; margin-top: 2px; padding: 12px 20px; font-size: 15px; }
+    .free-note { font-size: 9px; margin-bottom: 20px; }
+    .result-area { padding: 0 12px; }
+    .browse-section { padding: 28px 12px; }
+    footer { padding: 20px 14px; }
     .browse-grid { grid-template-columns: 1fr; }
     .result-actions { flex-direction: column; }
     .email-capture-row { flex-direction: column; }
+    .highlight-amber { text-decoration: none !important; }
   }
 </style>
 </head>
@@ -798,7 +818,7 @@
 <!-- HERO -->
 <section class="hero">
   <p class="hero-eyebrow">The habit cost reframer</p>
-  <h1 class="hero-title">YOUR HABIT<br>ISN'T <span class="highlight-amber">€2.50</span><br><span class="highlight">A DAY.</span></h1>
+  <h1 class="hero-title">YOUR HABIT<br>ISN'T <span class="highlight-amber" style="text-decoration:none;border:none;outline:none;">€2.50</span><br><span class="highlight">A DAY.</span></h1>
   <p class="hero-sub">Enter any habit. See what it's really hiding — in flights, experiences, and real choices.</p>
   <p class="hero-proof">Prices verified 2026 · <span>No signup</span> · No judgment</p>
 </section>
@@ -812,8 +832,15 @@
       <input type="text" id="habit-input" class="text-input" placeholder="e.g. daily coffee, cigarettes, Uber..." maxlength="60">
     </div>
     <div class="input-group">
-      <span class="input-label-text">Cost (€)</span>
-      <input type="number" id="cost-input" class="number-input" placeholder="e.g. 2.50" min="0.01" step="0.01">
+      <span class="input-label-text">Cost</span>
+      <div style="display:flex;gap:6px;">
+        <select id="currency-input" class="select-input" style="width:80px;padding-left:10px;padding-right:28px;" onchange="updateCurrencyLabel()">
+          <option value="€">€ EUR</option>
+          <option value="$">$ USD</option>
+          <option value="£">£ GBP</option>
+        </select>
+        <input type="number" id="cost-input" class="number-input" placeholder="2.50" min="0.01" step="0.01" style="flex:1;min-width:0;">
+      </div>
     </div>
     <div class="input-group">
       <span class="input-label-text">How often?</span>
@@ -1079,10 +1106,19 @@ let currentCat = 'all';
 // ============================================================
 // CORE FUNCTION
 // ============================================================
+function getCurrency() {
+  try { return document.getElementById('currency-input').value; } catch(e) { return '€'; }
+}
+
+function updateCurrencyLabel() {
+  // aggiorna placeholder cost badge se necessario
+}
+
 function reframe() {
   const habit = document.getElementById('habit-input').value.trim();
   const cost = parseFloat(document.getElementById('cost-input').value);
   const freq = parseInt(document.getElementById('freq-input').value);
+  const currency = getCurrency();
 
   if (!habit) { showToast('Enter a habit first.'); return; }
   if (!cost || cost <= 0) { showToast('Enter a valid cost.'); return; }
@@ -1103,23 +1139,23 @@ function reframe() {
     const freqLabel = getFreqLabel(freq);
 
     const years5 = annual * 5;
-    const temporal = `In 1 year: €${annual.toLocaleString('en')}. In 5 years: €${years5.toLocaleString('en')}.`;
+    const temporal = `In 1 year: ${currency}${annual.toLocaleString('en')}. In 5 years: ${currency}${years5.toLocaleString('en')}.`;
 
     let experiential = '';
     if (equiv) {
-      experiential = `€${annual.toLocaleString('en')} a year is ${equiv}.`;
+      experiential = `${currency}${annual.toLocaleString('en')} a year is ${equiv}.`;
     } else {
-      experiential = `€${annual.toLocaleString('en')} a year is significant money. Think about what that means to you.`;
+      experiential = `${currency}${annual.toLocaleString('en')} a year is significant money. Think about what that means to you.`;
     }
 
-    const identity = `Every ${freqLabel} you choose ${habit}. Every year you choose what €${annual.toLocaleString('en')} means to you.`;
+    const identity = `Every ${freqLabel} you choose ${habit}. Every year you choose what ${currency}${annual.toLocaleString('en')} means to you.`;
 
-    currentResult = { habit, cost, freq, annual, temporal, experiential, identity };
+    currentResult = { habit, cost, freq, annual, temporal, experiential, identity, currency };
 
     document.getElementById('result-habit-label').textContent = habit;
-    document.getElementById('result-cost-badge').textContent = `€${annual.toLocaleString('en')}/year`;
-    document.getElementById('habit-stated').textContent = `"${habit}" — €${cost} per ${freqLabel}`;
-    document.getElementById('cost-annual').innerHTML = `Annual total: <strong>€${annual.toLocaleString('en')}</strong> · Over 5 years: €${years5.toLocaleString('en')}`;
+    document.getElementById('result-cost-badge').textContent = `${currency}${annual.toLocaleString('en')}/year`;
+    document.getElementById('habit-stated').textContent = `"${habit}" — ${currency}${cost} per ${freqLabel}`;
+    document.getElementById('cost-annual').innerHTML = `Annual total: <strong>${currency}${annual.toLocaleString('en')}</strong> · Over 5 years: ${currency}${years5.toLocaleString('en')}`;
     document.getElementById('reframe-temporal').textContent = temporal;
     document.getElementById('reframe-experiential').textContent = experiential;
     document.getElementById('reframe-identity').textContent = identity;
@@ -1147,53 +1183,47 @@ function tryAnother() {
 
 function copyToClipboard() {
   if (!currentResult) return;
-  const text = `"${currentResult.habit}" isn't €${currentResult.cost}/day — it's €${currentResult.annual.toLocaleString('en')}/year.\n\n${currentResult.experiential}\n\n— REFRAMED at reframed.now`;
+  const c = currentResult.currency || '€';
+  const text = `"${currentResult.habit}" isn't ${c}${currentResult.cost}/day — it's ${c}${currentResult.annual.toLocaleString('en')}/year.\n\n${currentResult.experiential}\n\n— REFRAMED at reframed.now`;
   navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
 }
 
 function shareTwitter() {
   if (!currentResult) return;
+  const c = currentResult.currency || '€';
   const url = encodeURIComponent('https://reframed.now');
-  const text = encodeURIComponent(`My "${currentResult.habit}" isn't €${currentResult.cost}/day — it's €${currentResult.annual.toLocaleString('en')}/year.\n\n${currentResult.experiential}\n\n#REFRAMED`);
+  const text = encodeURIComponent(`My "${currentResult.habit}" isn't ${c}${currentResult.cost}/day — it's ${c}${currentResult.annual.toLocaleString('en')}/year.\n\n${currentResult.experiential}\n\n#REFRAMED`);
   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
 }
 
 function shareAsImage() {
   if (!currentResult) return;
+  const c = currentResult.currency || '€';
   const canvas = document.createElement('canvas');
   canvas.width = 1200; canvas.height = 628;
   const ctx = canvas.getContext('2d');
 
-  // Background
-  ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0, 0, 1200, 628);
-  // Top red bar
-  ctx.fillStyle = '#d13f2c'; ctx.fillRect(0, 0, 1200, 8);
-  // Brand
+  ctx.fillStyle = '#0d1f1a'; ctx.fillRect(0, 0, 1200, 628);
+  ctx.fillStyle = '#00a878'; ctx.fillRect(0, 0, 1200, 8);
   ctx.fillStyle = '#f5c842'; ctx.font = 'bold 13px monospace';
   ctx.fillText('REFRAMED — REFRAMED.NOW', 60, 48);
-  // Habit
   ctx.fillStyle = '#f5f0e8'; ctx.font = 'bold 52px serif';
   const habitDisplay = currentResult.habit.length > 30 ? currentResult.habit.substring(0,30)+'…' : currentResult.habit;
   ctx.fillText('"'+habitDisplay+'"', 60, 120);
-  // IS NOT
-  ctx.fillStyle = '#d13f2c'; ctx.font = 'bold 14px monospace';
-  ctx.fillText("ISN'T €"+currentResult.cost+" PER DAY.", 60, 165);
-  // Main number
+  ctx.fillStyle = '#00a878'; ctx.font = 'bold 14px monospace';
+  ctx.fillText(`ISN'T ${c}${currentResult.cost} PER DAY.`, 60, 165);
   ctx.fillStyle = '#f5c842'; ctx.font = 'bold 88px monospace';
-  ctx.fillText('€'+currentResult.annual.toLocaleString('en'), 60, 270);
+  ctx.fillText(`${c}${currentResult.annual.toLocaleString('en')}`, 60, 270);
   ctx.fillStyle = '#f5f0e8'; ctx.font = '20px monospace';
   ctx.fillText('PER YEAR', 62, 305);
-  // Divider
-  ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
+  ctx.strokeStyle = '#1a3d2e'; ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(60, 330); ctx.lineTo(1140, 330); ctx.stroke();
-  // Experiential
-  ctx.fillStyle = '#aaa'; ctx.font = 'bold 11px monospace';
+  ctx.fillStyle = '#9ab0a8'; ctx.font = 'bold 11px monospace';
   ctx.fillText('WHAT IT REALLY IS:', 60, 362);
   ctx.fillStyle = '#f5f0e8'; ctx.font = '18px sans-serif';
   wrapText(ctx, currentResult.experiential, 60, 395, 1080, 28);
-  // Footer
-  ctx.fillStyle = '#1a1a1a'; ctx.fillRect(0, 568, 1200, 60);
-  ctx.fillStyle = '#f5c842'; ctx.font = 'bold 14px monospace';
+  ctx.fillStyle = '#0d1f1a'; ctx.fillRect(0, 568, 1200, 60);
+  ctx.fillStyle = '#00a878'; ctx.font = 'bold 14px monospace';
   ctx.fillText('REFRAMED.NOW — What is your habit really costing you?', 60, 603);
 
   const link = document.createElement('a');
