@@ -309,6 +309,7 @@
   .highlight-amber {
     color: var(--amber-dark);
     text-decoration: none !important;
+    text-decoration-line: none !important;
     border: none;
     outline: none;
     font-style: normal;
@@ -731,20 +732,19 @@
     .announcement-bar { padding: 7px 14px; gap: 6px; flex-wrap: wrap; justify-content: center; }
     .announcement-bar p { font-size: 9px; letter-spacing: 0.06em; }
     .announcement-bar a { font-size: 9px; }
-    .hero { padding: 20px 16px 12px; }
-    .hero-eyebrow { font-size: 10px; margin-bottom: 14px; padding: 4px 12px; }
-    .hero-title { font-size: clamp(42px, 13vw, 64px); line-height: 0.88; margin-bottom: 10px; }
-    .hero-sub { font-size: 15px; margin-bottom: 10px; }
+    .hero { padding: 16px 16px 8px; }
+    .hero-eyebrow { font-size: 10px; margin-bottom: 10px; padding: 4px 12px; }
+    .hero-title { font-size: clamp(38px, 12vw, 58px); line-height: 0.88; margin-bottom: 8px; }
+    .hero-sub { font-size: 14px; margin-bottom: 8px; }
     .hero-proof { font-size: 10px; margin-bottom: 0; }
     .input-section { padding: 0 12px; }
-    .input-card { padding: 14px 12px 12px; margin-bottom: 8px; }
+    .input-card { padding: 12px 10px 10px; margin-bottom: 6px; }
     .input-row {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto auto auto;
+      grid-template-columns: 1fr;
       gap: 8px;
     }
-    .input-group:first-child { grid-column: 1 / -1; }
-    .reframe-btn { grid-column: 1 / -1; margin-top: 2px; padding: 12px 20px; font-size: 15px; }
+    .input-group:first-child { grid-column: 1; }
+    .reframe-btn { grid-column: 1; margin-top: 2px; padding: 13px 20px; font-size: 15px; }
     .free-note { font-size: 9px; margin-bottom: 20px; }
     .result-area { padding: 0 12px; }
     .browse-section { padding: 28px 12px; }
@@ -818,7 +818,7 @@
 <!-- HERO -->
 <section class="hero">
   <p class="hero-eyebrow">The habit cost reframer</p>
-  <h1 class="hero-title">YOUR HABIT<br>ISN'T <span class="highlight-amber" style="text-decoration:none;border:none;outline:none;">€2.50</span><br><span class="highlight">A DAY.</span></h1>
+  <h1 class="hero-title">YOUR HABIT<br>ISN'T <span class="highlight-amber">$2.50</span><br><span class="highlight">A DAY.</span></h1>
   <p class="hero-sub">Enter any habit. See what it's really hiding — in flights, experiences, and real choices.</p>
   <p class="hero-proof">Prices verified 2026 · <span>No signup</span> · No judgment</p>
 </section>
@@ -835,9 +835,9 @@
       <span class="input-label-text">Cost</span>
       <div style="display:flex;gap:6px;">
         <select id="currency-input" class="select-input" style="width:80px;padding-left:10px;padding-right:28px;" onchange="updateCurrencyLabel()">
-          <option value="€">€ EUR</option>
-          <option value="$">$ USD</option>
-          <option value="£">£ GBP</option>
+          <option value="€">€</option>
+          <option value="$" selected>$</option>
+          <option value="£">£</option>
         </select>
         <input type="number" id="cost-input" class="number-input" placeholder="2.50" min="0.01" step="0.01" style="flex:1;min-width:0;">
       </div>
