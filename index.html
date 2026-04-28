@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>REFRAMED — What Is Your Daily Habit Actually Costing You?</title>
+<meta name="description" content="Enter any daily habit and its cost. See what it's really hiding — in flights, experiences, and choices. Free habit cost calculator. 100+ real equivalences, prices verified 2026.">
+
+<link rel="canonical" href="https://reframed.now/">
+<link rel="alternate" hreflang="en" href="https://reframed.now/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="theme-color" content="#00a878">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<meta property="og:site_name" content="REFRAMED">
+<meta property="og:title" content="REFRAMED — What Is Your Daily Habit Actually Costing You?">
+<meta property="og:description" content="Enter your habit. See what it's hiding. Your daily coffee isn't €2.50 — it's a flight to Tokyo every year.">
+<meta property="og:image" content="https://reframed.now/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="628">
+<meta property="og:url" content="https://reframed.now">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="REFRAMED — What Is Your Daily Habit Actually Costing You?">
+<meta name="twitter:description" content="Enter your habit. See what it's hiding. Free habit cost reframer.">
+<meta name="twitter:image" content="https://reframed.now/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "REFRAMED — Habit Cost Calculator",
+  "url": "https://reframed.now",
+  "description": "Enter any daily habit and its cost. See what it's really hiding — in flights, experiences, and real choices. 100+ verified equivalences, prices updated 2026.",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "All",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much does a daily coffee actually cost per year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A daily €2.50 espresso costs €912 per year. That is equivalent to a return flight from Milan to Tokyo in low season (Skyscanner avg 2026: from €555). Most people never calculate the annual total of their daily habits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much do cigarettes cost per year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A pack a day at €6 costs €2,190 per year — equivalent to 10 nights in a 4-star Maldives resort all-inclusive (avg 2026: €200/night). Half a pack costs €1,095/year, the price of a return flight to Tokyo plus 3 nights hotel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does lunch delivery cost per year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ordering lunch delivery at €14 per weekday costs €3,640 per year. That is enough for an iPhone 16 Pro (€1,329), AirPods Pro (€299), Apple Watch Series 10 (€429), and €1,583 still in your pocket."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much do streaming subscriptions cost per year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Netflix + Spotify + Prime + Disney+ combined cost approximately €635 per year in 2026. That is the equivalent of a return flight from Milan to Mykonos plus 5 nights in a hotel with a pool."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does an unused gym membership cost over time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A €50/month gym membership you never use costs €600 per year and €3,000 over 5 years. That is equivalent to 4 return flights to Barcelona. REFRAMED helps you calculate the real annual cost of any habit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a habit cost calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A habit cost calculator takes any daily or recurring expense and converts it into its real annual cost, then translates that number into concrete experiences — flights, holidays, products — so you can understand what your habits are actually costing you in real life terms."
+      }
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* REFRAMED palette — ottimismo consapevole */
+    --bg: #ffffff;
+    --bg-soft: #f7faf8;
+    --bg-card: #ffffff;
+    --ink: #0d1f1a;
+    --ink-soft: #4a5e57;
+    --ink-muted: #9ab0a8;
+    --green: #00a878;
+    --green-dark: #007a57;
+    --green-light: #e6f7f2;
+    --green-mid: #b3ead9;
+    --amber: #f59e0b;
+    --amber-dark: #d97706;
+    --amber-light: #fef3c7;
+    --red: #e53e3e;
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --border: rgba(0,168,120,0.15);
+    --border-hard: rgba(13,31,26,0.12);
+    --shadow-sm: 0 1px 4px rgba(0,168,120,0.08);
+    --shadow-md: 0 4px 24px rgba(0,168,120,0.12);
+    --shadow-lg: 0 8px 48px rgba(0,168,120,0.16);
+    --radius: 12px;
+    --radius-sm: 6px;
+    --radius-pill: 100px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .seo-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0;
+    margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+    white-space: nowrap; border: 0;
+  }
+
+  iframe[name="acm_reframed_popup"], iframe[name="acm_reframed_inline"] {
+    overflow: hidden; scrollbar-width: none;
+  }
+
+  /* ANNOUNCEMENT BAR */
+  .announcement-bar {
+    background: var(--green-dark);
+    padding: 10px 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 101;
+  }
+  .announcement-bar p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+  .announcement-bar p strong { color: white; font-weight: 500; }
+  .announcement-bar a {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amber);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(245,158,11,0.4);
+    white-space: nowrap;
+    transition: border-color 0.15s;
+  }
+  .announcement-bar a:hover { border-color: var(--amber); }
+
+  /* NOTIFY OVERLAY */
+  .notify-overlay {
+    position: fixed; inset: 0;
+    background: rgba(13,31,26,0.6);
+    backdrop-filter: blur(4px);
+    z-index: 9000; display: none;
+    align-items: center; justify-content: center;
+    min-height: 100vh;
+  }
+  .notify-overlay.open { display: flex; }
+  .notify-modal {
+    background: var(--ink);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 40px 36px;
+    width: 90%; max-width: 480px;
+    position: relative;
+  }
+  .notify-close {
+    position: absolute; top: 18px; right: 22px;
+    background: none; border: none;
+    color: rgba(255,255,255,0.35);
+    font-size: 20px; cursor: pointer; line-height: 1;
+  }
+  .notify-close:hover { color: white; }
+
+  /* TICKER */
+  .ticker-wrap {
+    background: var(--ink);
+    color: var(--green);
+    padding: 9px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border-hard);
+  }
+  .ticker-inner { display: inline-block; animation: ticker 40s linear infinite; }
+  .ticker-inner span { padding: 0 48px; opacity: 0.75; }
+  .ticker-inner span::before { content: "→ "; color: var(--amber); }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    border-bottom: 1px solid var(--border-hard);
+    background: var(--bg);
+    position: sticky;
+    top: 41px;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: 2px;
+  }
+  .header-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 72px 48px 48px;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--green);
+    background: var(--green-light);
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 28px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 8.5vw, 104px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .hero-title .highlight {
+    color: var(--green);
+    position: relative;
+  }
+  .hero-title .highlight-amber { color: var(--amber-dark); }
+  .hero-sub {
+    font-family: var(--font-body);
+    font-size: clamp(16px, 2.2vw, 20px);
+    color: var(--ink-soft);
+    font-weight: 400;
+    margin-bottom: 16px;
+    max-width: 560px;
+    margin-left: auto; margin-right: auto;
+    line-height: 1.55;
+  }
+  .hero-proof {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0;
+  }
+  .hero-proof span { color: var(--green); }
+
+  /* INPUT SECTION */
+  .input-section {
+    max-width: 780px;
+    margin: 0 auto 20px;
+    padding: 0 48px;
+  }
+
+  .input-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 28px 20px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 12px;
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 130px 150px;
+    gap: 12px;
+    margin-bottom: 16px;
+    align-items: end;
+  }
+
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+  .input-label-text {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .text-input, .number-input, .select-input {
+    padding: 12px 16px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    border: 1.5px solid var(--border-hard);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: var(--shadow-sm);
+  }
+  .text-input:focus, .number-input:focus, .select-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(0,168,120,0.12);
+  }
+  .text-input::placeholder { color: var(--ink-muted); font-weight: 400; }
+  .select-input {
+    cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5e57' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .reframe-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0,168,120,0.3);
+  }
+  .reframe-btn:hover {
+    background: var(--green-dark);
+    box-shadow: 0 6px 24px rgba(0,168,120,0.4);
+    transform: translateY(-1px);
+  }
+  .reframe-btn:active { transform: translateY(0); }
+
+  .free-note {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 48px;
+  }
+
+  /* LOADING */
+  .loading-state { display: none; text-align: center; padding: 40px; }
+  .loading-state.visible { display: block; }
+  .loading-dots {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    animation: blink 1s ease infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* RESULT AREA */
+  .result-area {
+    max-width: 780px;
+    margin: 0 auto 80px;
+    padding: 0 48px;
+    display: none;
+  }
+  .result-area.visible { display: block; animation: slideUp 0.35s ease; }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+
+  .result-header {
+    padding: 18px 28px;
+    background: var(--green-light);
+    border-bottom: 1px solid var(--green-mid);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .result-habit-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--green-dark);
+    font-weight: 500;
+  }
+  .result-cost-badge {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    background: var(--green);
+    color: white;
+    padding: 5px 14px;
+    border-radius: var(--radius-pill);
+    letter-spacing: 0.04em;
+  }
+
+  .result-body { padding: 28px; }
+
+  .habit-stated {
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .cost-annual {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px dashed rgba(0,168,120,0.2);
+  }
+  .cost-annual strong { color: var(--green); font-size: 15px; }
+
+  .reframe-blocks { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+
+  .reframe-block {
+    border-radius: var(--radius);
+    padding: 20px 20px 18px;
+    position: relative;
+  }
+  .reframe-block.temporal {
+    background: var(--bg-soft);
+    border: 1px solid var(--border-hard);
+  }
+  .reframe-block.experiential {
+    background: #f0fdf8;
+    border: 1px solid var(--green-mid);
+  }
+  .reframe-block.identity {
+    background: var(--amber-light);
+    border: 1px solid rgba(245,158,11,0.3);
+  }
+
+  .reframe-block-label {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-weight: 500;
+  }
+  .temporal .reframe-block-label { background: var(--ink); color: white; }
+  .experiential .reframe-block-label { background: var(--green); color: white; }
+  .identity .reframe-block-label { background: var(--amber-dark); color: white; }
+
+  .reframe-text { font-size: 15px; line-height: 1.7; color: var(--ink); font-weight: 500; }
+
+  /* RESULT ACTIONS */
+  .result-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border-hard);
+    padding-top: 20px;
+  }
+  .action-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1.5px solid var(--border-hard);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .action-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
+  .action-btn.primary { background: var(--green); color: white; border-color: var(--green); }
+  .action-btn.primary:hover { background: var(--green-dark); border-color: var(--green-dark); }
+
+  /* EMAIL CAPTURE */
+  .email-capture {
+    margin-top: 24px; padding: 28px;
+    background: linear-gradient(135deg, var(--ink) 0%, #0d2e22 100%);
+    border-radius: 16px;
+    display: none;
+  }
+  .email-capture.visible { display: block; animation: slideUp 0.3s ease; }
+  .email-capture-label {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 8px;
+  }
+  .email-capture-title {
+    font-family: var(--font-display); font-size: 22px; font-weight: 800;
+    letter-spacing: 0.04em; color: white; margin-bottom: 4px;
+  }
+  .email-capture-sub {
+    font-family: var(--font-body); font-size: 14px;
+    color: rgba(255,255,255,0.5); margin-bottom: 18px; line-height: 1.5;
+  }
+  .email-capture-row { display: flex; gap: 8px; }
+  .email-input {
+    flex: 1; padding: 11px 16px;
+    font-family: var(--font-body); font-size: 14px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,0.08);
+    color: white; outline: none;
+    transition: border-color 0.15s;
+  }
+  .email-input::placeholder { color: rgba(255,255,255,0.3); }
+  .email-input:focus { border-color: var(--green); }
+  .email-submit {
+    background: var(--green); color: white; border: none;
+    padding: 11px 22px; font-family: var(--font-display); font-size: 15px;
+    font-weight: 700; letter-spacing: 0.05em;
+    cursor: pointer; border-radius: var(--radius);
+    transition: all 0.15s; white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,168,120,0.3);
+  }
+  .email-submit:hover { background: var(--green-dark); }
+
+  /* BROWSE SECTION */
+  .browse-section {
+    padding: 64px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border-hard);
+  }
+  .section-header {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 28px;
+    border-bottom: 2px solid var(--green);
+    padding-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: 32px;
+    font-weight: 800; letter-spacing: 0.02em; color: var(--ink);
+  }
+  .section-count {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  .cat-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .cat-pill {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 6px 16px;
+    border: 1.5px solid var(--border-hard); border-radius: var(--radius-pill);
+    background: var(--bg-card); cursor: pointer;
+    transition: all 0.15s ease; color: var(--ink-soft); font-weight: 500;
+  }
+  .cat-pill:hover { border-color: var(--green); color: var(--green); }
+  .cat-pill.active { background: var(--green); color: white; border-color: var(--green); }
+
+  .browse-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+  .browse-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-hard);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .browse-card:hover {
+    border-color: var(--green);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .browse-card-cat {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 8px; font-weight: 500;
+  }
+  .browse-card-habit {
+    font-family: var(--font-body); font-weight: 600;
+    font-size: 14px; color: var(--ink); line-height: 1.4; margin-bottom: 6px;
+  }
+  .browse-card-cost {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--amber-dark); margin-bottom: 8px; font-weight: 500;
+  }
+  .browse-card-preview {
+    font-size: 13px; color: var(--ink-soft);
+    line-height: 1.5; display: -webkit-box;
+    -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+
+  .pagination { display: flex; justify-content: center; gap: 6px; margin-top: 40px; }
+  .page-btn {
+    font-family: var(--font-mono); font-size: 11px; padding: 8px 14px;
+    border: 1.5px solid var(--border-hard); background: var(--bg-card);
+    cursor: pointer; transition: all 0.12s; border-radius: var(--radius-sm);
+    color: var(--ink-soft);
+  }
+  .page-btn:hover { border-color: var(--green); color: var(--green); }
+  .page-btn.active { background: var(--green); color: white; border-color: var(--green); }
+  .page-btn:disabled { opacity: 0.3; cursor: default; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: white;
+    padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .footer-logo {
+    font-family: var(--font-display); font-size: 22px;
+    font-weight: 800; letter-spacing: 0.06em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .footer-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
+  .footer-tagline { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+  .footer-meta { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.25); text-align: right; letter-spacing: 0.08em; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--ink); color: var(--green);
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em;
+    padding: 12px 20px; border-radius: var(--radius-pill);
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.25s ease; z-index: 9999;
+    border: 1px solid rgba(0,168,120,0.3);
+    box-shadow: var(--shadow-md);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    header { padding: 14px 20px; top: 44px; }
+    .announcement-bar { padding: 8px 16px; gap: 8px; flex-wrap: wrap; }
+    .hero { padding: 40px 20px 28px; }
+    .input-section { padding: 0 20px; }
+    .input-card { padding: 20px 16px 16px; }
+    .input-row { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
+    .reframe-btn { grid-column: 1 / -1; }
+    .result-area { padding: 0 20px; }
+    .browse-section { padding: 40px 20px; }
+    footer { padding: 28px 20px; }
+    .browse-grid { grid-template-columns: 1fr; }
+    .result-actions { flex-direction: column; }
+    .email-capture-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement-bar">
+  <p><strong>REFRAMED PRO</strong> IS COMING — AI-powered · unlimited habits · monthly reports</p>
+  <a href="#" onclick="openNotifyPopup(); event.preventDefault();">→ Join the waitlist</a>
+</div>
+
+<!-- NOTIFY POPUP -->
+<div class="notify-overlay" id="notify-overlay" onclick="if(event.target===this)closeNotifyPopup()">
+  <div class="notify-modal">
+    <button class="notify-close" onclick="closeNotifyPopup()">✕</button>
+    <div class="email-capture-label">Coming soon</div>
+    <div class="email-capture-title">REFRAMED Pro</div>
+    <div class="email-capture-sub">AI-powered. Unlimited habits. Monthly reality check.</div>
+    <!-- ⚠️ SOSTITUISCI IL TOKEN ACUMBAMAIL CON QUELLO DELLA TUA NUOVA LISTA -->
+    <form action="https://acumbamail.com/newform/subscribe/Dfx1iSqfiyvdqtpgB2xYAn6UoVULAVPjP3lOaVn4iJ3brfxUto5q/62486/?iframe=1" target="acm_reframed_popup" method="post">
+      <div style="width:100%;position:relative;">
+        <input name="email_1" type="email" placeholder="your@email.com" required autocomplete="email" class="email-input" style="width:100%;margin-bottom:10px;">
+        <input type="text" name="a1287033c" tabindex="-1" value="" style="position:absolute;left:-4900px;" aria-hidden="true" autocomplete="off"/>
+        <input type="email" name="b1287033c" tabindex="-1" value="" style="position:absolute;left:-5000px;" aria-hidden="true" autocomplete="off"/>
+        <input type="checkbox" name="c1287033c" tabindex="-1" style="position:absolute;left:-5100px;" aria-hidden="true" autocomplete="off"/>
+      </div>
+      <input type="hidden" name="ok_redirect" value="">
+      <button type="submit" class="email-submit" style="width:100%;">JOIN WAITLIST</button>
+      <iframe name="acm_reframed_popup" title="Subscription result" scrolling="no" style="width:100%;height:60px;border:0;display:block;margin-top:8px;background:transparent;overflow:hidden;" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </form>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker">
+    <span>Daily coffee → €912/year → Milan–Tokyo flight</span>
+    <span>Cigarette pack/day → €2,920/year → 10 nights Maldives</span>
+    <span>Delivery lunch → €3,640/year → Brand new iPhone 16 Pro + €2,300 left</span>
+    <span>Daily Uber → €5,475/year → 3 months rent in Milan</span>
+    <span>Netflix + Spotify + Prime → €468/year → Weekend in Paris for two</span>
+    <span>Gym you never use → €600/year → 4 flights to Barcelona</span>
+    <span>Daily coffee → €912/year → Milan–Tokyo flight</span>
+    <span>Cigarette pack/day → €2,920/year → 10 nights Maldives</span>
+    <span>Delivery lunch → €3,640/year → Brand new iPhone 16 Pro + €2,300 left</span>
+    <span>Daily Uber → €5,475/year → 3 months rent in Milan</span>
+    <span>Netflix + Spotify + Prime → €468/year → Weekend in Paris for two</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a href="/" class="logo"><span class="logo-dot"></span>REFRAMED</a>
+  <div class="header-tag">No signup · No BS · Just the truth</div>
+</header>
+
+<!-- SEO hidden -->
+<div class="seo-hidden" aria-hidden="true">
+  <h2>Habit cost calculator and daily spending reframer</h2>
+  <p>REFRAMED is a free habit cost calculator. Enter any daily habit — coffee, cigarettes, takeout, subscriptions — and see what it really costs in flights, experiences, and real choices. 100+ verified equivalences with prices updated 2026.</p>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">The habit cost reframer</p>
+  <h1 class="hero-title">YOUR HABIT<br>ISN'T <span class="highlight-amber">€2.50</span><br><span class="highlight">A DAY.</span></h1>
+  <p class="hero-sub">Enter any habit. See what it's really hiding — in flights, experiences, and real choices.</p>
+  <p class="hero-proof">Prices verified 2026 · <span>No signup</span> · No judgment</p>
+</section>
+
+<!-- INPUT -->
+<section class="input-section">
+  <div class="input-card">
+  <div class="input-row">
+    <div class="input-group">
+      <span class="input-label-text">What's the habit?</span>
+      <input type="text" id="habit-input" class="text-input" placeholder="e.g. daily coffee, cigarettes, Uber..." maxlength="60">
+    </div>
+    <div class="input-group">
+      <span class="input-label-text">Cost (€)</span>
+      <input type="number" id="cost-input" class="number-input" placeholder="e.g. 2.50" min="0.01" step="0.01">
+    </div>
+    <div class="input-group">
+      <span class="input-label-text">How often?</span>
+      <select id="freq-input" class="select-input">
+        <option value="365">Daily</option>
+        <option value="260">Weekdays</option>
+        <option value="104">2x week</option>
+        <option value="52">Weekly</option>
+        <option value="12">Monthly</option>
+      </select>
+    </div>
+    <button class="reframe-btn" onclick="reframe()">REFRAME IT →</button>
+  </div>
+  </div><!-- end input-card -->
+  <p class="free-note">Free forever · No login required · 3 reframes per session</p>
+</section>
+
+<!-- LOADING -->
+<div class="loading-state" id="loading">
+  <div class="loading-dots">REFRAMING...</div>
+</div>
+
+<!-- RESULT -->
+<div class="result-area" id="result-area">
+  <div class="result-card">
+    <div class="result-header">
+      <span class="result-habit-label" id="result-habit-label">Your habit</span>
+      <span class="result-cost-badge" id="result-cost-badge">€X/year</span>
+    </div>
+    <div class="result-body">
+      <p class="habit-stated" id="habit-stated"></p>
+      <p class="cost-annual" id="cost-annual"></p>
+      <div class="reframe-blocks">
+        <div class="reframe-block temporal">
+          <span class="reframe-block-label">IN TIME</span>
+          <p class="reframe-text" id="reframe-temporal"></p>
+        </div>
+        <div class="reframe-block experiential">
+          <span class="reframe-block-label">IN REAL LIFE</span>
+          <p class="reframe-text" id="reframe-experiential"></p>
+        </div>
+        <div class="reframe-block identity">
+          <span class="reframe-block-label">THE REAL CHOICE</span>
+          <p class="reframe-text" id="reframe-identity"></p>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="action-btn primary" onclick="shareAsImage()"><span>Share as Image</span></button>
+        <button class="action-btn" onclick="copyToClipboard()">Copy</button>
+        <button class="action-btn" onclick="shareTwitter()">Post on X</button>
+        <button class="action-btn" onclick="tryAnother()">Try Another</button>
+      </div>
+      <div class="email-capture" id="email-capture">
+        <div class="email-capture-label">Coming soon</div>
+        <div class="email-capture-title">REFRAMED Pro</div>
+        <div class="email-capture-sub">AI-powered habits. Monthly reality check. Unlimited reframes.</div>
+        <!-- ⚠️ STESSO TOKEN QUI — sostituisci con il tuo da Acumbamail -->
+        <form action="https://acumbamail.com/newform/subscribe/Dfx1iSqfiyvdqtpgB2xYAn6UoVULAVPjP3lOaVn4iJ3brfxUto5q/62486/?iframe=1" target="acm_reframed_inline" method="post">
+          <div class="email-capture-row">
+            <input name="email_1" type="email" placeholder="your@email.com" required autocomplete="email" class="email-input">
+            <button type="submit" class="email-submit">JOIN WAITLIST</button>
+          </div>
+          <input type="text" name="a1287033c" tabindex="-1" value="" style="position:absolute;left:-4900px;" aria-hidden="true" autocomplete="off"/>
+          <input type="email" name="b1287033c" tabindex="-1" value="" style="position:absolute;left:-5000px;" aria-hidden="true" autocomplete="off"/>
+          <input type="checkbox" name="c1287033c" tabindex="-1" style="position:absolute;left:-5100px;" aria-hidden="true" autocomplete="off"/>
+          <input type="hidden" name="ok_redirect" value="">
+          <iframe name="acm_reframed_inline" title="Subscription result" scrolling="no" style="width:100%;height:60px;border:0;display:block;margin-top:8px;background:transparent;overflow:hidden;" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BROWSE -->
+<section class="browse-section">
+  <div class="section-header">
+    <h2 class="section-title">BROWSE REFRAMES</h2>
+    <span class="section-count" id="browse-count"></span>
+  </div>
+  <div class="cat-filters" id="cat-filters">
+    <button class="cat-pill active" data-cat="all">All</button>
+    <button class="cat-pill" data-cat="food">Food & Drink</button>
+    <button class="cat-pill" data-cat="transport">Transport</button>
+    <button class="cat-pill" data-cat="subscriptions">Subscriptions</button>
+    <button class="cat-pill" data-cat="lifestyle">Lifestyle</button>
+    <button class="cat-pill" data-cat="vice">Vices</button>
+  </div>
+  <div class="browse-grid" id="browse-grid"></div>
+  <div class="pagination" id="pagination"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo"><span class="footer-dot"></span>REFRAMED</div>
+    <div class="footer-tagline">What is your habit really costing you?</div>
+  </div>
+  <div class="footer-meta">
+    REFRAMED.NOW<br>
+    PRICES VERIFIED 2026
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// DATABASE — 100 equivalenze reali, prezzi verificati 2026
+// Struttura: {id, cat, habit, costPerOccurrence, freq, annualCost, temporal, experiential, identity}
+// freq = occorrenze/anno usate nel calcolo esemplare
+// ============================================================
+const DB = [
+// FOOD & DRINK
+{id:'f001',cat:'food',habit:'Daily espresso at the bar',ex_cost:1.50,ex_freq:365,temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a Ryanair flight to London, Paris, and Barcelona — with change left over.',identity:'Every day you choose the espresso. Every year you choose to not fly.'},
+{id:'f002',cat:'food',habit:'Daily cappuccino',ex_cost:2.00,ex_freq:365,temporal:'In 1 year: €730. In 5 years: €3,650.',experiential:'€730/year is a 5-night stay in a 3-star hotel in Rome, flights included.',identity:'Your cappuccino costs one Italian city break per year.'},
+{id:'f003',cat:'food',habit:'Takeaway coffee (large)',ex_cost:4.50,ex_freq:365,temporal:'In 1 year: €1,642. In 5 years: €8,212.',experiential:'€1,642/year is a return flight Milan–New York (Skyscanner avg 2026: €650) plus a week in a Midtown hotel.',identity:'You\'re spending a transatlantic trip on cups of coffee.'},
+{id:'f004',cat:'food',habit:'Daily lunch delivery (Deliveroo/Glovo)',ex_cost:14.00,ex_freq:260,temporal:'In 1 year: €3,640. In 5 years: €18,200.',experiential:'€3,640/year is an iPhone 16 Pro 256GB (€1,329), AirPods Pro (€299), Apple Watch Series 10 (€429), and €1,583 still in your pocket.',identity:'You\'re buying Apple\'s entire product lineup in delivery fees every year.'},
+{id:'f005',cat:'food',habit:'Restaurant lunch (weekdays)',ex_cost:18.00,ex_freq:260,temporal:'In 1 year: €4,680. In 5 years: €23,400.',experiential:'€4,680/year is 3 weeks all-inclusive in a 4-star resort in the Maldives (avg 2026: €1,400/week).',identity:'Every weekday lunch out is 3 days at a beach resort every year.'},
+{id:'f006',cat:'food',habit:'Aperitivo every Friday',ex_cost:15.00,ex_freq:52,temporal:'In 1 year: €780. In 5 years: €3,900.',experiential:'€780/year is a 4-night city break in Amsterdam with flights and hotel.',identity:'52 aperitivi equal one European city break per year.'},
+{id:'f007',cat:'food',habit:'Takeaway pizza Friday night',ex_cost:22.00,ex_freq:52,temporal:'In 1 year: €1,144. In 5 years: €5,720.',experiential:'€1,144/year is a return flight Milan–Tokyo economy class (Skyscanner May 2026: €555) plus spending money.',identity:'Every Friday night pizza is a weekend in Japan — once a year.'},
+{id:'f008',cat:'food',habit:'Daily energy drink (Red Bull)',ex_cost:2.50,ex_freq:365,temporal:'In 1 year: €912. In 5 years: €4,562.',experiential:'€912/year is a return flight Milan–Tokyo (Skyscanner avg: €555–€960) during low season.',identity:'You\'re drinking a Tokyo flight every year.'},
+{id:'f009',cat:'food',habit:'Bottled water (daily)',ex_cost:1.50,ex_freq:365,temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a premium water filter for life — one BRITA Marella costs €25, filters €6 each. You pay €72/year vs €547.',identity:'You\'re paying 7x more for water in plastic than you need to.'},
+{id:'f010',cat:'food',habit:'Coffee machine pods (daily)',ex_cost:0.50,ex_freq:365,temporal:'In 1 year: €182. In 5 years: €912.',experiential:'€182/year is a premium AeroPress kit, 1kg of specialty coffee, and still have €50 left.',identity:'Pod coffee costs 5x more than ground per cup. You\'re paying a premium to be convenient.'},
+{id:'f011',cat:'food',habit:'Weekend brunch out',ex_cost:25.00,ex_freq:52,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a 7-night apartment rental in Lisbon (Airbnb avg 2026: €1,100 for a 2-bed) plus flights.',identity:'Every weekend brunch is a week in Lisbon — you could have both, if you chose one.'},
+{id:'f012',cat:'food',habit:'Smoothie bowl / avocado toast daily',ex_cost:9.00,ex_freq:260,temporal:'In 1 year: €2,340. In 5 years: €11,700.',experiential:'€2,340/year is a return Business Class ticket Milan–Paris on Air France (avg 2026: €550) plus a week in a 4-star Paris hotel.',identity:'Your trendy breakfasts cost a Parisian luxury trip every year.'},
+
+// TRANSPORT
+{id:'t001',cat:'transport',habit:'Daily Uber/Bolt to work',ex_cost:15.00,ex_freq:260,temporal:'In 1 year: €3,900. In 5 years: €19,500.',experiential:'€3,900/year is 3 months rent for a room in Milan (avg 2026: €1,200/month) — you\'re paying a 4th month\'s rent in rideshares.',identity:'You\'re renting an apartment you never live in.'},
+{id:'t002',cat:'transport',habit:'Taxi instead of metro (weekly)',ex_cost:12.00,ex_freq:52,temporal:'In 1 year: €624. In 5 years: €3,120.',experiential:'€624/year is a 3-day/2-night trip to Venice with a 4-star hotel.',identity:'Every weekly taxi is a Venice getaway, every single year.'},
+{id:'t003',cat:'transport',habit:'Monthly car parking in city center',ex_cost:120.00,ex_freq:12,temporal:'In 1 year: €1,440. In 5 years: €7,200.',experiential:'€1,440/year is a return flight Milan–Buenos Aires (avg 2026: €980) plus 3 nights hotel.',identity:'Your parking spot is a South America trip every year.'},
+{id:'t004',cat:'transport',habit:'Fuel for car used only in city',ex_cost:80.00,ex_freq:12,temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is an annual Trenitalia pass for unlimited travel across Italy.',identity:'You\'re spending a year of Italian rail travel to sit in traffic.'},
+{id:'t005',cat:'transport',habit:'Premium car wash (weekly)',ex_cost:15.00,ex_freq:52,temporal:'In 1 year: €780. In 5 years: €3,900.',experiential:'€780/year is 4 nights in a 5-star hotel in Rome (avg Booking.com 2026: €180/night).',identity:'You\'re spending a luxury Roman holiday keeping your car clean.'},
+
+// SUBSCRIPTIONS
+{id:'s001',cat:'subscriptions',habit:'Netflix (Standard)',ex_cost:17.99,ex_freq:12,temporal:'In 1 year: €215. In 5 years: €1,079.',experiential:'€215/year is a return flight Milan–London (Ryanair avg 2026: €80–€150) plus a night in a central hotel.',identity:'You\'re paying to watch other people live interesting lives.'},
+{id:'s002',cat:'subscriptions',habit:'Spotify Premium',ex_cost:11.99,ex_freq:12,temporal:'In 1 year: €143. In 5 years: €719.',experiential:'€143/year is 3 live concerts (avg €45 each) of actual music with actual humans.',identity:'You\'re paying €143 for music you\'d pay €143 to experience live.'},
+{id:'s003',cat:'subscriptions',habit:'Netflix + Spotify + Prime + Disney+',ex_cost:52.96,ex_freq:12,temporal:'In 1 year: €635. In 5 years: €3,178.',experiential:'€635/year is a return flight Milan–Mykonos plus 5 nights in a hotel with a pool.',identity:'You\'re paying for a Greek island holiday to sit on a sofa.'},
+{id:'s004',cat:'subscriptions',habit:'Gym membership never used',ex_cost:50.00,ex_freq:12,temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is 4 return flights to Barcelona (Ryanair avg 2026: €120–€150 return).',identity:'You\'re funding a gym that funds a building you never enter.'},
+{id:'s005',cat:'subscriptions',habit:'Amazon Prime',ex_cost:4.99,ex_freq:12,temporal:'In 1 year: €59. In 5 years: €299.',experiential:'€59/year sounds cheap — but it exists to make you spend more. Prime users spend €800/year more on Amazon than non-Prime users.',identity:'Prime isn\'t a subscription. It\'s a spending accelerator.'},
+{id:'s006',cat:'subscriptions',habit:'LinkedIn Premium',ex_cost:39.99,ex_freq:12,temporal:'In 1 year: €479. In 5 years: €2,399.',experiential:'€479/year is a 3-day business communication course in London that would do more for your career.',identity:'You\'re paying for the illusion of networking instead of actually networking.'},
+{id:'s007',cat:'subscriptions',habit:'Unused software subscriptions (avg)',ex_cost:30.00,ex_freq:12,temporal:'In 1 year: €360. In 5 years: €1,800.',experiential:'€360/year is a 2-night stay in a 5-star hotel in Milan.',identity:'You\'re paying for tools you don\'t use to feel like you might someday use them.'},
+
+// LIFESTYLE
+{id:'l001',cat:'lifestyle',habit:'Manicure/pedicure (monthly)',ex_cost:50.00,ex_freq:12,temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is a flight to Tokyo and 2 nights in a capsule hotel.',identity:'Your nails are costing you Japan.'},
+{id:'l002',cat:'lifestyle',habit:'Clothes shopping (impulse, monthly)',ex_cost:100.00,ex_freq:12,temporal:'In 1 year: €1,200. In 5 years: €6,000.',experiential:'€1,200/year is a return Business Class ticket Milan–New York on Alitalia (sale avg 2026: €950–€1,400).',identity:'You\'re buying clothes you\'ll wear twice when you could be flying Business Class.'},
+{id:'l003',cat:'lifestyle',habit:'Hairdresser (monthly, premium salon)',ex_cost:80.00,ex_freq:12,temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is a 7-night all-inclusive in Tunisia (avg Booking.com 2026: €800–€1,100).',identity:'Your hair is costing you a Mediterranean holiday every year.'},
+{id:'l004',cat:'lifestyle',habit:'Latest iPhone every year',ex_cost:1199.00,ex_freq:1,temporal:'Every 3 years instead of 1: you save €2,398.',experiential:'€1,199/year is a month-long backpacking trip across Southeast Asia (Thailand, Vietnam, Cambodia — avg budget €40/day).',identity:'You\'re replacing a phone that still works to have one that works the same.'},
+{id:'l005',cat:'lifestyle',habit:'Impulse Amazon purchase (weekly)',ex_cost:25.00,ex_freq:52,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is 7 nights in a 4-star hotel in Barcelona (avg Booking.com 2026: €150/night).',identity:'Every "Add to Cart" click is a night in Barcelona you\'re not taking.'},
+{id:'l006',cat:'lifestyle',habit:'Beauty products subscription box',ex_cost:35.00,ex_freq:12,temporal:'In 1 year: €420. In 5 years: €2,100.',experiential:'€420/year is a 3-night spa break in a 4-star wellness hotel in Trentino.',identity:'You\'re buying samples of luxury to feel like you have it.'},
+{id:'l007',cat:'lifestyle',habit:'Home cleaning service (bi-weekly)',ex_cost:80.00,ex_freq:24,temporal:'In 1 year: €1,920. In 5 years: €9,600.',experiential:'€1,920/year is a 10-night trip to Japan — flights (€555 return) plus hotels and food.',identity:'Your clean apartment costs a Japan trip every year.'},
+{id:'l008',cat:'lifestyle',habit:'Luxury candles (monthly)',ex_cost:45.00,ex_freq:12,temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year is 3 nights in an agriturismo in Tuscany with wine tasting included.',identity:'You\'re burning €540 a year. Literally.'},
+{id:'l009',cat:'lifestyle',habit:'Branded sportswear (monthly purchase)',ex_cost:60.00,ex_freq:12,temporal:'In 1 year: €720. In 5 years: €3,600.',experiential:'€720/year is a return flight to New York and 1 night in a Manhattan hotel.',identity:'You\'re buying clothes to look like you work out instead of working out.'},
+{id:'l010',cat:'lifestyle',habit:'Premium skincare routine (monthly)',ex_cost:90.00,ex_freq:12,temporal:'In 1 year: €1,080. In 5 years: €5,400.',experiential:'€1,080/year is a 7-night Airbnb in Santorini (avg summer 2026: €900–€1,200) with flights.',identity:'Your skincare costs a Greek island summer every year.'},
+{id:'l011',cat:'lifestyle',habit:'Weekly fresh flowers',ex_cost:20.00,ex_freq:52,temporal:'In 1 year: €1,040. In 5 years: €5,200.',experiential:'€1,040/year is a return flight Milan–Bangkok (avg 2026: €550) plus 7 nights in a 3-star hotel.',identity:'You\'re spending Thailand on flowers that die in 5 days.'},
+{id:'l012',cat:'lifestyle',habit:'Interior decoration (monthly impulse)',ex_cost:75.00,ex_freq:12,temporal:'In 1 year: €900. In 5 years: €4,500.',experiential:'€900/year is an Airbnb in a different European city every month for a long weekend.',identity:'You\'re decorating a home you could be leaving more often.'},
+
+// VICES
+{id:'v001',cat:'vice',habit:'Pack of cigarettes daily',ex_cost:6.00,ex_freq:365,temporal:'In 1 year: €2,190. In 5 years: €10,950.',experiential:'€2,190/year is 10 nights in a 4-star resort in the Maldives (all-inclusive avg 2026: €200/night).',identity:'Every cigarette is 2 minutes of your life and €0.30. Every year is the Maldives.'},
+{id:'v002',cat:'vice',habit:'Half pack of cigarettes daily',ex_cost:3.00,ex_freq:365,temporal:'In 1 year: €1,095. In 5 years: €5,475.',experiential:'€1,095/year is a return flight Milan–Tokyo (€555) plus 3 nights in a Tokyo hotel.',identity:'Half a pack a day costs you Japan every year.'},
+{id:'v003',cat:'vice',habit:'Craft beer (4 per week)',ex_cost:5.00,ex_freq:208,temporal:'In 1 year: €1,040. In 5 years: €5,200.',experiential:'€1,040/year is a 7-night camper van road trip across Scotland.',identity:'Your craft beers are costing you a road trip across Europe every year.'},
+{id:'v004',cat:'vice',habit:'Scratch cards (weekly)',ex_cost:10.00,ex_freq:52,temporal:'In 1 year: €520. In 5 years: €2,600.',experiential:'€520/year is 3 nights in a 5-star hotel in Paris (avg 2026: €160/night).',identity:'You\'re paying €520 for the certainty of almost certainly losing.'},
+{id:'v005',cat:'vice',habit:'Sports betting (weekly avg loss)',ex_cost:30.00,ex_freq:52,temporal:'In 1 year: €1,560. In 5 years: €7,800.',experiential:'€1,560/year is a 10-day guided tour of Peru including Machu Picchu (avg 2026: €1,400–€1,800).',identity:'You\'re losing Peru every year to a system mathematically designed to win.'},
+{id:'v006',cat:'vice',habit:'Vaping (daily)',ex_cost:4.00,ex_freq:365,temporal:'In 1 year: €1,460. In 5 years: €7,300.',experiential:'€1,460/year is a 14-night cruise in the Mediterranean (MSC avg 2026: €1,200–€1,800).',identity:'You\'re inhaling a Mediterranean cruise every year.'},
+{id:'v007',cat:'vice',habit:'Alcohol: wine bottle twice a week',ex_cost:12.00,ex_freq:104,temporal:'In 1 year: €1,248. In 5 years: €6,240.',experiential:'€1,248/year is a return flight to Cape Town (avg 2026: €750) plus 3 nights in a V&A Waterfront hotel.',identity:'Your wine habit costs you South Africa every year.'},
+{id:'v008',cat:'vice',habit:'Friday night cocktails (3)',ex_cost:36.00,ex_freq:52,temporal:'In 1 year: €1,872. In 5 years: €9,360.',experiential:'€1,872/year is a 7-night surf camp in the Canary Islands, flights and accommodation included.',identity:'Every Friday cocktail round is 1 day of a Canary Islands surf holiday.'},
+
+// MORE FOOD
+{id:'f013',cat:'food',habit:'Protein shake / supplement daily',ex_cost:3.00,ex_freq:365,temporal:'In 1 year: €1,095. In 5 years: €5,475.',experiential:'€1,095/year is a year of CrossFit membership (avg Italy 2026: €900) plus new training gear.',identity:'You\'re spending a year of actual training on powders.'},
+{id:'f014',cat:'food',habit:'Supermarket bakery croissant daily',ex_cost:1.80,ex_freq:365,temporal:'In 1 year: €657. In 5 years: €3,285.',experiential:'€657/year is a 3-day/2-night weekend in Vienna with flights and hotel.',identity:'Your croissant habit costs you Vienna every year.'},
+{id:'f015',cat:'food',habit:'Weekend supermarket sushi delivery',ex_cost:35.00,ex_freq:52,temporal:'In 1 year: €1,820. In 5 years: €9,100.',experiential:'€1,820/year is a real 10-day trip to Japan — flights (€555) and daily sushi for €100/day for a week.',identity:'You could eat sushi in Tokyo instead of in your living room.'},
+{id:'f016',cat:'food',habit:'Office vending machine snack daily',ex_cost:1.80,ex_freq:260,temporal:'In 1 year: €468. In 5 years: €2,340.',experiential:'€468/year is a return flight Milan–Dubrovnik (avg 2026: €120) plus 5 nights in an Airbnb by the sea.',identity:'Your vending machine snacks cost a Croatian summer every year.'},
+{id:'f017',cat:'food',habit:'Meal kit subscription (weekly)',ex_cost:60.00,ex_freq:52,temporal:'In 1 year: €3,120. In 5 years: €15,600.',experiential:'€3,120/year is 6 months of a professional cooking course in Florence (avg: €500/month).',identity:'You\'re paying to replicate restaurant food at home instead of learning to cook it properly.'},
+{id:'f018',cat:'food',habit:'Juice bar fresh juice daily',ex_cost:6.00,ex_freq:260,temporal:'In 1 year: €1,560. In 5 years: €7,800.',experiential:'€1,560/year is a Vitamix blender (€600) plus a year of organic fruit — and you\'d still have €500 left.',identity:'You\'re paying to watch someone else press juice for you.'},
+{id:'f019',cat:'food',habit:'Ice cream / gelato daily (summer 3 months)',ex_cost:3.50,ex_freq:90,temporal:'In 3 months: €315. In a year of habit: €315.',experiential:'€315 is a return flight Milan–Athens (Ryanair avg 2026: €70–€120) plus 3 nights in a central hotel.',identity:'Your summer gelato habit costs a Greek holiday.'},
+{id:'f020',cat:'food',habit:'Specialty coffee beans (premium monthly)',ex_cost:25.00,ex_freq:12,temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is a 2-night stay in a design hotel in Milan with breakfast.',identity:'At least you\'re spending it on something you actually taste.'},
+
+// MORE TRANSPORT
+{id:'t006',cat:'transport',habit:'Motorway tolls (daily commuter)',ex_cost:8.00,ex_freq:260,temporal:'In 1 year: €2,080. In 5 years: €10,400.',experiential:'€2,080/year is a return Business Class Milan–London (avg 2026: €800) plus a week in a Covent Garden hotel.',identity:'Your commute is costing you a Business Class holiday every year.'},
+{id:'t007',cat:'transport',habit:'Monthly parking subscription (office)',ex_cost:150.00,ex_freq:12,temporal:'In 1 year: €1,800. In 5 years: €9,000.',experiential:'€1,800/year is a 10-day road trip across the USA renting a car (avg Hertz 2026: €60/day).',identity:'You\'re paying to park instead of to drive somewhere worth going.'},
+{id:'t008',cat:'transport',habit:'Weekly car wash + interior clean',ex_cost:25.00,ex_freq:52,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a 7-night beach holiday in Sicily, all-inclusive (avg 2026: €1,100).',identity:'You\'re spending a Sicilian holiday keeping a car clean.'},
+{id:'t009',cat:'transport',habit:'Leasing premium car vs. standard',ex_cost:200.00,ex_freq:12,temporal:'In 1 year: €2,400. In 5 years: €12,000.',experiential:'€2,400/year is a premium Safari in Tanzania, 5 nights (avg 2026: €2,000–€2,800).',identity:'The premium you pay for your car every year buys an African Safari.'},
+{id:'t010',cat:'transport',habit:'Airport express train instead of metro',ex_cost:8.00,ex_freq:24,temporal:'In 1 year: €192. In 5 years: €960.',experiential:'€192/year is 2 return flights to Rome (Ryanair avg 2026: €60–€80 return).',identity:'You\'re spending 2 Roman weekends to arrive at the airport 20 minutes faster.'},
+
+// MORE SUBSCRIPTIONS
+{id:'s008',cat:'subscriptions',habit:'News paywall subscriptions (2)',ex_cost:25.00,ex_freq:12,temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is a 2-night stay in a 4-star hotel in Barcelona.',identity:'You\'re paying to read about the world instead of experiencing it.'},
+{id:'s009',cat:'subscriptions',habit:'Cloud storage (paid tier)',ex_cost:2.99,ex_freq:12,temporal:'In 1 year: €35. In 5 years: €179.',experiential:'€35/year — the cheapest habit on this list. But multiply by 10 small subscriptions and you\'re at €350.',identity:'Each subscription seems trivial. Together they\'re a flight.'},
+{id:'s010',cat:'subscriptions',habit:'Premium dating app subscription',ex_cost:29.99,ex_freq:12,temporal:'In 1 year: €359. In 5 years: €1,799.',experiential:'€359/year is a solo weekend trip to Berlin — arguably a better way to meet people.',identity:'You\'re paying to find connection through an algorithm.'},
+{id:'s011',cat:'subscriptions',habit:'Online course platform (never used)',ex_cost:19.99,ex_freq:12,temporal:'In 1 year: €239. In 5 years: €1,199.',experiential:'€239/year is 2 real in-person workshops in your field.',identity:'You\'re paying to feel like you\'re learning instead of learning.'},
+{id:'s012',cat:'subscriptions',habit:'Food delivery pass (Deliveroo Plus etc.)',ex_cost:5.99,ex_freq:12,temporal:'In 1 year: €71. In 5 years: €359.',experiential:'€71/year on the pass — but pass users order 40% more often. Your real cost is €2,000+ in delivery fees.',identity:'The free delivery isn\'t free. It\'s a trigger to spend more.'},
+
+// MORE LIFESTYLE
+{id:'l013',cat:'lifestyle',habit:'Daily newspaper (print)',ex_cost:1.50,ex_freq:365,temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a 3-night trip to Prague with flights and hotel.',identity:'You\'re paying €547 for news that will be outdated by tomorrow.'},
+{id:'l014',cat:'lifestyle',habit:'Monthly premium haircut (barber)',ex_cost:45.00,ex_freq:12,temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year is a 4-night luxury glamping experience in Sardinia.',identity:'Your hair costs a Sardinian summer every year.'},
+{id:'l015',cat:'lifestyle',habit:'Stationery & notebooks (monthly)',ex_cost:20.00,ex_freq:12,temporal:'In 1 year: €240. In 5 years: €1,200.',experiential:'€240/year is a 2-night design hotel stay in Lisbon.',identity:'You\'re buying tools to organize thoughts you never write down.'},
+{id:'l016',cat:'lifestyle',habit:'Podcast / audiobook premium subscription',ex_cost:14.99,ex_freq:12,temporal:'In 1 year: €179. In 5 years: €899.',experiential:'€179/year is 10 used books from the best authors in your field — physical, underlined, owned.',identity:'You\'re paying to consume knowledge passively instead of actively.'},
+{id:'l017',cat:'lifestyle',habit:'Monthly massage',ex_cost:70.00,ex_freq:12,temporal:'In 1 year: €840. In 5 years: €4,200.',experiential:'€840/year is a 5-night wellness retreat in the Dolomites (avg 2026: €150–€200/night).',identity:'12 massages equal 5 nights at a mountain wellness retreat.'},
+{id:'l018',cat:'lifestyle',habit:'Weekend Airbnb "staycation" (monthly)',ex_cost:150.00,ex_freq:12,temporal:'In 1 year: €1,800. In 5 years: €9,000.',experiential:'€1,800/year is a real 2-week vacation in Thailand (flights €600 + €80/day budget hotel and food).',identity:'You\'re paying to sleep somewhere different in your own city instead of a different country.'},
+{id:'l019',cat:'lifestyle',habit:'Lottery tickets (twice weekly)',ex_cost:5.00,ex_freq:104,temporal:'In 1 year: €520. In 5 years: €2,600.',experiential:'€520/year is a 3-night break in Vienna, flights included (avg 2026: €150 return, €100/night hotel).',identity:'The lottery is a tax on statistical innumeracy. You\'re guaranteed to almost certainly lose.'},
+{id:'l020',cat:'lifestyle',habit:'Pet grooming (monthly)',ex_cost:55.00,ex_freq:12,temporal:'In 1 year: €660. In 5 years: €3,300.',experiential:'€660/year is a 4-night pet-friendly Airbnb holiday in Tuscany with your dog.',identity:'Your dog\'s grooming costs a Tuscan holiday with your dog.'},
+
+// MORE VICES
+{id:'v009',cat:'vice',habit:'Cannabis (daily, recreational)',ex_cost:10.00,ex_freq:365,temporal:'In 1 year: €3,650. In 5 years: €18,250.',experiential:'€3,650/year is a Business Class return to New York (avg 2026: €2,800) plus a week in a 4-star Manhattan hotel.',identity:'Your daily habit costs you Business Class to New York every year.'},
+{id:'v010',cat:'vice',habit:'Premium whiskey bottle (weekly)',ex_cost:35.00,ex_freq:52,temporal:'In 1 year: €1,820. In 5 years: €9,100.',experiential:'€1,820/year is a 10-day whiskey distillery tour of Scotland, all-inclusive.',identity:'You could drink whiskey in Scotland instead of drinking Scotland in your living room.'},
+{id:'v011',cat:'vice',habit:'Online poker (weekly avg loss)',ex_cost:50.00,ex_freq:52,temporal:'In 1 year: €2,600. In 5 years: €13,000.',experiential:'€2,600/year is a 2-week honeymoon in the Maldives for two (avg 2026: €2,400).',identity:'You\'re gambling a Maldives honeymoon every year.'},
+{id:'v012',cat:'vice',habit:'Energy drinks (2 per day)',ex_cost:4.00,ex_freq:365,temporal:'In 1 year: €1,460. In 5 years: €7,300.',experiential:'€1,460/year is a 10-day guided trek in Nepal including Everest Base Camp (avg 2026: €1,200–€1,500).',identity:'You\'re drinking the Himalayas.'},
+
+// FINAL BATCH
+{id:'f021',cat:'food',habit:'Monthly restaurant birthday/special dinner',ex_cost:80.00,ex_freq:12,temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is a cooking class in Bologna with a Michelin-starred chef.',identity:'You\'re paying restaurant prices to celebrate when you could be learning to cook like a restaurant.'},
+{id:'l021',cat:'lifestyle',habit:'Smart home gadget (monthly impulse)',ex_cost:50.00,ex_freq:12,temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is 4 return Ryanair flights to European destinations.',identity:'You\'re buying gadgets to optimize the home you\'re not leaving enough.'},
+{id:'s013',cat:'subscriptions',habit:'Mobile phone bill (premium plan)',ex_cost:45.00,ex_freq:12,temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year — switching to a €15/month MVNO saves €360 for the same network. That\'s a Madrid weekend.',identity:'You\'re paying €360 extra per year for the same data and calls.'},
+{id:'t011',cat:'transport',habit:'Daily scooter rental (city)',ex_cost:5.00,ex_freq:260,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a brand new e-bike (avg 2026: €900) that pays for itself in under a year.',identity:'You\'re renting a scooter to avoid buying one that would cost less.'},
+{id:'l022',cat:'lifestyle',habit:'Monthly book purchase (unread)',ex_cost:25.00,ex_freq:12,temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is unlimited Kindle Unlimited plus the 5 best books in any field you actually finish.',identity:'You\'re buying the idea of reading instead of reading.'},
+{id:'f022',cat:'food',habit:'Kombucha / probiotic drinks daily',ex_cost:4.50,ex_freq:365,temporal:'In 1 year: €1,642. In 5 years: €8,212.',experiential:'€1,642/year is a return flight to Japan plus a week of actually eating fermented food at the source.',identity:'You\'re paying premium prices to drink bacteria you could get from €1 yogurt.'},
+{id:'v013',cat:'vice',habit:'Impulse online shopping (3x/week)',ex_cost:15.00,ex_freq:156,temporal:'In 1 year: €2,340. In 5 years: €11,700.',experiential:'€2,340/year is a 14-night trip to Southeast Asia — Thailand, Vietnam, Bali.',identity:'Every impulse click is a day of Southeast Asia you\'re not experiencing.'},
+{id:'l023',cat:'lifestyle',habit:'Personal trainer sessions (2/week)',ex_cost:50.00,ex_freq:104,temporal:'In 1 year: €5,200. In 5 years: €26,000.',experiential:'€5,200/year is the average entry-level salary increase from a professional certification in your field.',identity:'You\'re investing €5,200/year in your body and €0 in your career.'},
+{id:'s014',cat:'subscriptions',habit:'Cable TV / Sky subscription',ex_cost:35.00,ex_freq:12,temporal:'In 1 year: €420. In 5 years: €2,100.',experiential:'€420/year is a 3-night city break in Amsterdam, flights and hotel included.',identity:'You\'re paying to watch sports you could be playing.'},
+{id:'l024',cat:'lifestyle',habit:'Daily parking fine (habitual)',ex_cost:40.00,ex_freq:52,temporal:'In 1 year: €2,080. In 5 years: €10,400.',experiential:'€2,080/year is a year of premium parking in a city garage — and you\'d never get fined again.',identity:'You\'re paying more in fines than you\'d pay to park legally. This is expensive stubbornness.'},
+];
+
+// ============================================================
+// EQUIVALENZE PER CALCOLO DINAMICO
+// Quando l'utente inserisce un importo libero, cerchiamo
+// l'equivalenza più vicina dal database di riferimenti
+// ============================================================
+const EQUIVALENCES = [
+  {min:50,max:99,items:['a round-trip Ryanair flight to Rome','2 nights in a 3-star hotel in Milan','a year of Spotify Premium','a nice dinner for two at a trattoria']},
+  {min:100,max:199,items:['a return Ryanair flight to Barcelona','2 nights in a boutique hotel in Florence','an Apple AirTag 4-pack','a half-day cooking class in Bologna']},
+  {min:200,max:349,items:['a return flight to Paris or London','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
+  {min:350,max:499,items:['a 3-night city break in Amsterdam, flights and hotel','an iPad mini (base model)','a month of daily CrossFit classes','a 5-day guided cycling tour in Tuscany']},
+  {min:500,max:699,items:['a 4-night Airbnb in Lisbon with flights','a return Iberia flight to New York in low season','a MacBook Air M2 (partial)','a 5-night ski holiday in the Alps']},
+  {min:700,max:999,items:['a return flight to Tokyo low season (Skyscanner May 2026: from €555)','a 7-night all-inclusive in Tunisia','a premium iPhone 15 (refurbished)','a 5-night wellness retreat in the Dolomites']},
+  {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise (MSC base)','a 10-day road trip across Portugal']},
+  {min:1500,max:2499,items:['a Business Class return to London','a 14-night trip to Southeast Asia (Thailand + Bali)','a brand new MacBook Pro 14"','a 10-day guided tour of Peru with Machu Picchu']},
+  {min:2500,max:3999,items:['a Safari in Tanzania (5 nights, avg 2026)','a Business Class return to New York','a complete home studio setup','3 months of rent in Milan']},
+  {min:4000,max:7999,items:['a 2-week Maldives honeymoon','a Business Class return to Tokyo (ANA avg 2026)','a down payment contribution on property','a year of a professional MBA module']},
+  {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit contribution','complete financial independence for a month']}
+];
+
+function getEquivalence(annual) {
+  const bucket = EQUIVALENCES.find(b => annual >= b.min && annual <= b.max);
+  if (!bucket) return null;
+  return bucket.items[Math.floor(Math.random() * bucket.items.length)];
+}
+
+function getFreqLabel(freq) {
+  const map = {'365':'day','260':'workday','104':'week (2x)','52':'week','12':'month'};
+  return map[String(freq)] || 'occurrence';
+}
+
+// ============================================================
+// RATE LIMIT — 3 reframe per sessione via localStorage
+// ============================================================
+const SESSION_KEY = 'rf_count';
+const MAX_FREE = 3;
+let reframeCount = 0;
+try { reframeCount = parseInt(localStorage.getItem(SESSION_KEY) || '0'); } catch(e){}
+
+let currentResult = null;
+const ITEMS_PER_PAGE = 12;
+let currentPage = 1;
+let currentCat = 'all';
+
+// ============================================================
+// CORE FUNCTION
+// ============================================================
+function reframe() {
+  const habit = document.getElementById('habit-input').value.trim();
+  const cost = parseFloat(document.getElementById('cost-input').value);
+  const freq = parseInt(document.getElementById('freq-input').value);
+
+  if (!habit) { showToast('Enter a habit first.'); return; }
+  if (!cost || cost <= 0) { showToast('Enter a valid cost.'); return; }
+
+  if (reframeCount >= MAX_FREE) {
+    openNotifyPopup();
+    showToast('Join the waitlist for unlimited reframes — coming soon.');
+    return;
+  }
+
+  document.getElementById('loading').classList.add('visible');
+  document.getElementById('result-area').classList.remove('visible');
+
+  setTimeout(() => {
+    document.getElementById('loading').classList.remove('visible');
+    const annual = Math.round(cost * freq);
+    const equiv = getEquivalence(annual);
+    const freqLabel = getFreqLabel(freq);
+
+    const years5 = annual * 5;
+    const temporal = `In 1 year: €${annual.toLocaleString('en')}. In 5 years: €${years5.toLocaleString('en')}.`;
+
+    let experiential = '';
+    if (equiv) {
+      experiential = `€${annual.toLocaleString('en')} a year is ${equiv}.`;
+    } else {
+      experiential = `€${annual.toLocaleString('en')} a year is significant money. Think about what that means to you.`;
+    }
+
+    const identity = `Every ${freqLabel} you choose ${habit}. Every year you choose what €${annual.toLocaleString('en')} means to you.`;
+
+    currentResult = { habit, cost, freq, annual, temporal, experiential, identity };
+
+    document.getElementById('result-habit-label').textContent = habit;
+    document.getElementById('result-cost-badge').textContent = `€${annual.toLocaleString('en')}/year`;
+    document.getElementById('habit-stated').textContent = `"${habit}" — €${cost} per ${freqLabel}`;
+    document.getElementById('cost-annual').innerHTML = `Annual total: <strong>€${annual.toLocaleString('en')}</strong> · Over 5 years: €${years5.toLocaleString('en')}`;
+    document.getElementById('reframe-temporal').textContent = temporal;
+    document.getElementById('reframe-experiential').textContent = experiential;
+    document.getElementById('reframe-identity').textContent = identity;
+
+    document.getElementById('result-area').classList.add('visible');
+    document.getElementById('result-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    reframeCount++;
+    try { localStorage.setItem(SESSION_KEY, reframeCount); } catch(e){}
+
+    if (reframeCount >= 2) {
+      setTimeout(() => { document.getElementById('email-capture').classList.add('visible'); }, 800);
+    }
+  }, 700);
+}
+
+function tryAnother() {
+  document.getElementById('habit-input').value = '';
+  document.getElementById('cost-input').value = '';
+  document.getElementById('result-area').classList.remove('visible');
+  document.getElementById('email-capture').classList.remove('visible');
+  document.getElementById('habit-input').focus();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyToClipboard() {
+  if (!currentResult) return;
+  const text = `"${currentResult.habit}" isn't €${currentResult.cost}/day — it's €${currentResult.annual.toLocaleString('en')}/year.\n\n${currentResult.experiential}\n\n— REFRAMED at reframed.now`;
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
+}
+
+function shareTwitter() {
+  if (!currentResult) return;
+  const url = encodeURIComponent('https://reframed.now');
+  const text = encodeURIComponent(`My "${currentResult.habit}" isn't €${currentResult.cost}/day — it's €${currentResult.annual.toLocaleString('en')}/year.\n\n${currentResult.experiential}\n\n#REFRAMED`);
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+function shareAsImage() {
+  if (!currentResult) return;
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200; canvas.height = 628;
+  const ctx = canvas.getContext('2d');
+
+  // Background
+  ctx.fillStyle = '#0a0a0a'; ctx.fillRect(0, 0, 1200, 628);
+  // Top red bar
+  ctx.fillStyle = '#d13f2c'; ctx.fillRect(0, 0, 1200, 8);
+  // Brand
+  ctx.fillStyle = '#f5c842'; ctx.font = 'bold 13px monospace';
+  ctx.fillText('REFRAMED — REFRAMED.NOW', 60, 48);
+  // Habit
+  ctx.fillStyle = '#f5f0e8'; ctx.font = 'bold 52px serif';
+  const habitDisplay = currentResult.habit.length > 30 ? currentResult.habit.substring(0,30)+'…' : currentResult.habit;
+  ctx.fillText('"'+habitDisplay+'"', 60, 120);
+  // IS NOT
+  ctx.fillStyle = '#d13f2c'; ctx.font = 'bold 14px monospace';
+  ctx.fillText("ISN'T €"+currentResult.cost+" PER DAY.", 60, 165);
+  // Main number
+  ctx.fillStyle = '#f5c842'; ctx.font = 'bold 88px monospace';
+  ctx.fillText('€'+currentResult.annual.toLocaleString('en'), 60, 270);
+  ctx.fillStyle = '#f5f0e8'; ctx.font = '20px monospace';
+  ctx.fillText('PER YEAR', 62, 305);
+  // Divider
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(60, 330); ctx.lineTo(1140, 330); ctx.stroke();
+  // Experiential
+  ctx.fillStyle = '#aaa'; ctx.font = 'bold 11px monospace';
+  ctx.fillText('WHAT IT REALLY IS:', 60, 362);
+  ctx.fillStyle = '#f5f0e8'; ctx.font = '18px sans-serif';
+  wrapText(ctx, currentResult.experiential, 60, 395, 1080, 28);
+  // Footer
+  ctx.fillStyle = '#1a1a1a'; ctx.fillRect(0, 568, 1200, 60);
+  ctx.fillStyle = '#f5c842'; ctx.font = 'bold 14px monospace';
+  ctx.fillText('REFRAMED.NOW — What is your habit really costing you?', 60, 603);
+
+  const link = document.createElement('a');
+  link.download = 'reframed-' + currentResult.habit.replace(/\s/g,'-').toLowerCase() + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  showToast('Image saved! Share it everywhere.');
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    if (ctx.measureText(testLine).width > maxWidth && n > 0) {
+      ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight;
+    } else { line = testLine; }
+  }
+  ctx.fillText(line, x, y);
+}
+
+// ============================================================
+// BROWSE
+// ============================================================
+function getFilteredDB() {
+  return currentCat === 'all' ? DB : DB.filter(p => p.cat === currentCat);
+}
+
+function renderBrowse() {
+  const data = getFilteredDB();
+  const total = data.length;
+  const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+  document.getElementById('browse-count').textContent = total + ' habits';
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const page = data.slice(start, start + ITEMS_PER_PAGE);
+  const catNames = {food:'Food & Drink',transport:'Transport',subscriptions:'Subscriptions',lifestyle:'Lifestyle',vice:'Vices'};
+  document.getElementById('browse-grid').innerHTML = page.map(p => `
+    <div class="browse-card" onclick="loadHabit('${p.id}')">
+      <div class="browse-card-cat">${catNames[p.cat] || p.cat}</div>
+      <div class="browse-card-habit">"${p.habit}"</div>
+      <div class="browse-card-cost">€${p.ex_cost} × ${p.ex_freq}x/year = €${(p.ex_cost*p.ex_freq).toLocaleString('en')}/year</div>
+      <div class="browse-card-preview">${p.experiential}</div>
+    </div>`).join('');
+
+  const pag = document.getElementById('pagination');
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  let html = `<button class="page-btn" onclick="changePage(${currentPage-1})" ${currentPage===1?'disabled':''}>←</button>`;
+  for (let i = 1; i <= Math.min(totalPages, 8); i++) {
+    html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="changePage(${i})">${i}</button>`;
+  }
+  if (totalPages > 8) html += `<span style="padding:8px 4px;font-family:var(--font-mono);font-size:11px;opacity:0.4">…</span>`;
+  html += `<button class="page-btn" onclick="changePage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>→</button>`;
+  pag.innerHTML = html;
+}
+
+function changePage(p) {
+  const total = Math.ceil(getFilteredDB().length / ITEMS_PER_PAGE);
+  if (p < 1 || p > total) return;
+  currentPage = p;
+  renderBrowse();
+  document.querySelector('.browse-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function loadHabit(id) {
+  const item = DB.find(p => p.id === id);
+  if (!item) return;
+  document.getElementById('habit-input').value = item.habit;
+  document.getElementById('cost-input').value = item.ex_cost;
+  // Map freq
+  const freqMap = {365:'365',260:'260',104:'104',52:'52',12:'12',208:'104',90:'52',24:'12',156:'104'};
+  document.getElementById('freq-input').value = freqMap[item.ex_freq] || '365';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => reframe(), 200);
+}
+
+// CATEGORY FILTER
+document.getElementById('cat-filters').addEventListener('click', e => {
+  if (!e.target.classList.contains('cat-pill')) return;
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+  currentCat = e.target.dataset.cat;
+  currentPage = 1;
+  renderBrowse();
+});
+
+// ENTER KEY
+document.getElementById('cost-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') reframe();
+});
+document.getElementById('habit-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') document.getElementById('cost-input').focus();
+});
+
+// UTILS
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+function openNotifyPopup() { document.getElementById('notify-overlay').classList.add('open'); }
+function closeNotifyPopup() { document.getElementById('notify-overlay').classList.remove('open'); }
+
+// INIT
+window.addEventListener('DOMContentLoaded', () => { renderBrowse(); });
+</script>
+</body>
+</html>
