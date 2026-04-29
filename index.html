@@ -789,17 +789,17 @@
 <!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker-inner" id="ticker">
-    <span>Daily coffee → €912/year → Milan–Tokyo flight</span>
-    <span>Cigarette pack/day → €2,920/year → 10 nights Maldives</span>
-    <span>Delivery lunch → €3,640/year → Brand new iPhone 16 Pro + €2,300 left</span>
-    <span>Daily Uber → €5,475/year → 3 months rent in Milan</span>
-    <span>Netflix + Spotify + Prime → €468/year → Weekend in Paris for two</span>
-    <span>Gym you never use → €600/year → 4 flights to Barcelona</span>
-    <span>Daily coffee → €912/year → Milan–Tokyo flight</span>
-    <span>Cigarette pack/day → €2,920/year → 10 nights Maldives</span>
-    <span>Delivery lunch → €3,640/year → Brand new iPhone 16 Pro + €2,300 left</span>
-    <span>Daily Uber → €5,475/year → 3 months rent in Milan</span>
-    <span>Netflix + Spotify + Prime → €468/year → Weekend in Paris for two</span>
+    <span>Daily coffee → $730/year → NYC to Miami flight + hotel</span>
+    <span>Cigarette pack/day → $3,285/year → Business Class to Japan</span>
+    <span>Delivery lunch → $4,680/year → 3-week Hawaii all-inclusive</span>
+    <span>Daily Uber → $5,200/year → 3 months rent in Austin</span>
+    <span>Netflix + Spotify + Prime → $575/year → New Orleans weekend</span>
+    <span>Gym you never use → $600/year → 3 flights to Cancún</span>
+    <span>Daily coffee → $730/year → NYC to Miami flight + hotel</span>
+    <span>Cigarette pack/day → $3,285/year → Business Class to Japan</span>
+    <span>Delivery lunch → $4,680/year → 3-week Hawaii all-inclusive</span>
+    <span>Daily Uber → $5,200/year → 3 months rent in Austin</span>
+    <span>Netflix + Spotify + Prime → $575/year → New Orleans weekend</span>
   </div>
 </div>
 
@@ -948,142 +948,607 @@
 
 <script>
 // ============================================================
-// DATABASE — 100 equivalenze reali, prezzi verificati 2026
-// Struttura: {id, cat, habit, costPerOccurrence, freq, annualCost, temporal, experiential, identity}
-// freq = occorrenze/anno usate nel calcolo esemplare
+// LOCALE HELPERS
 // ============================================================
-const DB = [
+function getCurrency() {
+  try { return document.getElementById('currency-input').value; } catch(e) { return '$'; }
+}
+function getLocale() {
+  const c = getCurrency();
+  if (c === '€') return 'eu';
+  if (c === '£') return 'uk';
+  return 'us';
+}
+
+// ============================================================
+// DATABASE — 100+ habits, 3 locale versions per entry
+// eu=€ Europe  |  us=$ USA  |  uk=£ UK
+// ============================================================
+const DB_RAW = [
 // FOOD & DRINK
-{id:'f001',cat:'food',habit:'Daily espresso at the bar',ex_cost:1.50,ex_freq:365,temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a Ryanair flight to London, Paris, and Barcelona — with change left over.',identity:'Every day you choose the espresso. Every year you choose to not fly.'},
-{id:'f002',cat:'food',habit:'Daily cappuccino',ex_cost:2.00,ex_freq:365,temporal:'In 1 year: €730. In 5 years: €3,650.',experiential:'€730/year is a 5-night stay in a 3-star hotel in Rome, flights included.',identity:'Your cappuccino costs one Italian city break per year.'},
-{id:'f003',cat:'food',habit:'Takeaway coffee (large)',ex_cost:4.50,ex_freq:365,temporal:'In 1 year: €1,642. In 5 years: €8,212.',experiential:'€1,642/year is a return flight Milan–New York (Skyscanner avg 2026: €650) plus a week in a Midtown hotel.',identity:'You\'re spending a transatlantic trip on cups of coffee.'},
-{id:'f004',cat:'food',habit:'Daily lunch delivery (Deliveroo/Glovo)',ex_cost:14.00,ex_freq:260,temporal:'In 1 year: €3,640. In 5 years: €18,200.',experiential:'€3,640/year is an iPhone 16 Pro 256GB (€1,329), AirPods Pro (€299), Apple Watch Series 10 (€429), and €1,583 still in your pocket.',identity:'You\'re buying Apple\'s entire product lineup in delivery fees every year.'},
-{id:'f005',cat:'food',habit:'Restaurant lunch (weekdays)',ex_cost:18.00,ex_freq:260,temporal:'In 1 year: €4,680. In 5 years: €23,400.',experiential:'€4,680/year is 3 weeks all-inclusive in a 4-star resort in the Maldives (avg 2026: €1,400/week).',identity:'Every weekday lunch out is 3 days at a beach resort every year.'},
-{id:'f006',cat:'food',habit:'Aperitivo every Friday',ex_cost:15.00,ex_freq:52,temporal:'In 1 year: €780. In 5 years: €3,900.',experiential:'€780/year is a 4-night city break in Amsterdam with flights and hotel.',identity:'52 aperitivi equal one European city break per year.'},
-{id:'f007',cat:'food',habit:'Takeaway pizza Friday night',ex_cost:22.00,ex_freq:52,temporal:'In 1 year: €1,144. In 5 years: €5,720.',experiential:'€1,144/year is a return flight Milan–Tokyo economy class (Skyscanner May 2026: €555) plus spending money.',identity:'Every Friday night pizza is a weekend in Japan — once a year.'},
-{id:'f008',cat:'food',habit:'Daily energy drink (Red Bull)',ex_cost:2.50,ex_freq:365,temporal:'In 1 year: €912. In 5 years: €4,562.',experiential:'€912/year is a return flight Milan–Tokyo (Skyscanner avg: €555–€960) during low season.',identity:'You\'re drinking a Tokyo flight every year.'},
-{id:'f009',cat:'food',habit:'Bottled water (daily)',ex_cost:1.50,ex_freq:365,temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a premium water filter for life — one BRITA Marella costs €25, filters €6 each. You pay €72/year vs €547.',identity:'You\'re paying 7x more for water in plastic than you need to.'},
-{id:'f010',cat:'food',habit:'Coffee machine pods (daily)',ex_cost:0.50,ex_freq:365,temporal:'In 1 year: €182. In 5 years: €912.',experiential:'€182/year is a premium AeroPress kit, 1kg of specialty coffee, and still have €50 left.',identity:'Pod coffee costs 5x more than ground per cup. You\'re paying a premium to be convenient.'},
-{id:'f011',cat:'food',habit:'Weekend brunch out',ex_cost:25.00,ex_freq:52,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a 7-night apartment rental in Lisbon (Airbnb avg 2026: €1,100 for a 2-bed) plus flights.',identity:'Every weekend brunch is a week in Lisbon — you could have both, if you chose one.'},
-{id:'f012',cat:'food',habit:'Smoothie bowl / avocado toast daily',ex_cost:9.00,ex_freq:260,temporal:'In 1 year: €2,340. In 5 years: €11,700.',experiential:'€2,340/year is a return Business Class ticket Milan–Paris on Air France (avg 2026: €550) plus a week in a 4-star Paris hotel.',identity:'Your trendy breakfasts cost a Parisian luxury trip every year.'},
+{id:'f001',cat:'food',habit:'Daily espresso at the bar',ex_cost:{eu:1.50,us:2.00,uk:1.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a Ryanair flight to London, Paris, and Barcelona — with change left over.',identity:'Every day you choose the espresso. Every year you choose to not fly.'},
+ us:{temporal:'In 1 year: $730. In 5 years: $3,650.',experiential:'$730/year is a round-trip flight New York–Miami plus a night at a South Beach hotel.',identity:'Every day you choose the espresso. Every year you choose to not fly.'},
+ uk:{temporal:'In 1 year: £547. In 5 years: £2,737.',experiential:'£547/year is an EasyJet return to Barcelona, Rome, and Lisbon — with change left over.',identity:'Every day you choose the espresso. Every year you choose to not fly.'}},
+
+{id:'f002',cat:'food',habit:'Daily cappuccino',ex_cost:{eu:2.00,us:3.00,uk:2.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €730. In 5 years: €3,650.',experiential:'€730/year is a 5-night stay in a 3-star hotel in Rome, flights included.',identity:'Your cappuccino costs one Italian city break per year.'},
+ us:{temporal:'In 1 year: $1,095. In 5 years: $5,475.',experiential:'$1,095/year is a round-trip flight LA–New York plus 3 nights in a Midtown hotel.',identity:'Your daily cappuccino costs a New York trip every year.'},
+ uk:{temporal:'In 1 year: £912. In 5 years: £4,562.',experiential:'£912/year is a return flight London–Tokyo in low season.',identity:'Your cappuccino costs a Tokyo flight every year.'}},
+
+{id:'f003',cat:'food',habit:'Takeaway coffee (large)',ex_cost:{eu:4.50,us:6.00,uk:4.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €1,642. In 5 years: €8,212.',experiential:'€1,642/year is a return flight Milan–New York plus a week in a Midtown hotel.',identity:'You\'re spending a transatlantic trip on cups of coffee.'},
+ us:{temporal:'In 1 year: $2,190. In 5 years: $10,950.',experiential:'$2,190/year is a 10-night all-inclusive resort in Cancún — flights and everything.',identity:'You\'re drinking a Cancún vacation every year.'},
+ uk:{temporal:'In 1 year: £1,642. In 5 years: £8,212.',experiential:'£1,642/year is a return flight London–New York plus 4 nights in Manhattan.',identity:'You\'re spending a transatlantic trip on cups of coffee.'}},
+
+{id:'f004',cat:'food',habit:'Daily lunch delivery',ex_cost:{eu:14.00,us:18.00,uk:14.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €3,640. In 5 years: €18,200.',experiential:'€3,640/year is an iPhone 16 Pro (€1,329), AirPods Pro (€299), Apple Watch (€429), and €1,583 still in your pocket.',identity:'You\'re buying Apple\'s entire product lineup in delivery fees every year.'},
+ us:{temporal:'In 1 year: $4,680. In 5 years: $23,400.',experiential:'$4,680/year is a 3-week all-inclusive trip to Hawaii — flights from LA, resort, everything.',identity:'You\'re eating a Hawaii vacation in delivery fees every year.'},
+ uk:{temporal:'In 1 year: £3,640. In 5 years: £18,200.',experiential:'£3,640/year is an iPhone 16 Pro (£1,199), AirPods Pro (£279), Apple Watch (£399), and £1,763 still in your pocket.',identity:'You\'re buying Apple\'s entire lineup in Deliveroo fees every year.'}},
+
+{id:'f005',cat:'food',habit:'Restaurant lunch (weekdays)',ex_cost:{eu:18.00,us:22.00,uk:18.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €4,680. In 5 years: €23,400.',experiential:'€4,680/year is 3 weeks all-inclusive in a 4-star Maldives resort.',identity:'Every weekday lunch out is 3 days at a beach resort every year.'},
+ us:{temporal:'In 1 year: $5,720. In 5 years: $28,600.',experiential:'$5,720/year is a 2-week luxury road trip across the entire USA — car rental, hotels, everything.',identity:'Every weekday lunch out is a cross-country road trip every year.'},
+ uk:{temporal:'In 1 year: £4,680. In 5 years: £23,400.',experiential:'£4,680/year is 3 weeks all-inclusive in a 4-star Maldives resort — flights included.',identity:'Every weekday lunch out is 3 days at a beach resort every year.'}},
+
+{id:'f006',cat:'food',habit:'Drinks out every Friday',ex_cost:{eu:15.00,us:20.00,uk:15.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €780. In 5 years: €3,900.',experiential:'€780/year is a 4-night city break in Amsterdam with flights and hotel.',identity:'52 Friday drinks equal one European city break per year.'},
+ us:{temporal:'In 1 year: $1,040. In 5 years: $5,200.',experiential:'$1,040/year is a long weekend in New Orleans — flights, hotel, and all the food you want.',identity:'52 Friday nights equal a proper American city trip every year.'},
+ uk:{temporal:'In 1 year: £780. In 5 years: £3,900.',experiential:'£780/year is a 4-night EasyJet city break to Prague, Krakow, or Porto.',identity:'52 Friday nights out equal one European city break per year.'}},
+
+{id:'f007',cat:'food',habit:'Takeaway dinner Friday night',ex_cost:{eu:22.00,us:28.00,uk:22.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,144. In 5 years: €5,720.',experiential:'€1,144/year is a return flight Milan–Tokyo plus spending money.',identity:'Every Friday night takeaway is a weekend in Japan — once a year.'},
+ us:{temporal:'In 1 year: $1,456. In 5 years: $7,280.',experiential:'$1,456/year is a round-trip flight New York–Los Angeles plus 4 nights at a West Hollywood hotel.',identity:'Every Friday night takeaway is a California trip every year.'},
+ uk:{temporal:'In 1 year: £1,144. In 5 years: £5,720.',experiential:'£1,144/year is a return flight London–Bangkok plus 5 nights in Bangkok.',identity:'Every Friday night takeaway is a Thailand trip every year.'}},
+
+{id:'f008',cat:'food',habit:'Daily energy drink (Red Bull)',ex_cost:{eu:2.50,us:3.00,uk:2.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €912. In 5 years: €4,562.',experiential:'€912/year is a return flight Milan–Tokyo during low season.',identity:'You\'re drinking a Tokyo flight every year.'},
+ us:{temporal:'In 1 year: $1,095. In 5 years: $5,475.',experiential:'$1,095/year is a round-trip flight New York–Tokyo in economy low season.',identity:'You\'re drinking a Tokyo flight every year.'},
+ uk:{temporal:'In 1 year: £912. In 5 years: £4,562.',experiential:'£912/year is a return flight London–Tokyo in low season.',identity:'You\'re drinking a Tokyo flight every year.'}},
+
+{id:'f009',cat:'food',habit:'Bottled water (daily)',ex_cost:{eu:1.50,us:2.00,uk:1.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year vs €72/year for a premium BRITA filter. You\'re paying 7x more for plastic.',identity:'You\'re paying 7x more for water in plastic than you need to.'},
+ us:{temporal:'In 1 year: $730. In 5 years: $3,650.',experiential:'$730/year vs $80/year for a Brita pitcher. Same water, 9x cheaper.',identity:'You\'re paying 9x more for water in plastic than you need to.'},
+ uk:{temporal:'In 1 year: £547. In 5 years: £2,737.',experiential:'£547/year vs £60/year for a BRITA filter. Same water, 9x cheaper.',identity:'You\'re paying 9x more for water in plastic than you need to.'}},
+
+{id:'f010',cat:'food',habit:'Coffee machine pods (daily)',ex_cost:{eu:0.50,us:0.75,uk:0.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €182. In 5 years: €912.',experiential:'€182/year buys a premium AeroPress, 1kg specialty coffee, and you still have €50 left.',identity:'Pod coffee costs 5x more per cup than ground. You\'re paying to be convenient.'},
+ us:{temporal:'In 1 year: $273. In 5 years: $1,365.',experiential:'$273/year buys a Chemex, 2lbs of specialty beans, and you still have $100 left.',identity:'Pod coffee costs 5x more per cup than ground. You\'re paying to be convenient.'},
+ uk:{temporal:'In 1 year: £182. In 5 years: £912.',experiential:'£182/year buys a premium AeroPress, 1kg specialty beans, and you still have £40 left.',identity:'Pod coffee costs 5x more per cup than ground. You\'re paying to be convenient.'}},
+
+{id:'f011',cat:'food',habit:'Weekend brunch out',ex_cost:{eu:25.00,us:35.00,uk:25.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a 7-night Airbnb in Lisbon plus flights.',identity:'Every weekend brunch is a week in Lisbon — you could have both.'},
+ us:{temporal:'In 1 year: $1,820. In 5 years: $9,100.',experiential:'$1,820/year is a 10-day road trip to the Grand Canyon, Zion, and Bryce Canyon — car and hotels included.',identity:'Every weekend brunch is a national parks road trip once a year.'},
+ uk:{temporal:'In 1 year: £1,300. In 5 years: £6,500.',experiential:'£1,300/year is a 7-night Airbnb in Lisbon or Seville plus EasyJet flights.',identity:'Every weekend brunch is a week in Lisbon — you could have both.'}},
+
+{id:'f012',cat:'food',habit:'Trendy breakfast daily (avocado toast / smoothie bowl)',ex_cost:{eu:9.00,us:12.00,uk:9.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €2,340. In 5 years: €11,700.',experiential:'€2,340/year is a Business Class return Milan–Paris plus a week in a 4-star Paris hotel.',identity:'Your trendy breakfasts cost a Parisian luxury trip every year.'},
+ us:{temporal:'In 1 year: $3,120. In 5 years: $15,600.',experiential:'$3,120/year is a 2-week luxury trip to Japan — round-trip flights and hotels included.',identity:'Your trendy breakfasts cost a Japan trip every year.'},
+ uk:{temporal:'In 1 year: £2,340. In 5 years: £11,700.',experiential:'£2,340/year is a Business Class return London–New York on British Airways.',identity:'Your trendy breakfasts cost a transatlantic Business Class trip every year.'}},
 
 // TRANSPORT
-{id:'t001',cat:'transport',habit:'Daily Uber/Bolt to work',ex_cost:15.00,ex_freq:260,temporal:'In 1 year: €3,900. In 5 years: €19,500.',experiential:'€3,900/year is 3 months rent for a room in Milan (avg 2026: €1,200/month) — you\'re paying a 4th month\'s rent in rideshares.',identity:'You\'re renting an apartment you never live in.'},
-{id:'t002',cat:'transport',habit:'Taxi instead of metro (weekly)',ex_cost:12.00,ex_freq:52,temporal:'In 1 year: €624. In 5 years: €3,120.',experiential:'€624/year is a 3-day/2-night trip to Venice with a 4-star hotel.',identity:'Every weekly taxi is a Venice getaway, every single year.'},
-{id:'t003',cat:'transport',habit:'Monthly car parking in city center',ex_cost:120.00,ex_freq:12,temporal:'In 1 year: €1,440. In 5 years: €7,200.',experiential:'€1,440/year is a return flight Milan–Buenos Aires (avg 2026: €980) plus 3 nights hotel.',identity:'Your parking spot is a South America trip every year.'},
-{id:'t004',cat:'transport',habit:'Fuel for car used only in city',ex_cost:80.00,ex_freq:12,temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is an annual Trenitalia pass for unlimited travel across Italy.',identity:'You\'re spending a year of Italian rail travel to sit in traffic.'},
-{id:'t005',cat:'transport',habit:'Premium car wash (weekly)',ex_cost:15.00,ex_freq:52,temporal:'In 1 year: €780. In 5 years: €3,900.',experiential:'€780/year is 4 nights in a 5-star hotel in Rome (avg Booking.com 2026: €180/night).',identity:'You\'re spending a luxury Roman holiday keeping your car clean.'},
+{id:'t001',cat:'transport',habit:'Daily Uber/rideshare to work',ex_cost:{eu:15.00,us:20.00,uk:15.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €3,900. In 5 years: €19,500.',experiential:'€3,900/year is 3 months rent for a room in Milan (avg 2026: €1,200/month).',identity:'You\'re renting an apartment you never live in.'},
+ us:{temporal:'In 1 year: $5,200. In 5 years: $26,000.',experiential:'$5,200/year is 3 months rent for a 1-bed in Austin, TX (avg 2026: ~$1,500/month).',identity:'You\'re renting an apartment you never live in.'},
+ uk:{temporal:'In 1 year: £3,900. In 5 years: £19,500.',experiential:'£3,900/year is 3 months rent for a room in London (avg 2026: £1,200/month).',identity:'You\'re renting a flat you never live in.'}},
+
+{id:'t002',cat:'transport',habit:'Taxi instead of metro (weekly)',ex_cost:{eu:12.00,us:18.00,uk:12.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €624. In 5 years: €3,120.',experiential:'€624/year is a 3-day/2-night trip to Venice with a 4-star hotel.',identity:'Every weekly taxi is a Venice getaway, every single year.'},
+ us:{temporal:'In 1 year: $936. In 5 years: $4,680.',experiential:'$936/year is a long weekend in Nashville — flights, hotel, honky-tonks.',identity:'Every weekly cab is a Nashville weekend, every single year.'},
+ uk:{temporal:'In 1 year: £624. In 5 years: £3,120.',experiential:'£624/year is a 3-day city break in Edinburgh with a boutique hotel.',identity:'Every weekly cab is a Scottish city break, every single year.'}},
+
+{id:'t003',cat:'transport',habit:'Monthly car parking in city center',ex_cost:{eu:120.00,us:200.00,uk:120.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €1,440. In 5 years: €7,200.',experiential:'€1,440/year is a return flight Milan–Buenos Aires plus 3 nights hotel.',identity:'Your parking spot is a South America trip every year.'},
+ us:{temporal:'In 1 year: $2,400. In 5 years: $12,000.',experiential:'$2,400/year is a 10-day Safari in Tanzania (5 nights, avg 2026).',identity:'Your parking spot is an African Safari every year.'},
+ uk:{temporal:'In 1 year: £1,440. In 5 years: £7,200.',experiential:'£1,440/year is a return flight London–Buenos Aires plus 3 nights hotel.',identity:'Your parking spot is a South America trip every year.'}},
+
+{id:'t004',cat:'transport',habit:'Car used only in city (fuel cost)',ex_cost:{eu:80.00,us:120.00,uk:80.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is an annual Trenitalia pass for unlimited travel across Italy.',identity:'You\'re spending a year of rail travel to sit in traffic.'},
+ us:{temporal:'In 1 year: $1,440. In 5 years: $7,200.',experiential:'$1,440/year is an Amtrak USA Rail Pass — unlimited train travel coast to coast.',identity:'You\'re spending a year of rail travel to sit in traffic.'},
+ uk:{temporal:'In 1 year: £960. In 5 years: £4,800.',experiential:'£960/year is an annual National Rail pass covering unlimited travel across the UK.',identity:'You\'re spending a year of rail travel to sit in traffic.'}},
+
+{id:'t005',cat:'transport',habit:'Premium car wash (weekly)',ex_cost:{eu:15.00,us:20.00,uk:15.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €780. In 5 years: €3,900.',experiential:'€780/year is 4 nights in a 5-star hotel in Rome.',identity:'You\'re spending a luxury Roman holiday keeping your car clean.'},
+ us:{temporal:'In 1 year: $1,040. In 5 years: $5,200.',experiential:'$1,040/year is 5 nights at a 4-star hotel in New Orleans.',identity:'You\'re spending a New Orleans trip keeping your car clean.'},
+ uk:{temporal:'In 1 year: £780. In 5 years: £3,900.',experiential:'£780/year is 4 nights in a 4-star London hotel or a countryside short break.',identity:'You\'re spending a UK luxury break keeping your car clean.'}},
 
 // SUBSCRIPTIONS
-{id:'s001',cat:'subscriptions',habit:'Netflix (Standard)',ex_cost:17.99,ex_freq:12,temporal:'In 1 year: €215. In 5 years: €1,079.',experiential:'€215/year is a return flight Milan–London (Ryanair avg 2026: €80–€150) plus a night in a central hotel.',identity:'You\'re paying to watch other people live interesting lives.'},
-{id:'s002',cat:'subscriptions',habit:'Spotify Premium',ex_cost:11.99,ex_freq:12,temporal:'In 1 year: €143. In 5 years: €719.',experiential:'€143/year is 3 live concerts (avg €45 each) of actual music with actual humans.',identity:'You\'re paying €143 for music you\'d pay €143 to experience live.'},
-{id:'s003',cat:'subscriptions',habit:'Netflix + Spotify + Prime + Disney+',ex_cost:52.96,ex_freq:12,temporal:'In 1 year: €635. In 5 years: €3,178.',experiential:'€635/year is a return flight Milan–Mykonos plus 5 nights in a hotel with a pool.',identity:'You\'re paying for a Greek island holiday to sit on a sofa.'},
-{id:'s004',cat:'subscriptions',habit:'Gym membership never used',ex_cost:50.00,ex_freq:12,temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is 4 return flights to Barcelona (Ryanair avg 2026: €120–€150 return).',identity:'You\'re funding a gym that funds a building you never enter.'},
-{id:'s005',cat:'subscriptions',habit:'Amazon Prime',ex_cost:4.99,ex_freq:12,temporal:'In 1 year: €59. In 5 years: €299.',experiential:'€59/year sounds cheap — but it exists to make you spend more. Prime users spend €800/year more on Amazon than non-Prime users.',identity:'Prime isn\'t a subscription. It\'s a spending accelerator.'},
-{id:'s006',cat:'subscriptions',habit:'LinkedIn Premium',ex_cost:39.99,ex_freq:12,temporal:'In 1 year: €479. In 5 years: €2,399.',experiential:'€479/year is a 3-day business communication course in London that would do more for your career.',identity:'You\'re paying for the illusion of networking instead of actually networking.'},
-{id:'s007',cat:'subscriptions',habit:'Unused software subscriptions (avg)',ex_cost:30.00,ex_freq:12,temporal:'In 1 year: €360. In 5 years: €1,800.',experiential:'€360/year is a 2-night stay in a 5-star hotel in Milan.',identity:'You\'re paying for tools you don\'t use to feel like you might someday use them.'},
+{id:'s001',cat:'subscriptions',habit:'Netflix (Standard)',ex_cost:{eu:17.99,us:15.49,uk:17.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €215. In 5 years: €1,079.',experiential:'€215/year is a return flight Milan–London plus a night in a central hotel.',identity:'You\'re paying to watch other people live interesting lives.'},
+ us:{temporal:'In 1 year: $185. In 5 years: $929.',experiential:'$185/year is a round-trip Frontier flight to Vegas or Miami — and you\'d have $50 left.',identity:'You\'re paying to watch other people live interesting lives.'},
+ uk:{temporal:'In 1 year: £215. In 5 years: £1,079.',experiential:'£215/year is a return EasyJet flight to Rome or Lisbon plus a night in a central hotel.',identity:'You\'re paying to watch other people live interesting lives.'}},
+
+{id:'s002',cat:'subscriptions',habit:'Spotify Premium',ex_cost:{eu:11.99,us:11.99,uk:11.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €143. In 5 years: €719.',experiential:'€143/year is 3 live concerts of actual music with actual humans.',identity:'You\'re paying €143 for music you\'d pay €143 to experience live.'},
+ us:{temporal:'In 1 year: $143. In 5 years: $719.',experiential:'$143/year is 2 live concert tickets at a mid-size venue.',identity:'You\'re paying $143 for music you\'d pay $143 to experience live.'},
+ uk:{temporal:'In 1 year: £143. In 5 years: £719.',experiential:'£143/year is 2-3 live gigs at a proper venue.',identity:'You\'re paying £143 for music you\'d pay £143 to experience live.'}},
+
+{id:'s003',cat:'subscriptions',habit:'Netflix + Spotify + Prime + Disney+',ex_cost:{eu:52.96,us:47.96,uk:52.96},ex_freq:12,
+ eu:{temporal:'In 1 year: €635. In 5 years: €3,178.',experiential:'€635/year is a return flight Milan–Mykonos plus 5 nights in a hotel with a pool.',identity:'You\'re paying for a Greek island holiday to sit on a sofa.'},
+ us:{temporal:'In 1 year: $575. In 5 years: $2,879.',experiential:'$575/year is a round-trip flight New York–New Orleans plus 3 nights at a French Quarter hotel.',identity:'You\'re paying for a proper US city trip to sit on a sofa.'},
+ uk:{temporal:'In 1 year: £635. In 5 years: £3,178.',experiential:'£635/year is a return flight London–Santorini plus 4 nights in a clifftop hotel.',identity:'You\'re paying for a Greek island holiday to sit on a sofa.'}},
+
+{id:'s004',cat:'subscriptions',habit:'Gym membership never used',ex_cost:{eu:50.00,us:50.00,uk:50.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is 4 return flights to Barcelona.',identity:'You\'re funding a gym that funds a building you never enter.'},
+ us:{temporal:'In 1 year: $600. In 5 years: $3,000.',experiential:'$600/year is 3 round-trip Spirit flights to Miami, Vegas, or Cancún.',identity:'You\'re funding a gym that funds a building you never enter.'},
+ uk:{temporal:'In 1 year: £600. In 5 years: £3,000.',experiential:'£600/year is 4 return EasyJet flights to any European city you\'ve always wanted to visit.',identity:'You\'re funding a gym that funds a building you never enter.'}},
+
+{id:'s005',cat:'subscriptions',habit:'Amazon Prime',ex_cost:{eu:4.99,us:14.99,uk:8.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €59. In 5 years: €299.',experiential:'€59 sounds cheap — but Prime users spend €800/year more on Amazon than non-Prime users.',identity:'Prime isn\'t a subscription. It\'s a spending accelerator.'},
+ us:{temporal:'In 1 year: $179. In 5 years: $899.',experiential:'$179 sounds reasonable — but Prime members spend $1,400/year more on Amazon than non-members.',identity:'Prime isn\'t a subscription. It\'s a spending accelerator.'},
+ uk:{temporal:'In 1 year: £107. In 5 years: £539.',experiential:'£107 sounds fine — but Prime users spend £600+/year more on Amazon than non-Prime users.',identity:'Prime isn\'t a subscription. It\'s a spending accelerator.'}},
+
+{id:'s006',cat:'subscriptions',habit:'LinkedIn Premium',ex_cost:{eu:39.99,us:39.99,uk:39.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €479. In 5 years: €2,399.',experiential:'€479/year is a 3-day professional course in London that would do more for your career.',identity:'You\'re paying for the illusion of networking instead of actually networking.'},
+ us:{temporal:'In 1 year: $479. In 5 years: $2,399.',experiential:'$479/year is a 2-day professional skills bootcamp in NYC.',identity:'You\'re paying for the illusion of networking instead of actually networking.'},
+ uk:{temporal:'In 1 year: £479. In 5 years: £2,399.',experiential:'£479/year is a professional development course in London that would do more for your career.',identity:'You\'re paying for the illusion of networking instead of actually networking.'}},
+
+{id:'s007',cat:'subscriptions',habit:'Unused software subscriptions (avg)',ex_cost:{eu:30.00,us:30.00,uk:30.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €360. In 5 years: €1,800.',experiential:'€360/year is a 2-night stay in a 5-star hotel in Milan.',identity:'You\'re paying for tools you don\'t use to feel like you might someday use them.'},
+ us:{temporal:'In 1 year: $360. In 5 years: $1,800.',experiential:'$360/year is a weekend at a boutique hotel in Nashville or Charleston.',identity:'You\'re paying for tools you don\'t use to feel like you might someday use them.'},
+ uk:{temporal:'In 1 year: £360. In 5 years: £1,800.',experiential:'£360/year is a 2-night stay in a 5-star country house hotel in the Cotswolds.',identity:'You\'re paying for tools you don\'t use to feel like you might someday use them.'}},
 
 // LIFESTYLE
-{id:'l001',cat:'lifestyle',habit:'Manicure/pedicure (monthly)',ex_cost:50.00,ex_freq:12,temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is a flight to Tokyo and 2 nights in a capsule hotel.',identity:'Your nails are costing you Japan.'},
-{id:'l002',cat:'lifestyle',habit:'Clothes shopping (impulse, monthly)',ex_cost:100.00,ex_freq:12,temporal:'In 1 year: €1,200. In 5 years: €6,000.',experiential:'€1,200/year is a return Business Class ticket Milan–New York on Alitalia (sale avg 2026: €950–€1,400).',identity:'You\'re buying clothes you\'ll wear twice when you could be flying Business Class.'},
-{id:'l003',cat:'lifestyle',habit:'Hairdresser (monthly, premium salon)',ex_cost:80.00,ex_freq:12,temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is a 7-night all-inclusive in Tunisia (avg Booking.com 2026: €800–€1,100).',identity:'Your hair is costing you a Mediterranean holiday every year.'},
-{id:'l004',cat:'lifestyle',habit:'Latest iPhone every year',ex_cost:1199.00,ex_freq:1,temporal:'Every 3 years instead of 1: you save €2,398.',experiential:'€1,199/year is a month-long backpacking trip across Southeast Asia (Thailand, Vietnam, Cambodia — avg budget €40/day).',identity:'You\'re replacing a phone that still works to have one that works the same.'},
-{id:'l005',cat:'lifestyle',habit:'Impulse Amazon purchase (weekly)',ex_cost:25.00,ex_freq:52,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is 7 nights in a 4-star hotel in Barcelona (avg Booking.com 2026: €150/night).',identity:'Every "Add to Cart" click is a night in Barcelona you\'re not taking.'},
-{id:'l006',cat:'lifestyle',habit:'Beauty products subscription box',ex_cost:35.00,ex_freq:12,temporal:'In 1 year: €420. In 5 years: €2,100.',experiential:'€420/year is a 3-night spa break in a 4-star wellness hotel in Trentino.',identity:'You\'re buying samples of luxury to feel like you have it.'},
-{id:'l007',cat:'lifestyle',habit:'Home cleaning service (bi-weekly)',ex_cost:80.00,ex_freq:24,temporal:'In 1 year: €1,920. In 5 years: €9,600.',experiential:'€1,920/year is a 10-night trip to Japan — flights (€555 return) plus hotels and food.',identity:'Your clean apartment costs a Japan trip every year.'},
-{id:'l008',cat:'lifestyle',habit:'Luxury candles (monthly)',ex_cost:45.00,ex_freq:12,temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year is 3 nights in an agriturismo in Tuscany with wine tasting included.',identity:'You\'re burning €540 a year. Literally.'},
-{id:'l009',cat:'lifestyle',habit:'Branded sportswear (monthly purchase)',ex_cost:60.00,ex_freq:12,temporal:'In 1 year: €720. In 5 years: €3,600.',experiential:'€720/year is a return flight to New York and 1 night in a Manhattan hotel.',identity:'You\'re buying clothes to look like you work out instead of working out.'},
-{id:'l010',cat:'lifestyle',habit:'Premium skincare routine (monthly)',ex_cost:90.00,ex_freq:12,temporal:'In 1 year: €1,080. In 5 years: €5,400.',experiential:'€1,080/year is a 7-night Airbnb in Santorini (avg summer 2026: €900–€1,200) with flights.',identity:'Your skincare costs a Greek island summer every year.'},
-{id:'l011',cat:'lifestyle',habit:'Weekly fresh flowers',ex_cost:20.00,ex_freq:52,temporal:'In 1 year: €1,040. In 5 years: €5,200.',experiential:'€1,040/year is a return flight Milan–Bangkok (avg 2026: €550) plus 7 nights in a 3-star hotel.',identity:'You\'re spending Thailand on flowers that die in 5 days.'},
-{id:'l012',cat:'lifestyle',habit:'Interior decoration (monthly impulse)',ex_cost:75.00,ex_freq:12,temporal:'In 1 year: €900. In 5 years: €4,500.',experiential:'€900/year is an Airbnb in a different European city every month for a long weekend.',identity:'You\'re decorating a home you could be leaving more often.'},
+{id:'l001',cat:'lifestyle',habit:'Manicure/pedicure (monthly)',ex_cost:{eu:50.00,us:60.00,uk:50.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is a flight to Tokyo and 2 nights in a capsule hotel.',identity:'Your nails are costing you Japan.'},
+ us:{temporal:'In 1 year: $720. In 5 years: $3,600.',experiential:'$720/year is a round-trip flight LA–New York plus 3 nights in a Manhattan hotel.',identity:'Your nails are costing you New York.'},
+ uk:{temporal:'In 1 year: £600. In 5 years: £3,000.',experiential:'£600/year is a return flight to Tokyo and 2 nights in a Tokyo capsule hotel.',identity:'Your nails are costing you Japan.'}},
+
+{id:'l002',cat:'lifestyle',habit:'Clothes shopping (impulse, monthly)',ex_cost:{eu:100.00,us:120.00,uk:100.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €1,200. In 5 years: €6,000.',experiential:'€1,200/year is a Business Class return Milan–New York.',identity:'You\'re buying clothes you\'ll wear twice when you could be flying Business Class.'},
+ us:{temporal:'In 1 year: $1,440. In 5 years: $7,200.',experiential:'$1,440/year is a 10-day road trip from LA to Nashville — car rental, hotels, everything.',identity:'You\'re buying clothes you\'ll wear twice when you could be road-tripping across America.'},
+ uk:{temporal:'In 1 year: £1,200. In 5 years: £6,000.',experiential:'£1,200/year is a Business Class return London–New York on British Airways.',identity:'You\'re buying clothes you\'ll wear twice when you could be flying Business Class.'}},
+
+{id:'l003',cat:'lifestyle',habit:'Hairdresser (monthly, premium salon)',ex_cost:{eu:80.00,us:100.00,uk:80.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is a 7-night all-inclusive in Tunisia.',identity:'Your hair is costing you a Mediterranean holiday every year.'},
+ us:{temporal:'In 1 year: $1,200. In 5 years: $6,000.',experiential:'$1,200/year is a 7-night all-inclusive in Cancún or Punta Cana.',identity:'Your hair is costing you a Caribbean holiday every year.'},
+ uk:{temporal:'In 1 year: £960. In 5 years: £4,800.',experiential:'£960/year is a 7-night all-inclusive in Turkey or Egypt.',identity:'Your hair is costing you a Mediterranean holiday every year.'}},
+
+{id:'l004',cat:'lifestyle',habit:'Latest iPhone every year',ex_cost:{eu:1199.00,us:1199.00,uk:1199.00},ex_freq:1,
+ eu:{temporal:'Every 3 years instead of 1: you save €2,398.',experiential:'€1,199/year is a month-long backpacking trip across Southeast Asia.',identity:'You\'re replacing a phone that still works to have one that works the same.'},
+ us:{temporal:'Every 3 years instead of 1: you save $2,398.',experiential:'$1,199/year is a month-long trip across Southeast Asia — Thailand, Vietnam, Bali.',identity:'You\'re replacing a phone that still works to have one that works the same.'},
+ uk:{temporal:'Every 3 years instead of 1: you save £2,398.',experiential:'£1,199/year is a month-long backpacking trip across Southeast Asia.',identity:'You\'re replacing a phone that still works to have one that works the same.'}},
+
+{id:'l005',cat:'lifestyle',habit:'Impulse online purchase (weekly)',ex_cost:{eu:25.00,us:30.00,uk:25.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is 7 nights in a 4-star hotel in Barcelona.',identity:'Every "Add to Cart" click is a night in Barcelona you\'re not taking.'},
+ us:{temporal:'In 1 year: $1,560. In 5 years: $7,800.',experiential:'$1,560/year is a 10-day guided tour of Peru with Machu Picchu.',identity:'Every "Add to Cart" click is a day in Peru you\'re not taking.'},
+ uk:{temporal:'In 1 year: £1,300. In 5 years: £6,500.',experiential:'£1,300/year is 7 nights in a 4-star hotel in Lisbon, Porto, or Barcelona.',identity:'Every "Add to Cart" click is a night in Lisbon you\'re not taking.'}},
+
+{id:'l006',cat:'lifestyle',habit:'Beauty products subscription box',ex_cost:{eu:35.00,us:45.00,uk:35.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €420. In 5 years: €2,100.',experiential:'€420/year is a 3-night spa break in a 4-star wellness hotel in Trentino.',identity:'You\'re buying samples of luxury to feel like you have it.'},
+ us:{temporal:'In 1 year: $540. In 5 years: $2,700.',experiential:'$540/year is a 3-night wellness retreat at a spa resort in Sedona, Arizona.',identity:'You\'re buying samples of luxury to feel like you have it.'},
+ uk:{temporal:'In 1 year: £420. In 5 years: £2,100.',experiential:'£420/year is a 3-night spa break in a 4-star wellness hotel in the Lake District.',identity:'You\'re buying samples of luxury to feel like you have it.'}},
+
+{id:'l007',cat:'lifestyle',habit:'Home cleaning service (bi-weekly)',ex_cost:{eu:80.00,us:100.00,uk:80.00},ex_freq:24,
+ eu:{temporal:'In 1 year: €1,920. In 5 years: €9,600.',experiential:'€1,920/year is a 10-night trip to Japan — flights plus hotels and food.',identity:'Your clean apartment costs a Japan trip every year.'},
+ us:{temporal:'In 1 year: $2,400. In 5 years: $12,000.',experiential:'$2,400/year is a 2-week trip to Japan — round-trip flights and ryokan hotels.',identity:'Your clean home costs a Japan trip every year.'},
+ uk:{temporal:'In 1 year: £1,920. In 5 years: £9,600.',experiential:'£1,920/year is a 10-night trip to Japan — return flights plus hotels and food.',identity:'Your clean flat costs a Japan trip every year.'}},
+
+{id:'l008',cat:'lifestyle',habit:'Luxury candles (monthly)',ex_cost:{eu:45.00,us:50.00,uk:45.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year is 3 nights in an agriturismo in Tuscany with wine tasting.',identity:'You\'re burning €540 a year. Literally.'},
+ us:{temporal:'In 1 year: $600. In 5 years: $3,000.',experiential:'$600/year is 3 nights at a boutique inn in Napa Valley with wine tasting.',identity:'You\'re burning $600 a year. Literally.'},
+ uk:{temporal:'In 1 year: £540. In 5 years: £2,700.',experiential:'£540/year is a 3-night countryside break with afternoon tea and a spa session.',identity:'You\'re burning £540 a year. Literally.'}},
+
+{id:'l009',cat:'lifestyle',habit:'Branded sportswear (monthly purchase)',ex_cost:{eu:60.00,us:80.00,uk:60.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €720. In 5 years: €3,600.',experiential:'€720/year is a return flight to New York and 1 night in a Manhattan hotel.',identity:'You\'re buying clothes to look like you work out instead of working out.'},
+ us:{temporal:'In 1 year: $960. In 5 years: $4,800.',experiential:'$960/year is a week-long ski trip to Colorado — lift pass and accommodation.',identity:'You\'re buying clothes to look like you work out instead of working out.'},
+ uk:{temporal:'In 1 year: £720. In 5 years: £3,600.',experiential:'£720/year is a return flight to New York plus a night in a Manhattan hotel.',identity:'You\'re buying clothes to look like you work out instead of working out.'}},
+
+{id:'l010',cat:'lifestyle',habit:'Premium skincare routine (monthly)',ex_cost:{eu:90.00,us:120.00,uk:90.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €1,080. In 5 years: €5,400.',experiential:'€1,080/year is a 7-night Airbnb in Santorini with flights.',identity:'Your skincare costs a Greek island summer every year.'},
+ us:{temporal:'In 1 year: $1,440. In 5 years: $7,200.',experiential:'$1,440/year is a 7-night all-inclusive in Hawaii — flights from the West Coast, resort, everything.',identity:'Your skincare costs a Hawaii trip every year.'},
+ uk:{temporal:'In 1 year: £1,080. In 5 years: £5,400.',experiential:'£1,080/year is a 7-night Airbnb in Santorini or Mykonos with EasyJet flights.',identity:'Your skincare costs a Greek island summer every year.'}},
+
+{id:'l011',cat:'lifestyle',habit:'Weekly fresh flowers',ex_cost:{eu:20.00,us:25.00,uk:20.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,040. In 5 years: €5,200.',experiential:'€1,040/year is a return flight Milan–Bangkok plus 7 nights in a 3-star hotel.',identity:'You\'re spending Thailand on flowers that die in 5 days.'},
+ us:{temporal:'In 1 year: $1,300. In 5 years: $6,500.',experiential:'$1,300/year is a week in Thailand — return flights from LA and 7 nights in Bangkok.',identity:'You\'re spending Thailand on flowers that die in 5 days.'},
+ uk:{temporal:'In 1 year: £1,040. In 5 years: £5,200.',experiential:'£1,040/year is a return flight London–Bangkok plus 7 nights in Bangkok.',identity:'You\'re spending Thailand on flowers that die in 5 days.'}},
+
+{id:'l012',cat:'lifestyle',habit:'Interior decoration (monthly impulse)',ex_cost:{eu:75.00,us:100.00,uk:75.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €900. In 5 years: €4,500.',experiential:'€900/year is an Airbnb city break in a different European city every month.',identity:'You\'re decorating a home you could be leaving more often.'},
+ us:{temporal:'In 1 year: $1,200. In 5 years: $6,000.',experiential:'$1,200/year is a 7-night Caribbean cruise or a fly-drive across the Southwest.',identity:'You\'re decorating a home you could be leaving more often.'},
+ uk:{temporal:'In 1 year: £900. In 5 years: £4,500.',experiential:'£900/year is an Airbnb weekend in a different European city every other month.',identity:'You\'re decorating a home you could be leaving more often.'}},
 
 // VICES
-{id:'v001',cat:'vice',habit:'Pack of cigarettes daily',ex_cost:6.00,ex_freq:365,temporal:'In 1 year: €2,190. In 5 years: €10,950.',experiential:'€2,190/year is 10 nights in a 4-star resort in the Maldives (all-inclusive avg 2026: €200/night).',identity:'Every cigarette is 2 minutes of your life and €0.30. Every year is the Maldives.'},
-{id:'v002',cat:'vice',habit:'Half pack of cigarettes daily',ex_cost:3.00,ex_freq:365,temporal:'In 1 year: €1,095. In 5 years: €5,475.',experiential:'€1,095/year is a return flight Milan–Tokyo (€555) plus 3 nights in a Tokyo hotel.',identity:'Half a pack a day costs you Japan every year.'},
-{id:'v003',cat:'vice',habit:'Craft beer (4 per week)',ex_cost:5.00,ex_freq:208,temporal:'In 1 year: €1,040. In 5 years: €5,200.',experiential:'€1,040/year is a 7-night camper van road trip across Scotland.',identity:'Your craft beers are costing you a road trip across Europe every year.'},
-{id:'v004',cat:'vice',habit:'Scratch cards (weekly)',ex_cost:10.00,ex_freq:52,temporal:'In 1 year: €520. In 5 years: €2,600.',experiential:'€520/year is 3 nights in a 5-star hotel in Paris (avg 2026: €160/night).',identity:'You\'re paying €520 for the certainty of almost certainly losing.'},
-{id:'v005',cat:'vice',habit:'Sports betting (weekly avg loss)',ex_cost:30.00,ex_freq:52,temporal:'In 1 year: €1,560. In 5 years: €7,800.',experiential:'€1,560/year is a 10-day guided tour of Peru including Machu Picchu (avg 2026: €1,400–€1,800).',identity:'You\'re losing Peru every year to a system mathematically designed to win.'},
-{id:'v006',cat:'vice',habit:'Vaping (daily)',ex_cost:4.00,ex_freq:365,temporal:'In 1 year: €1,460. In 5 years: €7,300.',experiential:'€1,460/year is a 14-night cruise in the Mediterranean (MSC avg 2026: €1,200–€1,800).',identity:'You\'re inhaling a Mediterranean cruise every year.'},
-{id:'v007',cat:'vice',habit:'Alcohol: wine bottle twice a week',ex_cost:12.00,ex_freq:104,temporal:'In 1 year: €1,248. In 5 years: €6,240.',experiential:'€1,248/year is a return flight to Cape Town (avg 2026: €750) plus 3 nights in a V&A Waterfront hotel.',identity:'Your wine habit costs you South Africa every year.'},
-{id:'v008',cat:'vice',habit:'Friday night cocktails (3)',ex_cost:36.00,ex_freq:52,temporal:'In 1 year: €1,872. In 5 years: €9,360.',experiential:'€1,872/year is a 7-night surf camp in the Canary Islands, flights and accommodation included.',identity:'Every Friday cocktail round is 1 day of a Canary Islands surf holiday.'},
+{id:'v001',cat:'vice',habit:'Pack of cigarettes daily',ex_cost:{eu:6.00,us:9.00,uk:14.00},ex_freq:365,
+ eu:{temporal:'In 1 year: €2,190. In 5 years: €10,950.',experiential:'€2,190/year is 10 nights in a 4-star Maldives resort all-inclusive.',identity:'Every cigarette is 2 minutes of your life. Every year is the Maldives.'},
+ us:{temporal:'In 1 year: $3,285. In 5 years: $16,425.',experiential:'$3,285/year is a 2-week Business Class trip to Japan — flights and hotels.',identity:'Every cigarette is 2 minutes of your life. Every year is Japan in Business Class.'},
+ uk:{temporal:'In 1 year: £5,110. In 5 years: £25,550.',experiential:'£5,110/year is a 3-week luxury trip around Southeast Asia — Business Class, 5-star hotels.',identity:'Every cigarette is 2 minutes of your life. Every year is a luxury Asia trip.'}},
+
+{id:'v002',cat:'vice',habit:'Half pack of cigarettes daily',ex_cost:{eu:3.00,us:4.50,uk:7.00},ex_freq:365,
+ eu:{temporal:'In 1 year: €1,095. In 5 years: €5,475.',experiential:'€1,095/year is a return flight Milan–Tokyo plus 3 nights in a Tokyo hotel.',identity:'Half a pack a day costs you Japan every year.'},
+ us:{temporal:'In 1 year: $1,642. In 5 years: $8,212.',experiential:'$1,642/year is a round-trip flight New York–Tokyo plus 3 nights in Tokyo.',identity:'Half a pack a day costs you Japan every year.'},
+ uk:{temporal:'In 1 year: £2,555. In 5 years: £12,775.',experiential:'£2,555/year is a 2-week Business Class return London–Tokyo on Japan Airlines.',identity:'Half a pack a day costs you Business Class to Japan every year.'}},
+
+{id:'v003',cat:'vice',habit:'Craft beer (4 per week)',ex_cost:{eu:5.00,us:7.00,uk:5.00},ex_freq:208,
+ eu:{temporal:'In 1 year: €1,040. In 5 years: €5,200.',experiential:'€1,040/year is a 7-night camper van road trip across Scotland.',identity:'Your craft beers are costing you a road trip every year.'},
+ us:{temporal:'In 1 year: $1,456. In 5 years: $7,280.',experiential:'$1,456/year is a 10-day road trip through the Pacific Northwest — Seattle, Portland, Crater Lake.',identity:'Your craft beers are costing you a Pacific Northwest road trip every year.'},
+ uk:{temporal:'In 1 year: £1,040. In 5 years: £5,200.',experiential:'£1,040/year is a 7-night camper van road trip across Scotland or a return flight to Tokyo.',identity:'Your craft beers are costing you a proper adventure every year.'}},
+
+{id:'v004',cat:'vice',habit:'Scratch cards (weekly)',ex_cost:{eu:10.00,us:10.00,uk:10.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €520. In 5 years: €2,600.',experiential:'€520/year is 3 nights in a 5-star hotel in Paris.',identity:'You\'re paying €520 for the certainty of almost certainly losing.'},
+ us:{temporal:'In 1 year: $520. In 5 years: $2,600.',experiential:'$520/year is a long weekend in New Orleans — flights, hotel, food on Frenchmen Street.',identity:'You\'re paying $520 for the certainty of almost certainly losing.'},
+ uk:{temporal:'In 1 year: £520. In 5 years: £2,600.',experiential:'£520/year is a 3-night stay in a 5-star London hotel or a city break in Paris.',identity:'You\'re paying £520 for the certainty of almost certainly losing.'}},
+
+{id:'v005',cat:'vice',habit:'Sports betting (weekly avg loss)',ex_cost:{eu:30.00,us:40.00,uk:30.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,560. In 5 years: €7,800.',experiential:'€1,560/year is a 10-day guided tour of Peru including Machu Picchu.',identity:'You\'re losing Peru every year to a system designed to win.'},
+ us:{temporal:'In 1 year: $2,080. In 5 years: $10,400.',experiential:'$2,080/year is a 2-week trip to Southeast Asia — Thailand, Vietnam, Cambodia.',identity:'You\'re losing Southeast Asia every year to a system designed to win.'},
+ uk:{temporal:'In 1 year: £1,560. In 5 years: £7,800.',experiential:'£1,560/year is a 10-day guided Machu Picchu tour including flights.',identity:'You\'re losing Peru every year to a system designed to win.'}},
+
+{id:'v006',cat:'vice',habit:'Vaping (daily)',ex_cost:{eu:4.00,us:5.00,uk:4.00},ex_freq:365,
+ eu:{temporal:'In 1 year: €1,460. In 5 years: €7,300.',experiential:'€1,460/year is a 14-night Mediterranean cruise.',identity:'You\'re inhaling a Mediterranean cruise every year.'},
+ us:{temporal:'In 1 year: $1,825. In 5 years: $9,125.',experiential:'$1,825/year is a 7-night Caribbean cruise plus round-trip flights from any US city.',identity:'You\'re inhaling a Caribbean cruise every year.'},
+ uk:{temporal:'In 1 year: £1,460. In 5 years: £7,300.',experiential:'£1,460/year is a 14-night Mediterranean cruise or a return flight to Tokyo.',identity:'You\'re inhaling a cruise every year.'}},
+
+{id:'v007',cat:'vice',habit:'Wine bottle twice a week',ex_cost:{eu:12.00,us:20.00,uk:12.00},ex_freq:104,
+ eu:{temporal:'In 1 year: €1,248. In 5 years: €6,240.',experiential:'€1,248/year is a return flight to Cape Town plus 3 nights at the V&A Waterfront.',identity:'Your wine habit costs you South Africa every year.'},
+ us:{temporal:'In 1 year: $2,080. In 5 years: $10,400.',experiential:'$2,080/year is a 2-week trip to Southeast Asia — flights, hotels, food.',identity:'Your wine habit costs you Southeast Asia every year.'},
+ uk:{temporal:'In 1 year: £1,248. In 5 years: £6,240.',experiential:'£1,248/year is a return flight to Cape Town plus 3 nights hotel.',identity:'Your wine habit costs you South Africa every year.'}},
+
+{id:'v008',cat:'vice',habit:'Friday night cocktails (3)',ex_cost:{eu:36.00,us:45.00,uk:36.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,872. In 5 years: €9,360.',experiential:'€1,872/year is a 7-night surf camp in the Canary Islands, flights included.',identity:'Every Friday cocktail round is a day of a Canary Islands holiday.'},
+ us:{temporal:'In 1 year: $2,340. In 5 years: $11,700.',experiential:'$2,340/year is a 2-week trip to Costa Rica — flights, eco-lodge, surf lessons.',identity:'Every Friday cocktail round is a day in Costa Rica you\'re not having.'},
+ uk:{temporal:'In 1 year: £1,872. In 5 years: £9,360.',experiential:'£1,872/year is a 7-night surf camp in the Canary Islands, EasyJet flights included.',identity:'Every Friday cocktail round is a day of a Canary Islands holiday you\'re not taking.'}},
 
 // MORE FOOD
-{id:'f013',cat:'food',habit:'Protein shake / supplement daily',ex_cost:3.00,ex_freq:365,temporal:'In 1 year: €1,095. In 5 years: €5,475.',experiential:'€1,095/year is a year of CrossFit membership (avg Italy 2026: €900) plus new training gear.',identity:'You\'re spending a year of actual training on powders.'},
-{id:'f014',cat:'food',habit:'Supermarket bakery croissant daily',ex_cost:1.80,ex_freq:365,temporal:'In 1 year: €657. In 5 years: €3,285.',experiential:'€657/year is a 3-day/2-night weekend in Vienna with flights and hotel.',identity:'Your croissant habit costs you Vienna every year.'},
-{id:'f015',cat:'food',habit:'Weekend supermarket sushi delivery',ex_cost:35.00,ex_freq:52,temporal:'In 1 year: €1,820. In 5 years: €9,100.',experiential:'€1,820/year is a real 10-day trip to Japan — flights (€555) and daily sushi for €100/day for a week.',identity:'You could eat sushi in Tokyo instead of in your living room.'},
-{id:'f016',cat:'food',habit:'Office vending machine snack daily',ex_cost:1.80,ex_freq:260,temporal:'In 1 year: €468. In 5 years: €2,340.',experiential:'€468/year is a return flight Milan–Dubrovnik (avg 2026: €120) plus 5 nights in an Airbnb by the sea.',identity:'Your vending machine snacks cost a Croatian summer every year.'},
-{id:'f017',cat:'food',habit:'Meal kit subscription (weekly)',ex_cost:60.00,ex_freq:52,temporal:'In 1 year: €3,120. In 5 years: €15,600.',experiential:'€3,120/year is 6 months of a professional cooking course in Florence (avg: €500/month).',identity:'You\'re paying to replicate restaurant food at home instead of learning to cook it properly.'},
-{id:'f018',cat:'food',habit:'Juice bar fresh juice daily',ex_cost:6.00,ex_freq:260,temporal:'In 1 year: €1,560. In 5 years: €7,800.',experiential:'€1,560/year is a Vitamix blender (€600) plus a year of organic fruit — and you\'d still have €500 left.',identity:'You\'re paying to watch someone else press juice for you.'},
-{id:'f019',cat:'food',habit:'Ice cream / gelato daily (summer 3 months)',ex_cost:3.50,ex_freq:90,temporal:'In 3 months: €315. In a year of habit: €315.',experiential:'€315 is a return flight Milan–Athens (Ryanair avg 2026: €70–€120) plus 3 nights in a central hotel.',identity:'Your summer gelato habit costs a Greek holiday.'},
-{id:'f020',cat:'food',habit:'Specialty coffee beans (premium monthly)',ex_cost:25.00,ex_freq:12,temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is a 2-night stay in a design hotel in Milan with breakfast.',identity:'At least you\'re spending it on something you actually taste.'},
+{id:'f013',cat:'food',habit:'Protein shake / supplement daily',ex_cost:{eu:3.00,us:3.50,uk:3.00},ex_freq:365,
+ eu:{temporal:'In 1 year: €1,095. In 5 years: €5,475.',experiential:'€1,095/year is a full year of CrossFit membership plus new training gear.',identity:'You\'re spending a year of actual training on powders.'},
+ us:{temporal:'In 1 year: $1,277. In 5 years: $6,387.',experiential:'$1,277/year is a full year of CrossFit in any US city plus all the gear.',identity:'You\'re spending a year of actual training on powders.'},
+ uk:{temporal:'In 1 year: £1,095. In 5 years: £5,475.',experiential:'£1,095/year is a full year of CrossFit or F45 plus all your training kit.',identity:'You\'re spending a year of actual training on powders.'}},
+
+{id:'f014',cat:'food',habit:'Bakery item daily (croissant/muffin)',ex_cost:{eu:1.80,us:3.00,uk:2.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €657. In 5 years: €3,285.',experiential:'€657/year is a 3-day/2-night weekend in Vienna with flights and hotel.',identity:'Your daily pastry habit costs you Vienna every year.'},
+ us:{temporal:'In 1 year: $1,095. In 5 years: $5,475.',experiential:'$1,095/year is a round-trip flight New York–Tokyo in economy.',identity:'Your daily pastry habit costs you a Tokyo flight every year.'},
+ uk:{temporal:'In 1 year: £912. In 5 years: £4,562.',experiential:'£912/year is a return flight London–Tokyo in low season.',identity:'Your daily pastry habit costs you a Tokyo flight every year.'}},
+
+{id:'f015',cat:'food',habit:'Weekend takeaway sushi',ex_cost:{eu:35.00,us:45.00,uk:35.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,820. In 5 years: €9,100.',experiential:'€1,820/year is a real 10-day trip to Japan — flights and daily sushi at the source.',identity:'You could eat sushi in Tokyo instead of in your living room.'},
+ us:{temporal:'In 1 year: $2,340. In 5 years: $11,700.',experiential:'$2,340/year is a 10-day trip to Japan from LA — round-trip flights and 7 nights in Tokyo.',identity:'You could eat sushi in Tokyo instead of in your living room.'},
+ uk:{temporal:'In 1 year: £1,820. In 5 years: £9,100.',experiential:'£1,820/year is a real 10-day trip to Japan — return flights and sushi at the source.',identity:'You could eat sushi in Tokyo instead of in your living room.'}},
+
+{id:'f016',cat:'food',habit:'Office vending machine snack daily',ex_cost:{eu:1.80,us:2.00,uk:1.80},ex_freq:260,
+ eu:{temporal:'In 1 year: €468. In 5 years: €2,340.',experiential:'€468/year is a return flight Milan–Dubrovnik plus 5 nights by the sea.',identity:'Your vending machine snacks cost a Croatian summer every year.'},
+ us:{temporal:'In 1 year: $520. In 5 years: $2,600.',experiential:'$520/year is a round-trip flight to New Orleans or Nashville plus a night at a boutique hotel.',identity:'Your vending machine snacks cost a proper US city trip every year.'},
+ uk:{temporal:'In 1 year: £468. In 5 years: £2,340.',experiential:'£468/year is a return EasyJet flight to Dubrovnik or Split plus 4 nights by the sea.',identity:'Your vending machine snacks cost a Croatian summer every year.'}},
+
+{id:'f017',cat:'food',habit:'Meal kit subscription (weekly)',ex_cost:{eu:60.00,us:70.00,uk:60.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €3,120. In 5 years: €15,600.',experiential:'€3,120/year is 6 months of a professional cooking course in Florence.',identity:'You\'re paying to replicate restaurant food when you could learn to cook it properly.'},
+ us:{temporal:'In 1 year: $3,640. In 5 years: $18,200.',experiential:'$3,640/year is a 3-week culinary tour of Italy — cooking classes in Florence, Bologna, and Naples.',identity:'You\'re paying to replicate restaurant food when you could learn to cook it properly.'},
+ uk:{temporal:'In 1 year: £3,120. In 5 years: £15,600.',experiential:'£3,120/year is 6 months of a professional cooking course in London or Florence.',identity:'You\'re paying to replicate restaurant food when you could learn to cook it properly.'}},
+
+{id:'f018',cat:'food',habit:'Juice bar fresh juice daily',ex_cost:{eu:6.00,us:8.00,uk:6.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €1,560. In 5 years: €7,800.',experiential:'€1,560/year is a Vitamix blender plus a year of organic fruit — with €500 left.',identity:'You\'re paying to watch someone else press juice for you.'},
+ us:{temporal:'In 1 year: $2,080. In 5 years: $10,400.',experiential:'$2,080/year is a Vitamix plus a year of organic produce plus $500 left for a vacation.',identity:'You\'re paying to watch someone else press juice for you.'},
+ uk:{temporal:'In 1 year: £1,560. In 5 years: £7,800.',experiential:'£1,560/year is a Vitamix blender plus a year of organic fruit — with £400 left.',identity:'You\'re paying to watch someone else press juice for you.'}},
+
+{id:'f019',cat:'food',habit:'Ice cream / gelato daily (summer)',ex_cost:{eu:3.50,us:5.00,uk:3.50},ex_freq:90,
+ eu:{temporal:'In 3 months: €315.',experiential:'€315 is a return flight Milan–Athens plus 3 nights in a central hotel.',identity:'Your summer gelato habit costs a Greek holiday.'},
+ us:{temporal:'In 3 months: $450.',experiential:'$450 is a round-trip Spirit flight to Miami or the Bahamas.',identity:'Your summer ice cream habit costs a beach trip.'},
+ uk:{temporal:'In 3 months: £315.',experiential:'£315 is a return EasyJet flight to Athens or Rhodes plus a night in a seaside hotel.',identity:'Your summer ice cream habit costs a Greek trip.'}},
+
+{id:'f020',cat:'food',habit:'Specialty coffee beans (premium monthly)',ex_cost:{eu:25.00,us:30.00,uk:25.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is a 2-night stay in a design hotel in Milan with breakfast.',identity:'At least you\'re spending it on something you actually taste.'},
+ us:{temporal:'In 1 year: $360. In 5 years: $1,800.',experiential:'$360/year is a weekend at a boutique hotel in a US city you\'ve never visited.',identity:'At least you\'re spending it on something you actually taste.'},
+ uk:{temporal:'In 1 year: £300. In 5 years: £1,500.',experiential:'£300/year is a 2-night stay in a design hotel in Edinburgh or Manchester.',identity:'At least you\'re spending it on something you actually taste.'}},
 
 // MORE TRANSPORT
-{id:'t006',cat:'transport',habit:'Motorway tolls (daily commuter)',ex_cost:8.00,ex_freq:260,temporal:'In 1 year: €2,080. In 5 years: €10,400.',experiential:'€2,080/year is a return Business Class Milan–London (avg 2026: €800) plus a week in a Covent Garden hotel.',identity:'Your commute is costing you a Business Class holiday every year.'},
-{id:'t007',cat:'transport',habit:'Monthly parking subscription (office)',ex_cost:150.00,ex_freq:12,temporal:'In 1 year: €1,800. In 5 years: €9,000.',experiential:'€1,800/year is a 10-day road trip across the USA renting a car (avg Hertz 2026: €60/day).',identity:'You\'re paying to park instead of to drive somewhere worth going.'},
-{id:'t008',cat:'transport',habit:'Weekly car wash + interior clean',ex_cost:25.00,ex_freq:52,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a 7-night beach holiday in Sicily, all-inclusive (avg 2026: €1,100).',identity:'You\'re spending a Sicilian holiday keeping a car clean.'},
-{id:'t009',cat:'transport',habit:'Leasing premium car vs. standard',ex_cost:200.00,ex_freq:12,temporal:'In 1 year: €2,400. In 5 years: €12,000.',experiential:'€2,400/year is a premium Safari in Tanzania, 5 nights (avg 2026: €2,000–€2,800).',identity:'The premium you pay for your car every year buys an African Safari.'},
-{id:'t010',cat:'transport',habit:'Airport express train instead of metro',ex_cost:8.00,ex_freq:24,temporal:'In 1 year: €192. In 5 years: €960.',experiential:'€192/year is 2 return flights to Rome (Ryanair avg 2026: €60–€80 return).',identity:'You\'re spending 2 Roman weekends to arrive at the airport 20 minutes faster.'},
+{id:'t006',cat:'transport',habit:'Motorway tolls (daily commuter)',ex_cost:{eu:8.00,us:10.00,uk:8.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €2,080. In 5 years: €10,400.',experiential:'€2,080/year is a Business Class return Milan–London plus a week in a Covent Garden hotel.',identity:'Your commute is costing you a Business Class holiday every year.'},
+ us:{temporal:'In 1 year: $2,600. In 5 years: $13,000.',experiential:'$2,600/year is a 14-night trip to Southeast Asia — flights, hotels, food.',identity:'Your commute is costing you Southeast Asia every year.'},
+ uk:{temporal:'In 1 year: £2,080. In 5 years: £10,400.',experiential:'£2,080/year is a Business Class return London–New York on a sale fare.',identity:'Your commute is costing you a transatlantic Business Class trip every year.'}},
+
+{id:'t007',cat:'transport',habit:'Monthly parking subscription (office)',ex_cost:{eu:150.00,us:250.00,uk:150.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €1,800. In 5 years: €9,000.',experiential:'€1,800/year is a 10-day road trip across the USA renting a car.',identity:'You\'re paying to park instead of to drive somewhere worth going.'},
+ us:{temporal:'In 1 year: $3,000. In 5 years: $15,000.',experiential:'$3,000/year is a 2-week Safari in Kenya or Tanzania — flights and lodge included.',identity:'You\'re paying to park instead of to drive somewhere worth going.'},
+ uk:{temporal:'In 1 year: £1,800. In 5 years: £9,000.',experiential:'£1,800/year is a 10-day fly-drive road trip across the USA.',identity:'You\'re paying to park instead of to drive somewhere worth going.'}},
+
+{id:'t008',cat:'transport',habit:'Weekly car wash + interior clean',ex_cost:{eu:25.00,us:30.00,uk:25.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a 7-night beach holiday in Sicily, all-inclusive.',identity:'You\'re spending a Sicilian holiday keeping a car clean.'},
+ us:{temporal:'In 1 year: $1,560. In 5 years: $7,800.',experiential:'$1,560/year is a 10-day guided tour of Peru including Machu Picchu.',identity:'You\'re spending a Peru trip keeping a car clean.'},
+ uk:{temporal:'In 1 year: £1,300. In 5 years: £6,500.',experiential:'£1,300/year is a 7-night beach holiday in the Algarve or Majorca.',identity:'You\'re spending a beach holiday keeping a car clean.'}},
+
+{id:'t009',cat:'transport',habit:'Leasing premium car vs. standard',ex_cost:{eu:200.00,us:300.00,uk:200.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €2,400. In 5 years: €12,000.',experiential:'€2,400/year is a premium Safari in Tanzania, 5 nights.',identity:'The premium you pay for your car buys an African Safari every year.'},
+ us:{temporal:'In 1 year: $3,600. In 5 years: $18,000.',experiential:'$3,600/year is a month-long backpacking trip across Southeast Asia in comfort.',identity:'The premium you pay for your car buys a month in Asia every year.'},
+ uk:{temporal:'In 1 year: £2,400. In 5 years: £12,000.',experiential:'£2,400/year is a premium Safari in Kenya, 5 nights at a proper bush lodge.',identity:'The premium you pay for your car buys an African Safari every year.'}},
+
+{id:'t010',cat:'transport',habit:'Airport express instead of metro',ex_cost:{eu:8.00,us:12.00,uk:8.00},ex_freq:24,
+ eu:{temporal:'In 1 year: €192. In 5 years: €960.',experiential:'€192/year is 2 return flights to Rome.',identity:'You\'re spending 2 Roman weekends to arrive 20 minutes faster.'},
+ us:{temporal:'In 1 year: $288. In 5 years: $1,440.',experiential:'$288/year is a round-trip Spirit flight to Miami or New Orleans.',identity:'You\'re spending a beach trip to arrive 20 minutes faster.'},
+ uk:{temporal:'In 1 year: £192. In 5 years: £960.',experiential:'£192/year is 2 return EasyJet flights to Rome or Barcelona.',identity:'You\'re spending 2 European weekends to arrive 20 minutes faster.'}},
 
 // MORE SUBSCRIPTIONS
-{id:'s008',cat:'subscriptions',habit:'News paywall subscriptions (2)',ex_cost:25.00,ex_freq:12,temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is a 2-night stay in a 4-star hotel in Barcelona.',identity:'You\'re paying to read about the world instead of experiencing it.'},
-{id:'s009',cat:'subscriptions',habit:'Cloud storage (paid tier)',ex_cost:2.99,ex_freq:12,temporal:'In 1 year: €35. In 5 years: €179.',experiential:'€35/year — the cheapest habit on this list. But multiply by 10 small subscriptions and you\'re at €350.',identity:'Each subscription seems trivial. Together they\'re a flight.'},
-{id:'s010',cat:'subscriptions',habit:'Premium dating app subscription',ex_cost:29.99,ex_freq:12,temporal:'In 1 year: €359. In 5 years: €1,799.',experiential:'€359/year is a solo weekend trip to Berlin — arguably a better way to meet people.',identity:'You\'re paying to find connection through an algorithm.'},
-{id:'s011',cat:'subscriptions',habit:'Online course platform (never used)',ex_cost:19.99,ex_freq:12,temporal:'In 1 year: €239. In 5 years: €1,199.',experiential:'€239/year is 2 real in-person workshops in your field.',identity:'You\'re paying to feel like you\'re learning instead of learning.'},
-{id:'s012',cat:'subscriptions',habit:'Food delivery pass (Deliveroo Plus etc.)',ex_cost:5.99,ex_freq:12,temporal:'In 1 year: €71. In 5 years: €359.',experiential:'€71/year on the pass — but pass users order 40% more often. Your real cost is €2,000+ in delivery fees.',identity:'The free delivery isn\'t free. It\'s a trigger to spend more.'},
+{id:'s008',cat:'subscriptions',habit:'News paywall subscriptions (2)',ex_cost:{eu:25.00,us:30.00,uk:25.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is a 2-night stay in a 4-star hotel in Barcelona.',identity:'You\'re paying to read about the world instead of experiencing it.'},
+ us:{temporal:'In 1 year: $360. In 5 years: $1,800.',experiential:'$360/year is a long weekend in Austin TX — flights, hotel, live music.',identity:'You\'re paying to read about the world instead of experiencing it.'},
+ uk:{temporal:'In 1 year: £300. In 5 years: £1,500.',experiential:'£300/year is a 2-night stay in a 4-star hotel in Edinburgh or Dublin.',identity:'You\'re paying to read about the world instead of experiencing it.'}},
+
+{id:'s009',cat:'subscriptions',habit:'Cloud storage (paid tier)',ex_cost:{eu:2.99,us:2.99,uk:2.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €35. In 5 years: €179.',experiential:'€35 sounds trivial — but multiply by 10 forgotten subscriptions and you have €350: a flight.',identity:'Each subscription seems trivial. Together they\'re a flight.'},
+ us:{temporal:'In 1 year: $35. In 5 years: $179.',experiential:'$35 sounds trivial — but multiply by 10 forgotten subscriptions and you have $350: a Vegas trip.',identity:'Each subscription seems trivial. Together they\'re a trip.'},
+ uk:{temporal:'In 1 year: £35. In 5 years: £179.',experiential:'£35 sounds trivial — but multiply by 10 forgotten subscriptions and you have £350: a city break.',identity:'Each subscription seems trivial. Together they\'re a city break.'}},
+
+{id:'s010',cat:'subscriptions',habit:'Premium dating app subscription',ex_cost:{eu:29.99,us:29.99,uk:29.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €359. In 5 years: €1,799.',experiential:'€359/year is a solo weekend in Berlin — a better way to meet people.',identity:'You\'re paying to find connection through an algorithm.'},
+ us:{temporal:'In 1 year: $359. In 5 years: $1,799.',experiential:'$359/year is a solo weekend in New York, Austin, or New Orleans.',identity:'You\'re paying to find connection through an algorithm.'},
+ uk:{temporal:'In 1 year: £359. In 5 years: £1,799.',experiential:'£359/year is a solo city break in Berlin, Lisbon, or Copenhagen.',identity:'You\'re paying to find connection through an algorithm.'}},
+
+{id:'s011',cat:'subscriptions',habit:'Online course platform (never used)',ex_cost:{eu:19.99,us:19.99,uk:19.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €239. In 5 years: €1,199.',experiential:'€239/year is 2 real in-person workshops in your field.',identity:'You\'re paying to feel like you\'re learning instead of learning.'},
+ us:{temporal:'In 1 year: $239. In 5 years: $1,199.',experiential:'$239/year is 2 real in-person workshops or a proper community college class.',identity:'You\'re paying to feel like you\'re learning instead of learning.'},
+ uk:{temporal:'In 1 year: £239. In 5 years: £1,199.',experiential:'£239/year is 2 proper in-person workshops or a short professional course.',identity:'You\'re paying to feel like you\'re learning instead of learning.'}},
+
+{id:'s012',cat:'subscriptions',habit:'Food delivery pass (Deliveroo Plus etc.)',ex_cost:{eu:5.99,us:9.99,uk:5.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €71. In 5 years: €359.',experiential:'€71 on the pass — but pass users order 40% more. Real cost: €2,000+ in fees.',identity:'The free delivery isn\'t free. It\'s a trigger to spend more.'},
+ us:{temporal:'In 1 year: $119. In 5 years: $599.',experiential:'$119 on the pass — but DashPass users order 35% more. Real cost: $2,500+ in fees.',identity:'The free delivery isn\'t free. It\'s a trigger to spend more.'},
+ uk:{temporal:'In 1 year: £71. In 5 years: £359.',experiential:'£71 on the pass — but pass users order 40% more. Real cost: £2,000+ in fees.',identity:'The free delivery isn\'t free. It\'s a trigger to spend more.'}},
 
 // MORE LIFESTYLE
-{id:'l013',cat:'lifestyle',habit:'Daily newspaper (print)',ex_cost:1.50,ex_freq:365,temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a 3-night trip to Prague with flights and hotel.',identity:'You\'re paying €547 for news that will be outdated by tomorrow.'},
-{id:'l014',cat:'lifestyle',habit:'Monthly premium haircut (barber)',ex_cost:45.00,ex_freq:12,temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year is a 4-night luxury glamping experience in Sardinia.',identity:'Your hair costs a Sardinian summer every year.'},
-{id:'l015',cat:'lifestyle',habit:'Stationery & notebooks (monthly)',ex_cost:20.00,ex_freq:12,temporal:'In 1 year: €240. In 5 years: €1,200.',experiential:'€240/year is a 2-night design hotel stay in Lisbon.',identity:'You\'re buying tools to organize thoughts you never write down.'},
-{id:'l016',cat:'lifestyle',habit:'Podcast / audiobook premium subscription',ex_cost:14.99,ex_freq:12,temporal:'In 1 year: €179. In 5 years: €899.',experiential:'€179/year is 10 used books from the best authors in your field — physical, underlined, owned.',identity:'You\'re paying to consume knowledge passively instead of actively.'},
-{id:'l017',cat:'lifestyle',habit:'Monthly massage',ex_cost:70.00,ex_freq:12,temporal:'In 1 year: €840. In 5 years: €4,200.',experiential:'€840/year is a 5-night wellness retreat in the Dolomites (avg 2026: €150–€200/night).',identity:'12 massages equal 5 nights at a mountain wellness retreat.'},
-{id:'l018',cat:'lifestyle',habit:'Weekend Airbnb "staycation" (monthly)',ex_cost:150.00,ex_freq:12,temporal:'In 1 year: €1,800. In 5 years: €9,000.',experiential:'€1,800/year is a real 2-week vacation in Thailand (flights €600 + €80/day budget hotel and food).',identity:'You\'re paying to sleep somewhere different in your own city instead of a different country.'},
-{id:'l019',cat:'lifestyle',habit:'Lottery tickets (twice weekly)',ex_cost:5.00,ex_freq:104,temporal:'In 1 year: €520. In 5 years: €2,600.',experiential:'€520/year is a 3-night break in Vienna, flights included (avg 2026: €150 return, €100/night hotel).',identity:'The lottery is a tax on statistical innumeracy. You\'re guaranteed to almost certainly lose.'},
-{id:'l020',cat:'lifestyle',habit:'Pet grooming (monthly)',ex_cost:55.00,ex_freq:12,temporal:'In 1 year: €660. In 5 years: €3,300.',experiential:'€660/year is a 4-night pet-friendly Airbnb holiday in Tuscany with your dog.',identity:'Your dog\'s grooming costs a Tuscan holiday with your dog.'},
+{id:'l013',cat:'lifestyle',habit:'Daily newspaper (print)',ex_cost:{eu:1.50,us:3.00,uk:2.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €547. In 5 years: €2,737.',experiential:'€547/year is a 3-night trip to Prague with flights and hotel.',identity:'You\'re paying €547 for news outdated by tomorrow.'},
+ us:{temporal:'In 1 year: $1,095. In 5 years: $5,475.',experiential:'$1,095/year is a round-trip flight to Tokyo — for news you could read for free.',identity:'You\'re paying $1,095 for news outdated by tomorrow.'},
+ uk:{temporal:'In 1 year: £912. In 5 years: £4,562.',experiential:'£912/year is a return flight London–Tokyo — for news you could read for free.',identity:'You\'re paying £912 for news outdated by tomorrow.'}},
+
+{id:'l014',cat:'lifestyle',habit:'Monthly premium haircut (barber)',ex_cost:{eu:45.00,us:60.00,uk:45.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year is a 4-night luxury glamping experience in Sardinia.',identity:'Your hair costs a Sardinian summer every year.'},
+ us:{temporal:'In 1 year: $720. In 5 years: $3,600.',experiential:'$720/year is a 4-night glamping trip in Sedona — red rocks and stars.',identity:'Your hair costs a Southwest adventure every year.'},
+ uk:{temporal:'In 1 year: £540. In 5 years: £2,700.',experiential:'£540/year is a 4-night luxury glamping in the Cotswolds or Scottish Highlands.',identity:'Your hair costs a UK countryside escape every year.'}},
+
+{id:'l015',cat:'lifestyle',habit:'Stationery & notebooks (monthly)',ex_cost:{eu:20.00,us:25.00,uk:20.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €240. In 5 years: €1,200.',experiential:'€240/year is a 2-night design hotel stay in Lisbon.',identity:'You\'re buying tools to organize thoughts you never write down.'},
+ us:{temporal:'In 1 year: $300. In 5 years: $1,500.',experiential:'$300/year is a 2-night stay at a boutique hotel in Savannah, GA.',identity:'You\'re buying tools to organize thoughts you never write down.'},
+ uk:{temporal:'In 1 year: £240. In 5 years: £1,200.',experiential:'£240/year is a 2-night stay in a boutique hotel in Bath or Brighton.',identity:'You\'re buying tools to organize thoughts you never write down.'}},
+
+{id:'l016',cat:'lifestyle',habit:'Podcast / audiobook premium subscription',ex_cost:{eu:14.99,us:14.99,uk:14.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €179. In 5 years: €899.',experiential:'€179/year is 10 physical books from the best authors in your field.',identity:'You\'re paying to consume knowledge passively instead of actively.'},
+ us:{temporal:'In 1 year: $179. In 5 years: $899.',experiential:'$179/year is 8-10 physical books from the best thinkers in your field.',identity:'You\'re paying to consume knowledge passively instead of actively.'},
+ uk:{temporal:'In 1 year: £179. In 5 years: £899.',experiential:'£179/year is 8-10 physical books from the best authors in your field.',identity:'You\'re paying to consume knowledge passively instead of actively.'}},
+
+{id:'l017',cat:'lifestyle',habit:'Monthly massage',ex_cost:{eu:70.00,us:90.00,uk:70.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €840. In 5 years: €4,200.',experiential:'€840/year is a 5-night wellness retreat in the Dolomites.',identity:'12 massages equal 5 nights at a mountain wellness retreat.'},
+ us:{temporal:'In 1 year: $1,080. In 5 years: $5,400.',experiential:'$1,080/year is a 5-night wellness retreat in Sedona or the Berkshires.',identity:'12 massages equal a proper wellness retreat every year.'},
+ uk:{temporal:'In 1 year: £840. In 5 years: £4,200.',experiential:'£840/year is a 5-night wellness retreat in the Cotswolds or Lake District.',identity:'12 massages equal 5 nights at a UK wellness retreat.'}},
+
+{id:'l018',cat:'lifestyle',habit:'Weekend Airbnb staycation (monthly)',ex_cost:{eu:150.00,us:200.00,uk:150.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €1,800. In 5 years: €9,000.',experiential:'€1,800/year is a real 2-week trip to Thailand — flights and budget hotel.',identity:'You\'re sleeping nearby when you could be sleeping abroad.'},
+ us:{temporal:'In 1 year: $2,400. In 5 years: $12,000.',experiential:'$2,400/year is a 2-week trip to Southeast Asia — Thailand, Vietnam, Bali.',identity:'You\'re sleeping nearby when you could be sleeping abroad.'},
+ uk:{temporal:'In 1 year: £1,800. In 5 years: £9,000.',experiential:'£1,800/year is a 2-week trip to Southeast Asia — flights and hotels included.',identity:'You\'re sleeping nearby when you could be sleeping abroad.'}},
+
+{id:'l019',cat:'lifestyle',habit:'Lottery tickets (twice weekly)',ex_cost:{eu:5.00,us:5.00,uk:5.00},ex_freq:104,
+ eu:{temporal:'In 1 year: €520. In 5 years: €2,600.',experiential:'€520/year is a 3-night break in Vienna, flights included.',identity:'The lottery is a tax on statistical innumeracy.'},
+ us:{temporal:'In 1 year: $520. In 5 years: $2,600.',experiential:'$520/year is a long weekend in New Orleans — a guaranteed good time.',identity:'The lottery is a tax on statistical innumeracy.'},
+ uk:{temporal:'In 1 year: £520. In 5 years: £2,600.',experiential:'£520/year is a 3-night city break in Vienna or Prague, flights included.',identity:'The lottery is a tax on statistical innumeracy.'}},
+
+{id:'l020',cat:'lifestyle',habit:'Pet grooming (monthly)',ex_cost:{eu:55.00,us:70.00,uk:55.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €660. In 5 years: €3,300.',experiential:'€660/year is a 4-night pet-friendly Airbnb holiday in Tuscany.',identity:'Your dog\'s grooming costs a Tuscan holiday with your dog.'},
+ us:{temporal:'In 1 year: $840. In 5 years: $4,200.',experiential:'$840/year is a 5-night pet-friendly road trip through the national parks.',identity:'Your dog\'s grooming costs a national parks road trip with your dog.'},
+ uk:{temporal:'In 1 year: £660. In 5 years: £3,300.',experiential:'£660/year is a 4-night pet-friendly cottage break in Cornwall or the Lake District.',identity:'Your dog\'s grooming costs a countryside holiday with your dog.'}},
 
 // MORE VICES
-{id:'v009',cat:'vice',habit:'Cannabis (daily, recreational)',ex_cost:10.00,ex_freq:365,temporal:'In 1 year: €3,650. In 5 years: €18,250.',experiential:'€3,650/year is a Business Class return to New York (avg 2026: €2,800) plus a week in a 4-star Manhattan hotel.',identity:'Your daily habit costs you Business Class to New York every year.'},
-{id:'v010',cat:'vice',habit:'Premium whiskey bottle (weekly)',ex_cost:35.00,ex_freq:52,temporal:'In 1 year: €1,820. In 5 years: €9,100.',experiential:'€1,820/year is a 10-day whiskey distillery tour of Scotland, all-inclusive.',identity:'You could drink whiskey in Scotland instead of drinking Scotland in your living room.'},
-{id:'v011',cat:'vice',habit:'Online poker (weekly avg loss)',ex_cost:50.00,ex_freq:52,temporal:'In 1 year: €2,600. In 5 years: €13,000.',experiential:'€2,600/year is a 2-week honeymoon in the Maldives for two (avg 2026: €2,400).',identity:'You\'re gambling a Maldives honeymoon every year.'},
-{id:'v012',cat:'vice',habit:'Energy drinks (2 per day)',ex_cost:4.00,ex_freq:365,temporal:'In 1 year: €1,460. In 5 years: €7,300.',experiential:'€1,460/year is a 10-day guided trek in Nepal including Everest Base Camp (avg 2026: €1,200–€1,500).',identity:'You\'re drinking the Himalayas.'},
+{id:'v009',cat:'vice',habit:'Cannabis (daily, recreational)',ex_cost:{eu:10.00,us:12.00,uk:10.00},ex_freq:365,
+ eu:{temporal:'In 1 year: €3,650. In 5 years: €18,250.',experiential:'€3,650/year is a Business Class return to New York plus a week in a 4-star hotel.',identity:'Your daily habit costs you Business Class to New York every year.'},
+ us:{temporal:'In 1 year: $4,380. In 5 years: $21,900.',experiential:'$4,380/year is a Business Class return to Tokyo plus a week in a luxury ryokan.',identity:'Your daily habit costs you Business Class to Japan every year.'},
+ uk:{temporal:'In 1 year: £3,650. In 5 years: £18,250.',experiential:'£3,650/year is a Business Class return to New York or Tokyo on British Airways.',identity:'Your daily habit costs you Business Class to New York every year.'}},
+
+{id:'v010',cat:'vice',habit:'Premium whiskey bottle (weekly)',ex_cost:{eu:35.00,us:45.00,uk:35.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €1,820. In 5 years: €9,100.',experiential:'€1,820/year is a 10-day whiskey distillery tour of Scotland.',identity:'You could drink whiskey in Scotland instead of drinking Scotland at home.'},
+ us:{temporal:'In 1 year: $2,340. In 5 years: $11,700.',experiential:'$2,340/year is a 10-day bourbon trail road trip through Kentucky and Tennessee.',identity:'You could drink whiskey at the source instead of at home.'},
+ uk:{temporal:'In 1 year: £1,820. In 5 years: £9,100.',experiential:'£1,820/year is a 10-day whiskey distillery tour of Scotland — at the source.',identity:'You could drink whiskey in Scotland instead of at home.'}},
+
+{id:'v011',cat:'vice',habit:'Online poker (weekly avg loss)',ex_cost:{eu:50.00,us:60.00,uk:50.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €2,600. In 5 years: €13,000.',experiential:'€2,600/year is a 2-week Maldives honeymoon for two.',identity:'You\'re gambling a Maldives honeymoon every year.'},
+ us:{temporal:'In 1 year: $3,120. In 5 years: $15,600.',experiential:'$3,120/year is a 2-week luxury trip to Japan — Business Class and ryokan hotels.',identity:'You\'re gambling a Japan luxury trip every year.'},
+ uk:{temporal:'In 1 year: £2,600. In 5 years: £13,000.',experiential:'£2,600/year is a 2-week Maldives honeymoon for two.',identity:'You\'re gambling a Maldives honeymoon every year.'}},
+
+{id:'v012',cat:'vice',habit:'Energy drinks (2 per day)',ex_cost:{eu:4.00,us:5.00,uk:4.00},ex_freq:365,
+ eu:{temporal:'In 1 year: €1,460. In 5 years: €7,300.',experiential:'€1,460/year is a 10-day guided trek in Nepal including Everest Base Camp.',identity:'You\'re drinking the Himalayas.'},
+ us:{temporal:'In 1 year: $1,825. In 5 years: $9,125.',experiential:'$1,825/year is a 10-day guided Everest Base Camp trek — flights and lodge included.',identity:'You\'re drinking the Himalayas.'},
+ uk:{temporal:'In 1 year: £1,460. In 5 years: £7,300.',experiential:'£1,460/year is a 10-day guided Everest Base Camp trek from Heathrow.',identity:'You\'re drinking the Himalayas.'}},
 
 // FINAL BATCH
-{id:'f021',cat:'food',habit:'Monthly restaurant birthday/special dinner',ex_cost:80.00,ex_freq:12,temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is a cooking class in Bologna with a Michelin-starred chef.',identity:'You\'re paying restaurant prices to celebrate when you could be learning to cook like a restaurant.'},
-{id:'l021',cat:'lifestyle',habit:'Smart home gadget (monthly impulse)',ex_cost:50.00,ex_freq:12,temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is 4 return Ryanair flights to European destinations.',identity:'You\'re buying gadgets to optimize the home you\'re not leaving enough.'},
-{id:'s013',cat:'subscriptions',habit:'Mobile phone bill (premium plan)',ex_cost:45.00,ex_freq:12,temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year — switching to a €15/month MVNO saves €360 for the same network. That\'s a Madrid weekend.',identity:'You\'re paying €360 extra per year for the same data and calls.'},
-{id:'t011',cat:'transport',habit:'Daily scooter rental (city)',ex_cost:5.00,ex_freq:260,temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a brand new e-bike (avg 2026: €900) that pays for itself in under a year.',identity:'You\'re renting a scooter to avoid buying one that would cost less.'},
-{id:'l022',cat:'lifestyle',habit:'Monthly book purchase (unread)',ex_cost:25.00,ex_freq:12,temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is unlimited Kindle Unlimited plus the 5 best books in any field you actually finish.',identity:'You\'re buying the idea of reading instead of reading.'},
-{id:'f022',cat:'food',habit:'Kombucha / probiotic drinks daily',ex_cost:4.50,ex_freq:365,temporal:'In 1 year: €1,642. In 5 years: €8,212.',experiential:'€1,642/year is a return flight to Japan plus a week of actually eating fermented food at the source.',identity:'You\'re paying premium prices to drink bacteria you could get from €1 yogurt.'},
-{id:'v013',cat:'vice',habit:'Impulse online shopping (3x/week)',ex_cost:15.00,ex_freq:156,temporal:'In 1 year: €2,340. In 5 years: €11,700.',experiential:'€2,340/year is a 14-night trip to Southeast Asia — Thailand, Vietnam, Bali.',identity:'Every impulse click is a day of Southeast Asia you\'re not experiencing.'},
-{id:'l023',cat:'lifestyle',habit:'Personal trainer sessions (2/week)',ex_cost:50.00,ex_freq:104,temporal:'In 1 year: €5,200. In 5 years: €26,000.',experiential:'€5,200/year is the average entry-level salary increase from a professional certification in your field.',identity:'You\'re investing €5,200/year in your body and €0 in your career.'},
-{id:'s014',cat:'subscriptions',habit:'Cable TV / Sky subscription',ex_cost:35.00,ex_freq:12,temporal:'In 1 year: €420. In 5 years: €2,100.',experiential:'€420/year is a 3-night city break in Amsterdam, flights and hotel included.',identity:'You\'re paying to watch sports you could be playing.'},
-{id:'l024',cat:'lifestyle',habit:'Daily parking fine (habitual)',ex_cost:40.00,ex_freq:52,temporal:'In 1 year: €2,080. In 5 years: €10,400.',experiential:'€2,080/year is a year of premium parking in a city garage — and you\'d never get fined again.',identity:'You\'re paying more in fines than you\'d pay to park legally. This is expensive stubbornness.'},
+{id:'f021',cat:'food',habit:'Monthly restaurant special occasion dinner',ex_cost:{eu:80.00,us:100.00,uk:80.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €960. In 5 years: €4,800.',experiential:'€960/year is a cooking class in Bologna with a Michelin-starred chef.',identity:'You\'re paying restaurant prices when you could learn to cook like one.'},
+ us:{temporal:'In 1 year: $1,200. In 5 years: $6,000.',experiential:'$1,200/year is a cooking school in New Orleans or NYC.',identity:'You\'re paying restaurant prices when you could learn to cook like one.'},
+ uk:{temporal:'In 1 year: £960. In 5 years: £4,800.',experiential:'£960/year is a Le Cordon Bleu intro course or a Michelin-restaurant cooking class.',identity:'You\'re paying restaurant prices when you could learn to cook like one.'}},
+
+{id:'l021',cat:'lifestyle',habit:'Smart home gadget (monthly impulse)',ex_cost:{eu:50.00,us:60.00,uk:50.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is 4 return Ryanair flights to European destinations.',identity:'You\'re buying gadgets to optimize the home you\'re not leaving enough.'},
+ us:{temporal:'In 1 year: $720. In 5 years: $3,600.',experiential:'$720/year is 3 round-trip flights to any US city you\'ve never visited.',identity:'You\'re buying gadgets to optimize the home you\'re not leaving enough.'},
+ uk:{temporal:'In 1 year: £600. In 5 years: £3,000.',experiential:'£600/year is 4 return EasyJet flights to any European city you want to visit.',identity:'You\'re buying gadgets to optimize the home you\'re not leaving enough.'}},
+
+{id:'s013',cat:'subscriptions',habit:'Mobile phone bill (premium plan)',ex_cost:{eu:45.00,us:80.00,uk:45.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €540. In 5 years: €2,700.',experiential:'€540/year — switching to a €15/month MVNO saves €360. That\'s a Madrid weekend.',identity:'You\'re paying €360 extra per year for the same data and calls.'},
+ us:{temporal:'In 1 year: $960. In 5 years: $4,800.',experiential:'$960/year — switching to Mint Mobile at $15/month saves $780. That\'s a Tokyo flight.',identity:'You\'re paying $780 extra per year for the same data and calls.'},
+ uk:{temporal:'In 1 year: £540. In 5 years: £2,700.',experiential:'£540/year — switching to a £10/month SIM-only MVNO saves £360. That\'s a European city break.',identity:'You\'re paying £360 extra per year for the same data and calls.'}},
+
+{id:'t011',cat:'transport',habit:'Daily scooter/e-scooter rental',ex_cost:{eu:5.00,us:6.00,uk:5.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €1,300. In 5 years: €6,500.',experiential:'€1,300/year is a brand new e-bike that pays for itself under a year.',identity:'You\'re renting a scooter to avoid buying one that would cost less.'},
+ us:{temporal:'In 1 year: $1,560. In 5 years: $7,800.',experiential:'$1,560/year is a quality e-bike that pays for itself in under a year.',identity:'You\'re renting a scooter to avoid buying one that would cost less.'},
+ uk:{temporal:'In 1 year: £1,300. In 5 years: £6,500.',experiential:'£1,300/year is a quality e-bike that pays for itself in under a year.',identity:'You\'re renting a scooter to avoid buying one that would cost less.'}},
+
+{id:'l022',cat:'lifestyle',habit:'Monthly book purchase (unread)',ex_cost:{eu:25.00,us:30.00,uk:25.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €300. In 5 years: €1,500.',experiential:'€300/year is Kindle Unlimited plus the 5 best books you\'ll actually finish.',identity:'You\'re buying the idea of reading instead of reading.'},
+ us:{temporal:'In 1 year: $360. In 5 years: $1,800.',experiential:'$360/year is a Kindle Unlimited subscription plus the 10 best books you\'ll actually read.',identity:'You\'re buying the idea of reading instead of reading.'},
+ uk:{temporal:'In 1 year: £300. In 5 years: £1,500.',experiential:'£300/year is Kindle Unlimited plus the 5 best books you\'ll actually finish.',identity:'You\'re buying the idea of reading instead of reading.'}},
+
+{id:'f022',cat:'food',habit:'Kombucha / probiotic drinks daily',ex_cost:{eu:4.50,us:5.00,uk:4.50},ex_freq:365,
+ eu:{temporal:'In 1 year: €1,642. In 5 years: €8,212.',experiential:'€1,642/year is a return flight to Japan plus a week eating fermented food at the source.',identity:'You\'re paying premium prices for bacteria you could get from €1 yogurt.'},
+ us:{temporal:'In 1 year: $1,825. In 5 years: $9,125.',experiential:'$1,825/year is a trip to Japan to eat fermented food at the source.',identity:'You\'re paying premium prices for bacteria you could get from $1 yogurt.'},
+ uk:{temporal:'In 1 year: £1,642. In 5 years: £8,212.',experiential:'£1,642/year is a return flight to Japan to eat fermented food at the source.',identity:'You\'re paying premium prices for bacteria you could get from £1 yogurt.'}},
+
+{id:'v013',cat:'vice',habit:'Impulse online shopping (3x/week)',ex_cost:{eu:15.00,us:20.00,uk:15.00},ex_freq:156,
+ eu:{temporal:'In 1 year: €2,340. In 5 years: €11,700.',experiential:'€2,340/year is a 14-night trip to Southeast Asia — Thailand, Vietnam, Bali.',identity:'Every impulse click is a day of Southeast Asia you\'re not experiencing.'},
+ us:{temporal:'In 1 year: $3,120. In 5 years: $15,600.',experiential:'$3,120/year is a 2-week luxury trip to Japan — Business Class and boutique hotels.',identity:'Every impulse click is a day in Japan you\'re not experiencing.'},
+ uk:{temporal:'In 1 year: £2,340. In 5 years: £11,700.',experiential:'£2,340/year is a 2-week trip to Southeast Asia — Thailand, Vietnam, Bali.',identity:'Every impulse click is a day of Southeast Asia you\'re not experiencing.'}},
+
+{id:'l023',cat:'lifestyle',habit:'Personal trainer sessions (2/week)',ex_cost:{eu:50.00,us:70.00,uk:50.00},ex_freq:104,
+ eu:{temporal:'In 1 year: €5,200. In 5 years: €26,000.',experiential:'€5,200/year is the average salary increase from a professional certification.',identity:'You\'re investing €5,200/year in your body and €0 in your career.'},
+ us:{temporal:'In 1 year: $7,280. In 5 years: $36,400.',experiential:'$7,280/year is the average salary increase from completing an MBA module or professional cert.',identity:'You\'re investing $7,280/year in your body and $0 in your career.'},
+ uk:{temporal:'In 1 year: £5,200. In 5 years: £26,000.',experiential:'£5,200/year is the cost of an entire part-time professional master\'s degree over 2 years.',identity:'You\'re investing £5,200/year in your body and £0 in your career.'}},
+
+{id:'s014',cat:'subscriptions',habit:'Cable TV / satellite subscription',ex_cost:{eu:35.00,us:80.00,uk:35.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €420. In 5 years: €2,100.',experiential:'€420/year is a 3-night city break in Amsterdam, flights and hotel included.',identity:'You\'re paying to watch sports you could be playing.'},
+ us:{temporal:'In 1 year: $960. In 5 years: $4,800.',experiential:'$960/year is a week-long ski trip to Colorado — lift pass, accommodation, everything.',identity:'You\'re paying to watch sports you could be playing.'},
+ uk:{temporal:'In 1 year: £420. In 5 years: £2,100.',experiential:'£420/year is a 3-night city break in Amsterdam or Berlin, flights included.',identity:'You\'re paying to watch sports you could be playing.'}},
+
+{id:'l024',cat:'lifestyle',habit:'Daily parking fine (habitual)',ex_cost:{eu:40.00,us:50.00,uk:40.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €2,080. In 5 years: €10,400.',experiential:'€2,080/year in fines would pay for a reserved parking spot for the whole year.',identity:'You\'re paying more in fines than you\'d pay to park legally.'},
+ us:{temporal:'In 1 year: $2,600. In 5 years: $13,000.',experiential:'$2,600/year in fines would pay for a reserved spot AND a Southeast Asia vacation.',identity:'You\'re paying more in fines than you\'d pay to park legally.'},
+ uk:{temporal:'In 1 year: £2,080. In 5 years: £10,400.',experiential:'£2,080/year in fines is more than a year\'s reserved parking in most UK city garages.',identity:'You\'re paying more in fines than you\'d pay to park legally.'}},
 ];
 
+// Build locale-aware DB
+function buildDB(locale) {
+  return DB_RAW.map(item => {
+    const loc = item[locale] || item['eu'];
+    const cost = item.ex_cost[locale] !== undefined ? item.ex_cost[locale] : item.ex_cost['eu'];
+    return {
+      id: item.id, cat: item.cat, habit: item.habit,
+      ex_cost: cost, ex_freq: item.ex_freq,
+      temporal: loc.temporal, experiential: loc.experiential, identity: loc.identity
+    };
+  });
+}
+let DB = buildDB('us');
+
 // ============================================================
-// EQUIVALENZE PER CALCOLO DINAMICO
-// Quando l'utente inserisce un importo libero, cerchiamo
-// l'equivalenza più vicina dal database di riferimenti
+// EQUIVALENCES — 3 locale versions
 // ============================================================
-const EQUIVALENCES = [
-  {min:50,max:99,items:['a round-trip Ryanair flight to Rome','2 nights in a 3-star hotel in Milan','a year of Spotify Premium','a nice dinner for two at a trattoria']},
-  {min:100,max:199,items:['a return Ryanair flight to Barcelona','2 nights in a boutique hotel in Florence','an Apple AirTag 4-pack','a half-day cooking class in Bologna']},
-  {min:200,max:349,items:['a return flight to Paris or London','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
-  {min:350,max:499,items:['a 3-night city break in Amsterdam, flights and hotel','an iPad mini (base model)','a month of daily CrossFit classes','a 5-day guided cycling tour in Tuscany']},
-  {min:500,max:699,items:['a 4-night Airbnb in Lisbon with flights','a return Iberia flight to New York in low season','a MacBook Air M2 (partial)','a 5-night ski holiday in the Alps']},
-  {min:700,max:999,items:['a return flight to Tokyo low season (Skyscanner May 2026: from €555)','a 7-night all-inclusive in Tunisia','a premium iPhone 15 (refurbished)','a 5-night wellness retreat in the Dolomites']},
-  {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise (MSC base)','a 10-day road trip across Portugal']},
-  {min:1500,max:2499,items:['a Business Class return to London','a 14-night trip to Southeast Asia (Thailand + Bali)','a brand new MacBook Pro 14"','a 10-day guided tour of Peru with Machu Picchu']},
-  {min:2500,max:3999,items:['a Safari in Tanzania (5 nights, avg 2026)','a Business Class return to New York','a complete home studio setup','3 months of rent in Milan']},
-  {min:4000,max:7999,items:['a 2-week Maldives honeymoon','a Business Class return to Tokyo (ANA avg 2026)','a down payment contribution on property','a year of a professional MBA module']},
-  {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit contribution','complete financial independence for a month']}
-];
+const EQUIVALENCES = {
+  eu: [
+    {min:50,max:99,items:['a round-trip Ryanair flight to Rome','2 nights in a 3-star hotel in Milan','a year of Spotify Premium','a nice dinner for two at a trattoria']},
+    {min:100,max:199,items:['a return Ryanair flight to Barcelona','2 nights in a boutique hotel in Florence','an Apple AirTag 4-pack','a half-day cooking class in Bologna']},
+    {min:200,max:349,items:['a return flight to Paris or London','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
+    {min:350,max:499,items:['a 3-night city break in Amsterdam, flights and hotel','an iPad mini','a month of daily CrossFit classes','a 5-day cycling tour in Tuscany']},
+    {min:500,max:699,items:['a 4-night Airbnb in Lisbon with flights','a return flight to New York in low season','a 5-night ski holiday in the Alps','a MacBook Air M2 (partial)']},
+    {min:700,max:999,items:['a return flight to Tokyo low season (from €555)','a 7-night all-inclusive in Tunisia','a 5-night wellness retreat in the Dolomites','a premium iPhone 15 (refurbished)']},
+    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise','a 10-day road trip across Portugal']},
+    {min:1500,max:2499,items:['a Business Class return to London','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided tour of Peru with Machu Picchu']},
+    {min:2500,max:3999,items:['a Safari in Tanzania (5 nights)','a Business Class return to New York','a complete home studio setup','3 months of rent in Milan']},
+    {min:4000,max:7999,items:['a 2-week Maldives honeymoon','a Business Class return to Tokyo','a property down payment contribution','a year of a professional MBA module']},
+    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit','complete financial independence for a month']}
+  ],
+  us: [
+    {min:50,max:99,items:['a round-trip Spirit/Frontier flight to Miami or Vegas','2 nights at a 3-star hotel in Chicago','a year of Spotify Premium','a nice dinner for two in any US city']},
+    {min:100,max:199,items:['a round-trip flight to New Orleans or Nashville','2 nights at a boutique hotel in Austin','an Apple AirTag 4-pack','a half-day cooking class in NYC']},
+    {min:200,max:349,items:['a round-trip flight NYC–LA','a weekend at a 3-star hotel in any US city','an Apple Watch SE','a quality espresso machine']},
+    {min:350,max:499,items:['a 3-night trip to New Orleans, flights and hotel','an iPad mini','a month of daily CrossFit classes','a 5-day road trip across the Southwest']},
+    {min:500,max:699,items:['a 4-night trip to Miami or Nashville with flights','a round-trip flight to Cancún in low season','a 5-night ski trip to Vermont or Colorado','a MacBook Air M2 (partial)']},
+    {min:700,max:999,items:['a round-trip flight New York–Tokyo low season','a 7-night all-inclusive in Cancún or Punta Cana','a wellness weekend in Sedona AZ','a premium iPhone 15 (refurbished)']},
+    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 7-night Caribbean cruise','a 10-day road trip across the West Coast']},
+    {min:1500,max:2499,items:['a Business Class return to London or Paris','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided Peru tour with Machu Picchu']},
+    {min:2500,max:3999,items:['a Safari in Kenya or Tanzania (5 nights)','a Business Class return to Tokyo','a complete home studio setup','3 months rent in Austin TX']},
+    {min:4000,max:7999,items:['a 2-week Maldives honeymoon for two','a Business Class return to Tokyo on ANA','a property down payment contribution','a year of a professional MBA module']},
+    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit','complete financial independence for a month']}
+  ],
+  uk: [
+    {min:50,max:99,items:['a round-trip EasyJet flight to Rome or Barcelona','2 nights in a 3-star hotel in Edinburgh','a year of Spotify Premium','a nice dinner for two at a gastropub']},
+    {min:100,max:199,items:['a return EasyJet flight to Lisbon or Prague','2 nights in a boutique B&B in the Cotswolds','an Apple AirTag 4-pack','a half-day cooking class in London']},
+    {min:200,max:349,items:['a return flight to Paris, Amsterdam, or Dublin','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
+    {min:350,max:499,items:['a 3-night city break in Prague or Krakow','an iPad mini','a month of daily CrossFit classes','a 5-day cycling holiday in France']},
+    {min:500,max:699,items:['a 4-night Airbnb in Lisbon with EasyJet flights','a return BA flight to New York in low season','a 5-night ski holiday in the Alps','a MacBook Air M2 (partial)']},
+    {min:700,max:999,items:['a return flight to Tokyo low season (from £650)','a 7-night all-inclusive in Turkey or Egypt','a 5-night wellness retreat in the Cotswolds','a premium iPhone 15 (refurbished)']},
+    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise','a 10-day road trip across Portugal or Spain']},
+    {min:1500,max:2499,items:['a Business Class return to New York on BA','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided Peru tour with Machu Picchu']},
+    {min:2500,max:3999,items:['a Safari in Kenya or Tanzania (5 nights)','a Business Class return to New York','a complete home studio setup','3 months rent for a room in London']},
+    {min:4000,max:7999,items:['a 2-week Maldives honeymoon for two','a Business Class return to Tokyo on JAL','a property deposit contribution','a year of a professional MBA module']},
+    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit contribution','complete financial independence for a month']}
+  ]
+};
 
 function getEquivalence(annual) {
-  const bucket = EQUIVALENCES.find(b => annual >= b.min && annual <= b.max);
+  const locale = getLocale();
+  const table = EQUIVALENCES[locale] || EQUIVALENCES['us'];
+  const bucket = table.find(b => annual >= b.min && annual <= b.max);
   if (!bucket) return null;
   return bucket.items[Math.floor(Math.random() * bucket.items.length)];
 }
+
+// EXTENDED BATCH — to reach 100 habits
+{id:'f023',cat:'food',habit:'Fast food combo meal (weekly)',ex_cost:{eu:9.00,us:12.00,uk:9.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €468. In 5 years: €2,340.',experiential:'€468/year is a return flight Milan–Dubrovnik plus 5 nights in a Croatian seaside Airbnb.',identity:'You\'re spending a Croatian summer on drive-through windows.'},
+ us:{temporal:'In 1 year: $624. In 5 years: $3,120.',experiential:'$624/year is a long weekend in New Orleans or Nashville — flights and hotel included.',identity:'You\'re spending a proper US city trip at a drive-through.'},
+ uk:{temporal:'In 1 year: £468. In 5 years: £2,340.',experiential:'£468/year is a return EasyJet flight to Croatia or Greece plus a few nights by the sea.',identity:'You\'re spending a Greek beach trip at a drive-through.'}},
+
+{id:'f024',cat:'food',habit:'Daily breakfast at a café',ex_cost:{eu:7.00,us:10.00,uk:7.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €1,820. In 5 years: €9,100.',experiential:'€1,820/year is a 10-day trip to Japan — flights, hotels, and breakfast at real Japanese kissaten.',identity:'You could eat breakfast in Tokyo instead of at the same café every morning.'},
+ us:{temporal:'In 1 year: $2,600. In 5 years: $13,000.',experiential:'$2,600/year is a 14-night trip to Southeast Asia — Thailand, Vietnam, Cambodia, all-in.',identity:'You could eat breakfast in Bangkok instead of at the same café every morning.'},
+ uk:{temporal:'In 1 year: £1,820. In 5 years: £9,100.',experiential:'£1,820/year is a 10-day Japan trip — return flights and hotels included.',identity:'You could eat breakfast in Tokyo instead of at the same café every morning.'}},
+
+{id:'f025',cat:'food',habit:'Late-night snack delivery (3x/week)',ex_cost:{eu:8.00,us:12.00,uk:8.00},ex_freq:156,
+ eu:{temporal:'In 1 year: €1,248. In 5 years: €6,240.',experiential:'€1,248/year is a return flight to Cape Town plus 3 nights at the V&A Waterfront.',identity:'You\'re eating South Africa at midnight, every week.'},
+ us:{temporal:'In 1 year: $1,872. In 5 years: $9,360.',experiential:'$1,872/year is a 7-night surf trip to Costa Rica — flights and eco-lodge.',identity:'You\'re eating a Costa Rica surf trip at midnight, every week.'},
+ uk:{temporal:'In 1 year: £1,248. In 5 years: £6,240.',experiential:'£1,248/year is a return flight to Cape Town or Bangkok plus 3 nights hotel.',identity:'You\'re eating a long-haul holiday at midnight, every week.'}},
+
+// TRANSPORT
+{id:'t012',cat:'transport',habit:'Weekly car rental (instead of owning)',ex_cost:{eu:80.00,us:100.00,uk:80.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €4,160. In 5 years: €20,800.',experiential:'€4,160/year covers a lease on a mid-range EV plus charging — and you own it.',identity:'You\'re paying for car ownership without any of the ownership.'},
+ us:{temporal:'In 1 year: $5,200. In 5 years: $26,000.',experiential:'$5,200/year covers a full car lease plus insurance for a basic sedan.',identity:'You\'re paying for car ownership without any of the ownership.'},
+ uk:{temporal:'In 1 year: £4,160. In 5 years: £20,800.',experiential:'£4,160/year covers a full PCP deal on a mid-range car plus insurance.',identity:'You\'re paying for car ownership without any of the ownership.'}},
+
+{id:'t013',cat:'transport',habit:'Daily paid city bike / e-bike rental',ex_cost:{eu:4.00,us:5.00,uk:4.00},ex_freq:260,
+ eu:{temporal:'In 1 year: €1,040. In 5 years: €5,200.',experiential:'€1,040/year is a quality second-hand road bike plus helmet, lock, and gear — and it\'s yours.',identity:'You\'re renting the freedom to never actually be free from renting.'},
+ us:{temporal:'In 1 year: $1,300. In 5 years: $6,500.',experiential:'$1,300/year is a brand new entry-level e-bike that pays for itself in under a year.',identity:'You\'re renting the freedom to never actually be free from renting.'},
+ uk:{temporal:'In 1 year: £1,040. In 5 years: £5,200.',experiential:'£1,040/year is a quality road bike or a solid second-hand e-bike that\'s yours to keep.',identity:'You\'re renting the freedom to never actually be free from renting.'}},
+
+// SUBSCRIPTIONS
+{id:'s015',cat:'subscriptions',habit:'Apple One / iCloud+ family plan',ex_cost:{eu:22.95,us:22.95,uk:22.95},ex_freq:12,
+ eu:{temporal:'In 1 year: €275. In 5 years: €1,376.',experiential:'€275/year is a 2-night stay in a boutique hotel in Porto or Seville.',identity:'You\'re paying Apple a monthly fee to store photos of things you never look at.'},
+ us:{temporal:'In 1 year: $275. In 5 years: $1,376.',experiential:'$275/year is a round-trip Frontier flight to a US city you\'ve always wanted to visit.',identity:'You\'re paying Apple a monthly fee to store photos of things you never look at.'},
+ uk:{temporal:'In 1 year: £275. In 5 years: £1,376.',experiential:'£275/year is a 2-night boutique hotel break in Lisbon or Edinburgh.',identity:'You\'re paying Apple a monthly fee to store photos of things you never look at.'}},
+
+{id:'s016',cat:'subscriptions',habit:'Gaming subscription (PS Plus / Xbox Game Pass)',ex_cost:{eu:14.99,us:14.99,uk:14.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €179. In 5 years: €899.',experiential:'€179/year is 3 festival day tickets or a weekend camping festival experience.',identity:'You\'re paying to play other people\'s adventures instead of having your own.'},
+ us:{temporal:'In 1 year: $179. In 5 years: $899.',experiential:'$179/year is a round-trip budget flight to a US destination you\'ve never visited.',identity:'You\'re paying to play other people\'s adventures instead of having your own.'},
+ uk:{temporal:'In 1 year: £179. In 5 years: £899.',experiential:'£179/year is 3 festival day tickets or a return EasyJet flight to somewhere new.',identity:'You\'re paying to play other people\'s adventures instead of having your own.'}},
+
+{id:'s017',cat:'subscriptions',habit:'Fitness app subscription (Peloton / Nike / etc.)',ex_cost:{eu:12.99,us:12.99,uk:12.99},ex_freq:12,
+ eu:{temporal:'In 1 year: €155. In 5 years: €779.',experiential:'€155/year is a guided 3-day hiking trip in the Dolomites — actual fitness, actual mountains.',identity:'You\'re paying to follow a screen doing exercises you could do for free.'},
+ us:{temporal:'In 1 year: $155. In 5 years: $779.',experiential:'$155/year is a 3-day hiking trip in Zion or the Smoky Mountains — actual fitness, actual outdoors.',identity:'You\'re paying to follow a screen doing exercises you could do for free.'},
+ uk:{temporal:'In 1 year: £155. In 5 years: £779.',experiential:'£155/year is a guided hiking weekend in Snowdonia or the Peak District.',identity:'You\'re paying to follow a screen doing exercises you could do for free.'}},
+
+// LIFESTYLE
+{id:'l025',cat:'lifestyle',habit:'Impulse last-minute weekend trip (monthly)',ex_cost:{eu:200.00,us:250.00,uk:200.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €2,400. In 5 years: €12,000.',experiential:'€2,400/year — well spent IF the trips are memorable. The problem is you don\'t plan them, so they rarely are.',identity:'You\'re spending Safari money on weekends you don\'t remember by Monday.'},
+ us:{temporal:'In 1 year: $3,000. In 5 years: $15,000.',experiential:'$3,000/year — that\'s 2 properly planned international trips vs 12 forgettable local weekends.',identity:'You\'re spending Japan money on weekends you don\'t remember by Monday.'},
+ uk:{temporal:'In 1 year: £2,400. In 5 years: £12,000.',experiential:'£2,400/year — that\'s a Business Class trip to NYC or a 3-week SE Asia trip vs 12 rushed weekends.',identity:'You\'re spending Japan money on weekends you don\'t remember by Monday.'}},
+
+{id:'l026',cat:'lifestyle',habit:'Designer bag / shoes (quarterly)',ex_cost:{eu:300.00,us:400.00,uk:300.00},ex_freq:4,
+ eu:{temporal:'In 1 year: €1,200. In 5 years: €6,000.',experiential:'€1,200/year is a Business Class return Milan–New York on Alitalia.',identity:'You\'re wearing a flight to New York.'},
+ us:{temporal:'In 1 year: $1,600. In 5 years: $8,000.',experiential:'$1,600/year is a 10-day trip to Japan — round-trip flights and 7 nights in Tokyo.',identity:'You\'re wearing a Japan trip.'},
+ uk:{temporal:'In 1 year: £1,200. In 5 years: £6,000.',experiential:'£1,200/year is a Business Class return London–New York on British Airways.',identity:'You\'re wearing a flight to New York.'}},
+
+{id:'l027',cat:'lifestyle',habit:'Monthly pharmacy / self-medication impulse',ex_cost:{eu:40.00,us:60.00,uk:40.00},ex_freq:12,
+ eu:{temporal:'In 1 year: €480. In 5 years: €2,400.',experiential:'€480/year is a 3-night wellness retreat in the Italian mountains with meals included.',identity:'You\'re spending a mountain retreat on remedies for problems a better lifestyle would prevent.'},
+ us:{temporal:'In 1 year: $720. In 5 years: $3,600.',experiential:'$720/year is a 4-night wellness retreat in Sedona or the Catskills.',identity:'You\'re spending a wellness retreat on remedies for problems a better lifestyle would prevent.'},
+ uk:{temporal:'In 1 year: £480. In 5 years: £2,400.',experiential:'£480/year is a 3-night spa break in the Cotswolds with meals included.',identity:'You\'re spending a spa break on remedies for problems a better lifestyle would prevent.'}},
+
+{id:'l028',cat:'lifestyle',habit:'Unused sports equipment (annual spend)',ex_cost:{eu:150.00,us:200.00,uk:150.00},ex_freq:4,
+ eu:{temporal:'In 1 year: €600. In 5 years: €3,000.',experiential:'€600/year is 4 return flights to European cities — go see something instead.',identity:'You\'re buying gear for the athlete you plan to become, not the one you are.'},
+ us:{temporal:'In 1 year: $800. In 5 years: $4,000.',experiential:'$800/year is a week-long ski trip to Colorado — lift pass, lodging, the whole thing.',identity:'You\'re buying gear for the athlete you plan to become, not the one you are.'},
+ uk:{temporal:'In 1 year: £600. In 5 years: £3,000.',experiential:'£600/year is 4 return EasyJet flights to European destinations — go actually move somewhere new.',identity:'You\'re buying gear for the athlete you plan to become, not the one you are.'}},
+
+// VICES
+{id:'v014',cat:'vice',habit:'Pre-drinks / spirits at home before going out',ex_cost:{eu:15.00,us:20.00,uk:15.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €780. In 5 years: €3,900.',experiential:'€780/year is a 4-night city break in Prague, Porto, or Lisbon — all-in.',identity:'You\'re drinking an annual European city break at home before you go out.'},
+ us:{temporal:'In 1 year: $1,040. In 5 years: $5,200.',experiential:'$1,040/year is a long weekend in New Orleans — flights, hotel, Bourbon Street included.',identity:'You\'re drinking a New Orleans weekend at home before you go out.'},
+ uk:{temporal:'In 1 year: £780. In 5 years: £3,900.',experiential:'£780/year is a 4-night EasyJet city break in Prague, Porto, or Krakow.',identity:'You\'re drinking a European city break at home before you go out.'}},
+
+{id:'v015',cat:'vice',habit:'Occasional cigars (weekly)',ex_cost:{eu:8.00,us:12.00,uk:8.00},ex_freq:52,
+ eu:{temporal:'In 1 year: €416. In 5 years: €2,080.',experiential:'€416/year is a 3-night stay in a 4-star hotel in Florence with dinner.',identity:'You\'re inhaling a Florentine weekend every year.'},
+ us:{temporal:'In 1 year: $624. In 5 years: $3,120.',experiential:'$624/year is a long weekend in Havana, Cuba — flights, casa particular, cigars at the source.',identity:'You could smoke cigars in Havana instead of inhaling Havana at home.'},
+ uk:{temporal:'In 1 year: £416. In 5 years: £2,080.',experiential:'£416/year is a 3-night stay in a boutique hotel in Lisbon or Madrid.',identity:'You\'re inhaling a European city break every year.'}},
+
+{id:'v016',cat:'vice',habit:'Daily energy shot / supplement (pre-workout)',ex_cost:{eu:3.00,us:3.50,uk:3.00},ex_freq:365,
+ eu:{temporal:'In 1 year: €1,095. In 5 years: €5,475.',experiential:'€1,095/year is a return flight Milan–Tokyo plus 3 nights in a Tokyo hotel.',identity:'You\'re fueling the idea of a workout more than the workout itself.'},
+ us:{temporal:'In 1 year: $1,277. In 5 years: $6,387.',experiential:'$1,277/year is a round-trip flight to Tokyo plus 3 nights in a Shinjuku hotel.',identity:'You\'re fueling the idea of a workout more than the workout itself.'},
+ uk:{temporal:'In 1 year: £1,095. In 5 years: £5,475.',experiential:'£1,095/year is a return flight London–Tokyo plus 3 nights in Tokyo.',identity:'You\'re fueling the idea of a workout more than the workout itself.'}},
+
+{id:'f026',cat:'food',habit:'Daily afternoon snack at the bar',ex_cost:{eu:3.50,us:4.50,uk:3.50},ex_freq:260,
+ eu:{temporal:'In 1 year: €910. In 5 years: €4,550.',experiential:'€910/year is a return flight Milan–Tokyo (Skyscanner low season avg 2026).',identity:'Your afternoon snack habit costs a Tokyo flight every year.'},
+ us:{temporal:'In 1 year: $1,170. In 5 years: $5,850.',experiential:'$1,170/year is a round-trip flight New York–Tokyo in economy.',identity:'Your afternoon snack habit costs a Tokyo flight every year.'},
+ uk:{temporal:'In 1 year: £910. In 5 years: £4,550.',experiential:'£910/year is a return flight London–Tokyo in low season.',identity:'Your afternoon snack habit costs a Tokyo flight every year.'}},
+
 
 function getFreqLabel(freq) {
   const map = {'365':'day','260':'workday','104':'week (2x)','52':'week','12':'month'};
@@ -1110,8 +1575,45 @@ function getCurrency() {
   try { return document.getElementById('currency-input').value; } catch(e) { return '€'; }
 }
 
+// Ticker content per locale
+const TICKER_CONTENT = {
+  eu: [
+    'Daily coffee → €912/year → Milan–Tokyo flight',
+    'Cigarette pack/day → €2,190/year → 10 nights Maldives',
+    'Delivery lunch → €3,640/year → iPhone 16 Pro + €2,300 left',
+    'Daily Uber → €3,900/year → 3 months rent in Milan',
+    'Netflix + Spotify + Prime → €635/year → Mykonos 5 nights',
+    'Gym you never use → €600/year → 4 flights to Barcelona',
+  ],
+  us: [
+    'Daily coffee → $730/year → NYC to Miami flight + hotel',
+    'Cigarette pack/day → $3,285/year → Business Class to Japan',
+    'Delivery lunch → $4,680/year → 3-week Hawaii all-inclusive',
+    'Daily Uber → $5,200/year → 3 months rent in Austin',
+    'Netflix + Spotify + Prime → $575/year → New Orleans weekend',
+    'Gym you never use → $600/year → 3 flights to Cancún',
+  ],
+  uk: [
+    'Daily coffee → £912/year → London–Tokyo return flight',
+    'Cigarette pack/day → £5,110/year → Luxury SE Asia 3 weeks',
+    'Delivery lunch → £3,640/year → iPhone 16 Pro + £1,763 left',
+    'Daily Uber → £3,900/year → 3 months London rent',
+    'Netflix + Spotify + Prime → £635/year → Santorini 4 nights',
+    'Gym you never use → £600/year → 4 EasyJet flights',
+  ]
+};
+
 function updateCurrencyLabel() {
-  // aggiorna placeholder cost badge se necessario
+  const locale = getLocale();
+  DB = buildDB(locale);
+  renderBrowse();
+  // Update ticker
+  const items = TICKER_CONTENT[locale];
+  const doubled = [...items, ...items];
+  const ticker = document.getElementById('ticker');
+  if (ticker) {
+    ticker.innerHTML = doubled.map(t => `<span>${t}</span>`).join('');
+  }
 }
 
 function reframe() {
@@ -1264,7 +1766,7 @@ function renderBrowse() {
     <div class="browse-card" onclick="loadHabit('${p.id}')">
       <div class="browse-card-cat">${catNames[p.cat] || p.cat}</div>
       <div class="browse-card-habit">"${p.habit}"</div>
-      <div class="browse-card-cost">€${p.ex_cost} × ${p.ex_freq}x/year = €${(p.ex_cost*p.ex_freq).toLocaleString('en')}/year</div>
+      <div class="browse-card-cost">${getCurrency()}${p.ex_cost} × ${p.ex_freq}x/year = ${getCurrency()}${(p.ex_cost*p.ex_freq).toLocaleString('en')}/year</div>
       <div class="browse-card-preview">${p.experiential}</div>
     </div>`).join('');
 
@@ -1328,7 +1830,10 @@ function openNotifyPopup() { document.getElementById('notify-overlay').classList
 function closeNotifyPopup() { document.getElementById('notify-overlay').classList.remove('open'); }
 
 // INIT
-window.addEventListener('DOMContentLoaded', () => { renderBrowse(); });
+window.addEventListener('DOMContentLoaded', () => {
+  DB = buildDB(getLocale());
+  renderBrowse();
+});
 </script>
 </body>
 </html>
