@@ -1395,76 +1395,6 @@ const DB_RAW = [
  eu:{temporal:'In 1 year: €2,080. In 5 years: €10,400.',experiential:'€2,080/year in fines would pay for a reserved parking spot for the whole year.',identity:'You\'re paying more in fines than you\'d pay to park legally.'},
  us:{temporal:'In 1 year: $2,600. In 5 years: $13,000.',experiential:'$2,600/year in fines would pay for a reserved spot AND a Southeast Asia vacation.',identity:'You\'re paying more in fines than you\'d pay to park legally.'},
  uk:{temporal:'In 1 year: £2,080. In 5 years: £10,400.',experiential:'£2,080/year in fines is more than a year\'s reserved parking in most UK city garages.',identity:'You\'re paying more in fines than you\'d pay to park legally.'}},
-];
-
-// Build locale-aware DB
-function buildDB(locale) {
-  return DB_RAW.map(item => {
-    const loc = item[locale] || item['eu'];
-    const cost = item.ex_cost[locale] !== undefined ? item.ex_cost[locale] : item.ex_cost['eu'];
-    return {
-      id: item.id, cat: item.cat, habit: item.habit,
-      ex_cost: cost, ex_freq: item.ex_freq,
-      temporal: loc.temporal, experiential: loc.experiential, identity: loc.identity
-    };
-  });
-}
-let DB = buildDB('us');
-
-// ============================================================
-// EQUIVALENCES — 3 locale versions
-// ============================================================
-const EQUIVALENCES = {
-  eu: [
-    {min:50,max:99,items:['a round-trip Ryanair flight to Rome','2 nights in a 3-star hotel in Milan','a year of Spotify Premium','a nice dinner for two at a trattoria']},
-    {min:100,max:199,items:['a return Ryanair flight to Barcelona','2 nights in a boutique hotel in Florence','an Apple AirTag 4-pack','a half-day cooking class in Bologna']},
-    {min:200,max:349,items:['a return flight to Paris or London','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
-    {min:350,max:499,items:['a 3-night city break in Amsterdam, flights and hotel','an iPad mini','a month of daily CrossFit classes','a 5-day cycling tour in Tuscany']},
-    {min:500,max:699,items:['a 4-night Airbnb in Lisbon with flights','a return flight to New York in low season','a 5-night ski holiday in the Alps','a MacBook Air M2 (partial)']},
-    {min:700,max:999,items:['a return flight to Tokyo low season (from €555)','a 7-night all-inclusive in Tunisia','a 5-night wellness retreat in the Dolomites','a premium iPhone 15 (refurbished)']},
-    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise','a 10-day road trip across Portugal']},
-    {min:1500,max:2499,items:['a Business Class return to London','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided tour of Peru with Machu Picchu']},
-    {min:2500,max:3999,items:['a Safari in Tanzania (5 nights)','a Business Class return to New York','a complete home studio setup','3 months of rent in Milan']},
-    {min:4000,max:7999,items:['a 2-week Maldives honeymoon','a Business Class return to Tokyo','a property down payment contribution','a year of a professional MBA module']},
-    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit','complete financial independence for a month']}
-  ],
-  us: [
-    {min:50,max:99,items:['a round-trip Spirit/Frontier flight to Miami or Vegas','2 nights at a 3-star hotel in Chicago','a year of Spotify Premium','a nice dinner for two in any US city']},
-    {min:100,max:199,items:['a round-trip flight to New Orleans or Nashville','2 nights at a boutique hotel in Austin','an Apple AirTag 4-pack','a half-day cooking class in NYC']},
-    {min:200,max:349,items:['a round-trip flight NYC–LA','a weekend at a 3-star hotel in any US city','an Apple Watch SE','a quality espresso machine']},
-    {min:350,max:499,items:['a 3-night trip to New Orleans, flights and hotel','an iPad mini','a month of daily CrossFit classes','a 5-day road trip across the Southwest']},
-    {min:500,max:699,items:['a 4-night trip to Miami or Nashville with flights','a round-trip flight to Cancún in low season','a 5-night ski trip to Vermont or Colorado','a MacBook Air M2 (partial)']},
-    {min:700,max:999,items:['a round-trip flight New York–Tokyo low season','a 7-night all-inclusive in Cancún or Punta Cana','a wellness weekend in Sedona AZ','a premium iPhone 15 (refurbished)']},
-    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 7-night Caribbean cruise','a 10-day road trip across the West Coast']},
-    {min:1500,max:2499,items:['a Business Class return to London or Paris','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided Peru tour with Machu Picchu']},
-    {min:2500,max:3999,items:['a Safari in Kenya or Tanzania (5 nights)','a Business Class return to Tokyo','a complete home studio setup','3 months rent in Austin TX']},
-    {min:4000,max:7999,items:['a 2-week Maldives honeymoon for two','a Business Class return to Tokyo on ANA','a property down payment contribution','a year of a professional MBA module']},
-    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit','complete financial independence for a month']}
-  ],
-  uk: [
-    {min:50,max:99,items:['a round-trip EasyJet flight to Rome or Barcelona','2 nights in a 3-star hotel in Edinburgh','a year of Spotify Premium','a nice dinner for two at a gastropub']},
-    {min:100,max:199,items:['a return EasyJet flight to Lisbon or Prague','2 nights in a boutique B&B in the Cotswolds','an Apple AirTag 4-pack','a half-day cooking class in London']},
-    {min:200,max:349,items:['a return flight to Paris, Amsterdam, or Dublin','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
-    {min:350,max:499,items:['a 3-night city break in Prague or Krakow','an iPad mini','a month of daily CrossFit classes','a 5-day cycling holiday in France']},
-    {min:500,max:699,items:['a 4-night Airbnb in Lisbon with EasyJet flights','a return BA flight to New York in low season','a 5-night ski holiday in the Alps','a MacBook Air M2 (partial)']},
-    {min:700,max:999,items:['a return flight to Tokyo low season (from £650)','a 7-night all-inclusive in Turkey or Egypt','a 5-night wellness retreat in the Cotswolds','a premium iPhone 15 (refurbished)']},
-    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise','a 10-day road trip across Portugal or Spain']},
-    {min:1500,max:2499,items:['a Business Class return to New York on BA','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided Peru tour with Machu Picchu']},
-    {min:2500,max:3999,items:['a Safari in Kenya or Tanzania (5 nights)','a Business Class return to New York','a complete home studio setup','3 months rent for a room in London']},
-    {min:4000,max:7999,items:['a 2-week Maldives honeymoon for two','a Business Class return to Tokyo on JAL','a property deposit contribution','a year of a professional MBA module']},
-    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit contribution','complete financial independence for a month']}
-  ]
-};
-
-function getEquivalence(annual) {
-  const locale = getLocale();
-  const table = EQUIVALENCES[locale] || EQUIVALENCES['us'];
-  const bucket = table.find(b => annual >= b.min && annual <= b.max);
-  if (!bucket) return null;
-  return bucket.items[Math.floor(Math.random() * bucket.items.length)];
-}
-
-// EXTENDED BATCH — to reach 100 habits
 {id:'f023',cat:'food',habit:'Fast food combo meal (weekly)',ex_cost:{eu:9.00,us:12.00,uk:9.00},ex_freq:52,
  eu:{temporal:'In 1 year: €468. In 5 years: €2,340.',experiential:'€468/year is a return flight Milan–Dubrovnik plus 5 nights in a Croatian seaside Airbnb.',identity:'You\'re spending a Croatian summer on drive-through windows.'},
  us:{temporal:'In 1 year: $624. In 5 years: $3,120.',experiential:'$624/year is a long weekend in New Orleans or Nashville — flights and hotel included.',identity:'You\'re spending a proper US city trip at a drive-through.'},
@@ -1548,7 +1478,74 @@ function getEquivalence(annual) {
  eu:{temporal:'In 1 year: €910. In 5 years: €4,550.',experiential:'€910/year is a return flight Milan–Tokyo (Skyscanner low season avg 2026).',identity:'Your afternoon snack habit costs a Tokyo flight every year.'},
  us:{temporal:'In 1 year: $1,170. In 5 years: $5,850.',experiential:'$1,170/year is a round-trip flight New York–Tokyo in economy.',identity:'Your afternoon snack habit costs a Tokyo flight every year.'},
  uk:{temporal:'In 1 year: £910. In 5 years: £4,550.',experiential:'£910/year is a return flight London–Tokyo in low season.',identity:'Your afternoon snack habit costs a Tokyo flight every year.'}},
+];
 
+// Build locale-aware DB
+function buildDB(locale) {
+  return DB_RAW.map(item => {
+    const loc = item[locale] || item['eu'];
+    const cost = item.ex_cost[locale] !== undefined ? item.ex_cost[locale] : item.ex_cost['eu'];
+    return {
+      id: item.id, cat: item.cat, habit: item.habit,
+      ex_cost: cost, ex_freq: item.ex_freq,
+      temporal: loc.temporal, experiential: loc.experiential, identity: loc.identity
+    };
+  });
+}
+let DB = buildDB('us');
+
+// ============================================================
+// EQUIVALENCES — 3 locale versions
+// ============================================================
+const EQUIVALENCES = {
+  eu: [
+    {min:50,max:99,items:['a round-trip Ryanair flight to Rome','2 nights in a 3-star hotel in Milan','a year of Spotify Premium','a nice dinner for two at a trattoria']},
+    {min:100,max:199,items:['a return Ryanair flight to Barcelona','2 nights in a boutique hotel in Florence','an Apple AirTag 4-pack','a half-day cooking class in Bologna']},
+    {min:200,max:349,items:['a return flight to Paris or London','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
+    {min:350,max:499,items:['a 3-night city break in Amsterdam, flights and hotel','an iPad mini','a month of daily CrossFit classes','a 5-day cycling tour in Tuscany']},
+    {min:500,max:699,items:['a 4-night Airbnb in Lisbon with flights','a return flight to New York in low season','a 5-night ski holiday in the Alps','a MacBook Air M2 (partial)']},
+    {min:700,max:999,items:['a return flight to Tokyo low season (from €555)','a 7-night all-inclusive in Tunisia','a 5-night wellness retreat in the Dolomites','a premium iPhone 15 (refurbished)']},
+    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise','a 10-day road trip across Portugal']},
+    {min:1500,max:2499,items:['a Business Class return to London','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided tour of Peru with Machu Picchu']},
+    {min:2500,max:3999,items:['a Safari in Tanzania (5 nights)','a Business Class return to New York','a complete home studio setup','3 months of rent in Milan']},
+    {min:4000,max:7999,items:['a 2-week Maldives honeymoon','a Business Class return to Tokyo','a property down payment contribution','a year of a professional MBA module']},
+    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit','complete financial independence for a month']}
+  ],
+  us: [
+    {min:50,max:99,items:['a round-trip Spirit/Frontier flight to Miami or Vegas','2 nights at a 3-star hotel in Chicago','a year of Spotify Premium','a nice dinner for two in any US city']},
+    {min:100,max:199,items:['a round-trip flight to New Orleans or Nashville','2 nights at a boutique hotel in Austin','an Apple AirTag 4-pack','a half-day cooking class in NYC']},
+    {min:200,max:349,items:['a round-trip flight NYC–LA','a weekend at a 3-star hotel in any US city','an Apple Watch SE','a quality espresso machine']},
+    {min:350,max:499,items:['a 3-night trip to New Orleans, flights and hotel','an iPad mini','a month of daily CrossFit classes','a 5-day road trip across the Southwest']},
+    {min:500,max:699,items:['a 4-night trip to Miami or Nashville with flights','a round-trip flight to Cancún in low season','a 5-night ski trip to Vermont or Colorado','a MacBook Air M2 (partial)']},
+    {min:700,max:999,items:['a round-trip flight New York–Tokyo low season','a 7-night all-inclusive in Cancún or Punta Cana','a wellness weekend in Sedona AZ','a premium iPhone 15 (refurbished)']},
+    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 7-night Caribbean cruise','a 10-day road trip across the West Coast']},
+    {min:1500,max:2499,items:['a Business Class return to London or Paris','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided Peru tour with Machu Picchu']},
+    {min:2500,max:3999,items:['a Safari in Kenya or Tanzania (5 nights)','a Business Class return to Tokyo','a complete home studio setup','3 months rent in Austin TX']},
+    {min:4000,max:7999,items:['a 2-week Maldives honeymoon for two','a Business Class return to Tokyo on ANA','a property down payment contribution','a year of a professional MBA module']},
+    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit','complete financial independence for a month']}
+  ],
+  uk: [
+    {min:50,max:99,items:['a round-trip EasyJet flight to Rome or Barcelona','2 nights in a 3-star hotel in Edinburgh','a year of Spotify Premium','a nice dinner for two at a gastropub']},
+    {min:100,max:199,items:['a return EasyJet flight to Lisbon or Prague','2 nights in a boutique B&B in the Cotswolds','an Apple AirTag 4-pack','a half-day cooking class in London']},
+    {min:200,max:349,items:['a return flight to Paris, Amsterdam, or Dublin','a weekend in a 3-star hotel in any European capital','an Apple Watch SE','a quality espresso machine']},
+    {min:350,max:499,items:['a 3-night city break in Prague or Krakow','an iPad mini','a month of daily CrossFit classes','a 5-day cycling holiday in France']},
+    {min:500,max:699,items:['a 4-night Airbnb in Lisbon with EasyJet flights','a return BA flight to New York in low season','a 5-night ski holiday in the Alps','a MacBook Air M2 (partial)']},
+    {min:700,max:999,items:['a return flight to Tokyo low season (from £650)','a 7-night all-inclusive in Turkey or Egypt','a 5-night wellness retreat in the Cotswolds','a premium iPhone 15 (refurbished)']},
+    {min:1000,max:1499,items:['a brand new iPhone 16 Pro','a 7-night trip to Japan, flights and hotel','a 10-night Mediterranean cruise','a 10-day road trip across Portugal or Spain']},
+    {min:1500,max:2499,items:['a Business Class return to New York on BA','a 14-night trip to Southeast Asia','a brand new MacBook Pro 14"','a 10-day guided Peru tour with Machu Picchu']},
+    {min:2500,max:3999,items:['a Safari in Kenya or Tanzania (5 nights)','a Business Class return to New York','a complete home studio setup','3 months rent for a room in London']},
+    {min:4000,max:7999,items:['a 2-week Maldives honeymoon for two','a Business Class return to Tokyo on JAL','a property deposit contribution','a year of a professional MBA module']},
+    {min:8000,max:999999,items:['a car (used, solid)','6 months of an MBA program','a real estate deposit contribution','complete financial independence for a month']}
+  ]
+};
+
+function getEquivalence(annual) {
+  const locale = getLocale();
+  const table = EQUIVALENCES[locale] || EQUIVALENCES['us'];
+  const bucket = table.find(b => annual >= b.min && annual <= b.max);
+  if (!bucket) return null;
+  return bucket.items[Math.floor(Math.random() * bucket.items.length)];
+}
 
 function getFreqLabel(freq) {
   const map = {'365':'day','260':'workday','104':'week (2x)','52':'week','12':'month'};
